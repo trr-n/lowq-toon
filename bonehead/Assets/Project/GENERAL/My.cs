@@ -13,17 +13,18 @@ namespace App
         public static class Scenes
         {
             public static string
-                Main = "Main"
+                MAIN = "Main"
                 ;
         }
 
         public class Tags
         {
             public static string
-                Horizontal = "Horizontal",
-                Vertical = "Vertical",
-                Player = "Player",
-                Ground = "Ground"
+                HORIZONTAL = "Horizontal",
+                VERTICAL = "Vertical",
+                PLAYER = "Player",
+                GROUND = "Ground",
+                MAINCAMERA = "MainCamera"
                 ;
         }
     }
@@ -59,7 +60,7 @@ namespace App
 
         public void FollowCursor(float z = 0)
         {
-            var cursor = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            var cursor = UnityEngine.Camera.main.ScreenToWorldPoint(Input.mousePosition);
             cursor.z = z;
             transform.position = cursor;
         }
