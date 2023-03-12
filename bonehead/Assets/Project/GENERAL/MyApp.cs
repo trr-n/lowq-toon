@@ -6,27 +6,32 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace App
+namespace MyApp
 {
-    public static class Name
+    public static class Scenes
     {
-        public static class Scenes
-        {
-            public static string
-                MAIN = "Main"
-                ;
-        }
+        public static string
+            MAIN = "Main"
+            ;
+    }
 
-        public class Tags
-        {
-            public static string
-                HORIZONTAL = "Horizontal",
-                VERTICAL = "Vertical",
-                PLAYER = "Player",
-                GROUND = "Ground",
-                MAINCAMERA = "MainCamera"
-                ;
-        }
+    public class Keys
+    {
+        public static string
+            HORIZONTAL = "Horizontal",
+            VERTICAL = "Vertical",
+            JUMP = "Jump"
+            ;
+    }
+
+    public class Tags
+    {
+        public static string
+            PLAYER = "Player",
+            GROUND = "Ground",
+            MAINCAMERA = "MainCamera",
+            CAM = "Cam"
+            ;
     }
 
     public class Script : MonoBehaviour
@@ -41,7 +46,7 @@ namespace App
         {
             string characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
             // var charasArr = new char[(int)count];
-            char[] charaArr = count == null ? new char[App.Script.Randint(2, 16)] : new char[(int)count];
+            char[] charaArr = count == null ? new char[MyApp.Script.Randint(2, 16)] : new char[(int)count];
             System.Random random = new();
 
             for (int i = 0; i < charaArr.Length; i++)

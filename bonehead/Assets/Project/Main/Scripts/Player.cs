@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    static GameObject cam;
-
+    static GameObject camObj;
     static Vector3 self;
+    static Rigidbody rb;
+
+    new Player.Camera camera;
+    Movement move;
 
     void Start()
     {
@@ -15,24 +18,45 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        Camera.Moves();
+        camera.Pos(gap: .5f);
+        // move.Move(addition: 5);
+        // move.Jump(power: 5);
     }
 
     void Get()
     {
-        cam = GameObject.FindGameObjectWithTag(App.Name.Tags.MAINCAMERA);
+        camObj = GameObject.FindGameObjectWithTag(MyApp.Tags.CAM);
         self = this.gameObject.transform.position;
+        rb = this.gameObject.GetComponent<Rigidbody>();
     }
 
     class Camera : Player
     {
-        public static void Moves()
+        new GameObject camObj;
+
+        public void Pos(float gap)
         {
-            var camPos = cam.transform.position;
-            Debug.Log(camPos);
-            Debug.Log(self);
+            Vector3 camPos = camObj.transform.position;
+            camPos = new(self.x, self.y, self.z + gap);
+            transform.Translate(camPos);
         }
     }
 
+    class Movement : Player
+    {
+        public void Move(float addition)
+        {
+            float h = Input.GetAxis(MyApp.Keys.HORIZONTAL);
+            Vector3 widen = new(h, 0, 0);
+            transform.Translate(widen * addition);
+        }
 
+        public void Jump(float power)
+        {
+            if (Input.GetButton(MyApp.Keys.JUMP))
+            {
+                rb.AddForce(Vector3.up * power, ForceMode.Impulse);
+            }
+        }
+    }
 }
