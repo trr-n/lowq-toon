@@ -1,5 +1,7 @@
 .vs/
+.vsconfig/
 .vscode/
+
 [Ll]ibrary/
 [Ll]ogs/
 [Tt]emp/
