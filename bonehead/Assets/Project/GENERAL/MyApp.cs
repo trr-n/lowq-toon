@@ -6,31 +6,31 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace MyApp
+namespace Mine
 {
     public static class Scenes
     {
         public static string
-            MAIN = "Main"
+            Main = "Main"
             ;
     }
 
     public class Keys
     {
         public static string
-            HORIZONTAL = "Horizontal",
-            VERTICAL = "Vertical",
-            JUMP = "Jump"
+            Horizontal = "Horizontal",
+            Vertical = "Vertical",
+            Jump = "Jump"
             ;
     }
 
     public class Tags
     {
         public static string
-            PLAYER = "Player",
-            GROUND = "Ground",
-            MAINCAMERA = "MainCamera",
-            CAM = "Cam"
+            Player = "Player",
+            Ground = "Ground",
+            MainCamera = "MainCamera",
+            Cam = "Cam"
             ;
     }
 
@@ -46,7 +46,7 @@ namespace MyApp
         {
             string characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
             // var charasArr = new char[(int)count];
-            char[] charaArr = count == null ? new char[MyApp.Script.Randint(2, 16)] : new char[(int)count];
+            char[] charaArr = count == null ? new char[Mine.Script.Randint(2, 16)] : new char[(int)count];
             System.Random random = new();
 
             for (int i = 0; i < charaArr.Length; i++)
@@ -61,7 +61,7 @@ namespace MyApp
 
         public static GameObject Ins(
             GameObject @object, Vector3 v3, Quaternion quaternion)
-         => Instantiate(@object, v3, quaternion);
+        => Instantiate(@object, v3, quaternion);
 
         public void FollowCursor(float z = 0)
         {
@@ -71,18 +71,15 @@ namespace MyApp
         }
 
         public void Move2D(
-            float? speed, string hor = "Horizontal", string ver = "Vertical")
+            float? speed = null, string _hor = "Horizontal", string _ver = "Vertical")
         {
-            float inputHor = Input.GetAxis(hor),
-            inputVer = Input.GetAxis(ver);
-            Vector2 inputAxis = new(inputHor, inputVer);
+            float hor = Input.GetAxis(_hor), ver = Input.GetAxis(_ver);
+            Vector2 inputAxis = new(hor, ver);
             speed = speed != null ? speed : 20;
+
             transform.Translate(inputAxis * (float)speed * Time.deltaTime);
         }
 
-        /// <summary>
-        /// ジャンプ2D
-        /// </summary>
         public static void Jump2D(Rigidbody2D rb, float jumpingPower = 5f)
         => rb.AddForce(Vector3.up * jumpingPower, ForceMode2D.Impulse);
 
@@ -121,7 +118,7 @@ namespace MyApp
         /// <summary>
         /// FPS表示
         /// </summary>
-        public static float Fps() => Mathf.Floor(1 / Time.deltaTime);
+        public static float ComputeFps() => Mathf.Floor(1 / Time.deltaTime);
 
         /// <summary>
         /// タイマー
