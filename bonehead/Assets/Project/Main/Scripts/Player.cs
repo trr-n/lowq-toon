@@ -6,22 +6,20 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    class V
+    class Value
     {
         public float h;
         public float v;
         public float power;
         public Vector3 direction;
-        public float shift;
 
 #nullable enable
-        public V(float h, float v, float power, Vector3 direction, float shift)
+        public Value(float h, float v, float power, Vector3 direction)
         {
             this.h = h;
             this.v = v;
             this.power = power;
             this.direction = direction;
-            this.shift = shift;
         }
     }
 #nullable disable
@@ -50,7 +48,8 @@ public class Player : MonoBehaviour
     // Player.Cam cam;
     // Player.Self self;
     Player.Movement movement;
-    Player.V hoge;
+    Player.Value v;
+    Player.Value cShift;
 
     new GameObject camera;
     Vector3 cameraPos;
@@ -59,6 +58,7 @@ public class Player : MonoBehaviour
     Vector3 selfPos;
     static Rigidbody selfRb;
 
+    // Global
     public GameObject Cam => camera;
     public GameObject Self => self;
 
@@ -71,29 +71,29 @@ public class Player : MonoBehaviour
     {
         Sum();
 
-        self.transform.Translate(Movement.Move(
-            hWalk: hoge.h, vWalk: hoge.v,
-            hRun: null, vRun: null));
+        self.transform.Translate(
+            Movement.Move(hWalk: v.h, vWalk: v.v, hRun: null, vRun: null));
+        Movement.Jump(direction: Vector3.up, power: v.power);
 
-        camera.transform.position = Camera.Pos(
-            playerPos: selfPos, x: selfPos.x, y: selfPos.y, z: hoge.shift);
+        // camera.transform.position = Camera.Pos(
+        //     playerPos: selfPos, x: selfPos.x, y: selfPos.y, z: selfPos.z);
     }
 
     void Settings()
     {
         camera = GameObject.FindGameObjectWithTag(Mine.Tags.Cam);
         selfRb = this.gameObject.GetComponent<Rigidbody>();
-        hoge = new(h: 5, v: 4, power: 5, direction: Vector3.up, shift: 0.5f);
+        v = new(h: 5, v: 4, power: 5, direction: Vector3.up);
     }
 
     void Sum()
     {
-        cameraPos = camera.transform.position;
         self = this.gameObject;
         selfPos = self.transform.position;
+        cameraPos = camera.transform.position;
     }
 
-    class Camera //: Player
+    class Camera
     {
         public static Vector3 Pos(Vector3 playerPos, float x, float y, float z)
         => new(playerPos.x + x, playerPos.y + y, playerPos.z + z);
@@ -101,6 +101,7 @@ public class Player : MonoBehaviour
 
     class Movement
     {
+        // rigidbodyで移動に変更予定
         public static Vector3 Move(float hWalk, float vWalk, float? hRun, float? vRun)
         {
             Vector3 move = new(
@@ -112,6 +113,9 @@ public class Player : MonoBehaviour
         }
 
         public static void Jump(Vector3 direction, float power)
-        => selfRb.AddForce(direction * power, ForceMode.Impulse);
+        {
+            if (Input.GetButtonDown(Mine.Keys.Jump))
+                selfRb.AddForce(direction * power, ForceMode.Impulse);
+        }
     }
 }
