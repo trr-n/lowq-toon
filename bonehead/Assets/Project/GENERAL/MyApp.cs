@@ -36,7 +36,7 @@ namespace Mine
 
     public class Script : MonoBehaviour
     {
-        public static float Randfloat(float min = 0, float max = 0)
+        public static float Randfloat(float min, float max = 0)
         => UnityEngine.Random.Range(min, max);
 
         public static int Randint(int min = 0, int max = 0)
@@ -46,12 +46,11 @@ namespace Mine
         {
             string characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
             // var charasArr = new char[(int)count];
-            char[] charaArr = count == null ? new char[Mine.Script.Randint(2, 16)] : new char[(int)count];
+            char[] charaArr = count == null ?
+                new char[Mine.Script.Randint(2, 16)] : new char[(int)count];
             System.Random random = new();
-
             for (int i = 0; i < charaArr.Length; i++)
                 charaArr[i] = characters[random.Next(characters.Length)];
-
             return charaArr.ToString();
         }
 
@@ -76,7 +75,6 @@ namespace Mine
             float hor = Input.GetAxis(_hor), ver = Input.GetAxis(_ver);
             Vector2 inputAxis = new(hor, ver);
             speed = speed != null ? speed : 20;
-
             transform.Translate(inputAxis * (float)speed * Time.deltaTime);
         }
 
@@ -100,48 +98,27 @@ namespace Mine
         {
             if (Input.GetMouseButtonDown(click))
             {
-                Vector3 origin = transform.position,
-                    direction = new(100, 0, 0);
-                RaycastHit2D hit = Physics2D.Raycast(origin, direction);
-
-                if (hit.collider)
+                Vector3 or = transform.position, dir = new(100, 0, 0);
+                RaycastHit2D h = Physics2D.Raycast(or, dir);
+                if (h.collider)
                 {
-                    var pos = hit.collider.gameObject.transform.position;
+                    var pos = h.collider.gameObject.transform.position;
                     Debug.Log($"position:{pos}");
                 }
             }
         }
 
-        public static void Assert(bool isAsserting = true, string errorMsg = "Error")
-        => Debug.Assert(isAsserting, errorMsg);
-
-        /// <summary>
-        /// FPS表示
-        /// </summary>
         public static float ComputeFps() => Mathf.Floor(1 / Time.deltaTime);
 
-        /// <summary>
-        /// タイマー
-        /// </summary>
-        /// <param name="round">表示桁数</param>
-        public static string Timer(int round)
-        => Time.time.ToString("F" + round);
+        public static string Timer(int digits)
+        => Time.time.ToString("F" + digits);
 
-        /// <summary>
-        /// カーソル透過
-        /// </summary>
         public static void VisibleCursor(bool isVisible = false)
         => Cursor.visible = isVisible;
 
-        /// <summary>
-        /// 音量調節バー
-        /// </summary>
         public static void AudioSlider(AudioSource audioSource, float volume = .01f)
         => audioSource.volume = volume;
 
-        /// <summary>
-        /// 移動範囲制限
-        /// </summary>
         public void LimitRange(float x, float y, float? z)
         {
             var tp = transform.position;
@@ -153,9 +130,6 @@ namespace Mine
             transform.position = coords;
         }
 
-        /// <summary>
-        /// 日時
-        /// </summary>
         public static string CurrentTime()
         {
             var now = DateTime.Now;
@@ -163,9 +137,6 @@ namespace Mine
             return current.ToString();
         }
 
-        /// <summary>
-        /// アニメーション
-        /// </summary>
         public static IEnumerator Animation(
             Sprite[] sprites,
             SpriteRenderer sr,
@@ -177,7 +148,6 @@ namespace Mine
             {
                 i = i >= sprites.Length - 1 ? 0 : i + 1;
                 sr.sprite = sprites[i];
-
                 animeTime = animeTime != null ? animeTime : .05f;
                 yield return new WaitForSeconds((float)animeTime);
             }
@@ -185,7 +155,7 @@ namespace Mine
 
         public static void ReloadScene(string name)
         => SceneManager.LoadScene(
-                name is null ? SceneManager.GetActiveScene().name : name);
+            name is null ? SceneManager.GetActiveScene().name : name);
     }
 
     // public class TestException : System.Exception
