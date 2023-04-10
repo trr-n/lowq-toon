@@ -31,8 +31,8 @@ public class Players : MonoBehaviour
         public static Vector3 Move(float speed)
         {
             Vector3 move = new(
-                Input.GetAxis(Mine.Keys.Horizontal),
-                Input.GetAxis(Mine.Keys.Vertical)
+                Input.GetAxis(Mine.Keys.Hor),
+                Input.GetAxis(Mine.Keys.Ver)
             );
             return speed * Time.deltaTime * move;
         }
