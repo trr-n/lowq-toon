@@ -12,11 +12,6 @@ public class Player : MonoBehaviour
         public float power;
         public Vector3 direction;
 
-<<<<<<< HEAD:plat/Assets/Project/Main/Scripts/_rubbish/Player.cs
-        // #nullable enable
-=======
-#nullable enable
->>>>>>> e16646ab3687c65fe9ad341a91f40ae00bf21e24:bonehead/Assets/Project/Main/Scripts/Player.cs
         public Value(float h, float v, float pow, Vector3 dir)
         {
             this.hor = h;
@@ -48,13 +43,8 @@ public class Player : MonoBehaviour
 
         v = new(
             // Move
-<<<<<<< HEAD:plat/Assets/Project/Main/Scripts/_rubbish/Player.cs
             h: 1,
             v: .8f,
-=======
-            h: 5,
-            v: 4,
->>>>>>> e16646ab3687c65fe9ad341a91f40ae00bf21e24:bonehead/Assets/Project/Main/Scripts/Player.cs
 
             // Jump
             pow: 5,
@@ -69,11 +59,7 @@ public class Player : MonoBehaviour
         Sum();
 
         self.transform.Translate(
-<<<<<<< HEAD:plat/Assets/Project/Main/Scripts/_rubbish/Player.cs
-            Movement.Move(hWalk: v.hor, vWalk: v.ver, hRun: null, vRun: null) * Time.deltaTime);
-=======
             Movement.Move(hWalk: v.hor, vWalk: v.ver, hRun: null, vRun: null));
->>>>>>> e16646ab3687c65fe9ad341a91f40ae00bf21e24:bonehead/Assets/Project/Main/Scripts/Player.cs
         Movement.Jump(direction: Vector3.up, power: v.power);
 
         // camera.transform.position = Camera.Pos(
