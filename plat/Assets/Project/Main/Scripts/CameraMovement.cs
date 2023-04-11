@@ -4,23 +4,24 @@ using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
 {
-    [SerializeField]
+    // [SerializeField]
     GameObject self;
 
     void Start()
     {
-
+        self = GameObject.FindGameObjectWithTag(Mine.Tags.Player);
     }
 
     void Update()
     {
-        CameraRotate(sensi: null);
+        Rotation(sensi: null);
     }
 
-    void CameraRotate(float? sensi)
+    void Rotation(float? sensi)
     {
         float mx = Input.GetAxis(Mine.Keys.MX), my = Input.GetAxis(Mine.Keys.MY);
-        if (mx > 0.001f)
+        if (mx >= 0.001f)
             transform.RotateAround(self.transform.position, Vector3.up, mx);
+        if (my >= 0.001f) return;
     }
 }

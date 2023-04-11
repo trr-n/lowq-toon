@@ -11,7 +11,10 @@ public class Players : MonoBehaviour
     class Value
     {
         public float move;
-        public Value(float move) { this.move = move; }
+        public Value(float move)
+        {
+            this.move = move;
+        }
     }
 
     void Start()
