@@ -37,7 +37,8 @@ public class PlayerMovement : MonoBehaviour
     static Transform now;
     public static Transform Now => now;
 
-    // spacebar state
+    // jumping related {#efb}
+    /// <summary>spacebar state</summary>
     bool isPressed = false;
 
     void Start()
@@ -97,6 +98,7 @@ public class PlayerMovement : MonoBehaviour
     //     }
     // }
 
+    // nagaoshi de power wo charge (saisyuteki niha splatoon mitaina kanjini)
     void Jumps(float power)
     {
         float charging = 0;
