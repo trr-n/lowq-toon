@@ -5,25 +5,18 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    class Init
-    {
-        public static Vector3 Pos = new(0, 70, 0);
-    }
-
     class V
     {
         // move
         public float basis;
-        public float sneak;
-        public V(float basis, float sneak)
+        public V(float basis)
         {
             this.basis = basis;
-            this.sneak = sneak;
         }
 
         // jump
         public float power;
-        public V(float power)
+        public V(float power, float _ = 1)
         {
             this.power = power;
         }
@@ -31,13 +24,19 @@ public class PlayerMovement : MonoBehaviour
 
     GameObject self;
     Rigidbody rb;
+    GameObject playerCamera;
+    CameraMovement caMove;
 
     V m, j;
+
+    Vector3 initPos = new(0, 70, 0);
 
     static Transform now;
     public static Transform Now => now;
 
-    // jumping related {#efb}
+    Vector3 selfPos;
+
+    // jumping related
     /// <summary>spacebar state</summary>
     bool isPressed = false;
 
@@ -45,7 +44,7 @@ public class PlayerMovement : MonoBehaviour
     {
         GetStart();
 
-        Initialize(position: Init.Pos);
+        Initial(initPos);
     }
 
     // async Task<int> test()
@@ -59,55 +58,60 @@ public class PlayerMovement : MonoBehaviour
     void GetStart()
     {
         self = this.gameObject;
+        selfPos = this.gameObject.transform.position;
 
-        m = new(basis: 20, sneak: 10);
+        m = new(basis: 200);
         j = new(power: 500);
 
         rb = this.gameObject.GetComponent<Rigidbody>();
+        playerCamera = GameObject.FindGameObjectWithTag(Mine.Tags.Cam);
+        caMove = GetComponent<CameraMovement>();
     }
 
     void Update()
     {
         now = this.transform;
 
-        Moves(m.basis, m.sneak);
+        Moves(m.basis);
         Jumps(j.power);
+        // Rotation();
     }
 
-    void Initialize(Vector3 position) => self.transform.position = position;
+    void Initial(Vector3 position) => self.transform.position = position;
 
-    void Moves(float basis, float sneak)
+    void Moves(float basis)
     {
         float h = Input.GetAxis("Horizontal"), v = Input.GetAxis("Vertical");
         Vector3 hv = new(h, 0, v);
-        float add = basis;
-        if (Input.GetKeyDown(KeyCode.LeftShift)) { add = sneak; }
-        else { add = basis; }
-        self.transform.Translate(hv * add * Time.deltaTime);
+        self.transform.Translate(hv * basis * Time.deltaTime);
     }
 
-    // void Jumps(float power)
-    // {
-    //     float charging = 0;
-    //     if (Input.GetButton(Mine.Keys.Jump))
-    //         charging++;
-    //     else if (Input.GetButtonUp(Mine.Keys.Jump))
-    //     {
-    //         rb.AddForce(Vector3.up * charging, ForceMode.Impulse);
-    //         charging = 0;
-    //     }
-    // }
-
-    // nagaoshi de power wo charge (saisyuteki niha splatoon mitaina kanjini)
     void Jumps(float power)
     {
-        float charging = 0;
-        print(charging);
-        Mathf.Clamp(charging, 20, 600);
-        if (isPressed && Input.GetButtonDown(Mine.Keys.Jump)) return;
-        if (isPressed && Input.GetButton(Mine.Keys.Jump)) charging++;
-        if (isPressed && Input.GetButtonUp(Mine.Keys.Jump))
-            rb.AddForce(Vector3.up * charging, ForceMode.Impulse);
-        charging = 0;
+        if (isPressed && Input.GetButton(Mine.Keys.Jump))
+        {
+            rb.AddForce(Vector3.up * power, ForceMode.Impulse);
+        }
+    }
+
+    void Look()
+    {
+        var a = caMove.LookingAt;
+        transform.LookAt(a);
+    }
+
+    void Rotation()
+    {
+        Vector3 prePos;
+        prePos = self.transform.position;
+        var delta = selfPos - prePos;
+
+        if (delta == Vector3.zero)
+            return;
+
+        // var rotation = Quaternion.LookRotation(delta, Vector3.up);
+        // self.transform.rotation = rotation;
+        // prePos = selfPos;
+        transform.rotation = Quaternion.FromToRotation(delta, Vector3.up);
     }
 }
