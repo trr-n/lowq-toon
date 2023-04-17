@@ -27,18 +27,27 @@ public class Gun : MonoBehaviour
     /// </summary>
     [SerializeField]
     int remain;
-    /// <summary>
-    /// 残弾数, getter
-    /// </summary>
     public int Remain => remain;
+
+    /// <summary>
+    /// 弾速
+    /// </summary>
+    [SerializeField]
+    float power;
 
     /// <summary>
     /// 発砲処理
     /// </summary>
-    public void Firing(Vector3 dir)
+    /// <param name="dir">方向</param>
+    /// <param name="shootable">発砲可能か</param>
+    public void Firing(Vector3 dir, bool shootable)
     {
-        var b = Instantiate(bullet, transform.position, Quaternion.identity);
-        b.Fire(dir);
+        if (remain != 0 && shootable)
+        {
+            var b = Instantiate(bullet, transform.position, Quaternion.identity);
+            b.Fire(dir * power);
+            remain--;
+        }
     }
 
     /// <summary>

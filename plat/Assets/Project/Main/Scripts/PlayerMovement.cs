@@ -71,11 +71,20 @@ public class PlayerMovement : MonoBehaviour
     {
         Moves(m.basis);
         Jumps(j.power);
-        // Rotation();
+
+        Shooting();
     }
 
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="position">初期座標</param>
     void Initial(Vector3 position) => self.transform.position = position;
 
+    /// <summary>
+    /// 歩き
+    /// </summary>
+    /// <param name="basis">基本の移動速度</param>
     void Moves(float basis)
     {
         float h = Input.GetAxis("Horizontal"), v = Input.GetAxis("Vertical");
@@ -91,31 +100,22 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void Look()
-    {
-        var a = caMove.LookingAt;
-        transform.LookAt(a);
-    }
-
-    void Rotation()
-    {
-        Vector3 prePos;
-        prePos = self.transform.position;
-        var delta = selfPos - prePos;
-
-        if (delta == Vector3.zero)
-            return;
-
-        // var rotation = Quaternion.LookRotation(delta, Vector3.up);
-        // self.transform.rotation = rotation;
-        // prePos = selfPos;
-        transform.rotation = Quaternion.FromToRotation(delta, Vector3.up);
-    }
+    /// <summary>
+    /// 連射用タイマー
+    /// </summary>
+    float timer = 0;
 
     void Shooting()
     {
+        timer += Time.deltaTime;
+
         if (Input.GetMouseButton(0))
-            gun.Firing(dir: transform.right);
+        {
+            gun.Firing(
+                dir: transform.right,
+                shootable: true
+            );
+        }
 
         if (Input.GetKeyDown(KeyCode.R))
             gun.Reload();

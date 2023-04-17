@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class Bullet : MonoBehaviour
 {
     /// <summary>
     /// 発砲用rigidbody
     /// </summary>
-    [SerializeField]
     Rigidbody rb;
 
     /// <summary>
