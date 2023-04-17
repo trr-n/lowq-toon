@@ -25,7 +25,9 @@ public class PlayerMovement : MonoBehaviour
     GameObject self;
     Rigidbody rb;
     GameObject playerCamera;
+
     CameraMovement caMove;
+    Gun gun;
 
     V m, j;
 
@@ -108,5 +110,14 @@ public class PlayerMovement : MonoBehaviour
         // self.transform.rotation = rotation;
         // prePos = selfPos;
         transform.rotation = Quaternion.FromToRotation(delta, Vector3.up);
+    }
+
+    void Shooting()
+    {
+        if (Input.GetMouseButton(0))
+            gun.Firing(dir: transform.right);
+
+        if (Input.GetKeyDown(KeyCode.R))
+            gun.Reload();
     }
 }

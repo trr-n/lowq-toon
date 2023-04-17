@@ -1,18 +1,22 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    /// <summary>
+    /// 発砲用rigidbody
+    /// </summary>
+    [SerializeField]
+    Rigidbody rb;
 
-    // Update is called once per frame
-    void Update()
+    /// <summary>
+    /// 発砲
+    /// </summary>
+    /// <param name="power">力を加える方向</param>
+    public void Fire(Vector3 power)
     {
-        
+        rb = GetComponent<Rigidbody>();
+        rb.velocity = power;
     }
 }
