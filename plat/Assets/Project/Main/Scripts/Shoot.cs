@@ -14,7 +14,7 @@ public class Shoot : MonoBehaviour
     /// 発射レート
     /// </summary>
     [SerializeField]
-    float rapid = 0.5f;
+    float fireRate = 0.5f;
 
     float timer;
 
@@ -41,7 +41,7 @@ public class Shoot : MonoBehaviour
     {
         timer += Time.deltaTime;
 
-        if (timer < rapid) return;
+        if (timer < fireRate) return;
 
         print("pass");
         var bulletIns = Instantiate(bullet, transform.position, Quaternion.identity);
@@ -54,13 +54,28 @@ public class Shoot : MonoBehaviour
     void A()
     {
         timer += Time.deltaTime;
-        if (timer >= rapid)
+        if (timer >= fireRate)
         {
             print("fired");
             var bulletIns = Instantiate(bullet, transform.position, transform.rotation);
             var bulletRb = bulletIns.GetComponent<Rigidbody>();
             bulletRb.AddForce(transform.right * power, ForceMode.Impulse);
-            timer -= rapid;
+            timer -= fireRate;
+        }
+    }
+
+    void Shooting()
+    {
+        timer += Time.deltaTime;
+
+        if (Input.GetMouseButton(0))
+        {
+            gun.Firing(dir: transform.right);
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            gun.Reload();
         }
     }
 }

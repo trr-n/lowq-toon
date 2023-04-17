@@ -40,9 +40,9 @@ public class Gun : MonoBehaviour
     /// </summary>
     /// <param name="dir">方向</param>
     /// <param name="shootable">発砲可能か</param>
-    public void Firing(Vector3 dir, bool shootable)
+    public void Firing(Vector3 dir)
     {
-        if (remain != 0 && shootable)
+        if (remain != 0)
         {
             var b = Instantiate(bullet, transform.position, Quaternion.identity);
             b.Fire(dir * power);

@@ -99,25 +99,4 @@ public class PlayerMovement : MonoBehaviour
             rb.AddForce(Vector3.up * power, ForceMode.Impulse);
         }
     }
-
-    /// <summary>
-    /// 連射用タイマー
-    /// </summary>
-    float timer = 0;
-
-    void Shooting()
-    {
-        timer += Time.deltaTime;
-
-        if (Input.GetMouseButton(0))
-        {
-            gun.Firing(
-                dir: transform.right,
-                shootable: true
-            );
-        }
-
-        if (Input.GetKeyDown(KeyCode.R))
-            gun.Reload();
-    }
 }
