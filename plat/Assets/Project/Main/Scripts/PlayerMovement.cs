@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,9 +30,6 @@ public class PlayerMovement : MonoBehaviour
     V m, j;
 
     Vector3 initPos = new(0, 70, 0);
-
-    static Transform now;
-    public static Transform Now => now;
 
     Vector3 selfPos;
 
@@ -70,8 +67,6 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        now = this.transform;
-
         Moves(m.basis);
         Jumps(j.power);
         // Rotation();

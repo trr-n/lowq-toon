@@ -30,9 +30,10 @@ public class Shoot : MonoBehaviour
         player = GetComponent<PlayerMovement>();
 
         print(timer);
+
         if (Input.GetMouseButton(0))
         {
-            Fire(power);
+            A();
         }
     }
 
@@ -48,5 +49,18 @@ public class Shoot : MonoBehaviour
         // bulletRb.AddForce(this.gameObject.transform.forward * power, ForceMode.Impulse);
         bulletRb.AddForce(player.transform.forward * power, ForceMode.Impulse);
         timer = 0;
+    }
+
+    void A()
+    {
+        timer += Time.deltaTime;
+        if (timer >= rapid)
+        {
+            print("fired");
+            var bulletIns = Instantiate(bullet, transform.position, transform.rotation);
+            var bulletRb = bulletIns.GetComponent<Rigidbody>();
+            bulletRb.AddForce(transform.right * power, ForceMode.Impulse);
+            timer -= rapid;
+        }
     }
 }
