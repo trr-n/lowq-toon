@@ -23,17 +23,13 @@ public class PlayerMovement : MonoBehaviour
     }
 
     GameObject self;
-    Rigidbody rb;
     GameObject playerCamera;
+    Rigidbody rb;
     CameraMovement caMove;
 
     V m, j;
 
     Vector3 initPos = new(0, 70, 0);
-
-    static Transform now;
-    public static Transform Now => now;
-
     Vector3 selfPos;
 
     // jumping related
@@ -70,11 +66,12 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        now = this.transform;
-
-        Moves(m.basis);
-        Jumps(j.power);
+        // Moves(m.basis);
+        // Jumps(j.power);
         // Rotation();
+
+        transform.position = new(
+            Mathf.Sin(Time.time) * 100, transform.position.y, transform.position.z); //Mathf.Cos(Time.time) * 100);
     }
 
     void Initial(Vector3 position) => self.transform.position = position;
