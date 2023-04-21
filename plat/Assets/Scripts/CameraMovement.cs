@@ -36,17 +36,16 @@ public class CameraMovement : MonoBehaviour
 
     GameObject player;
 
-    Quaternion looking;
-    public Quaternion Looking => looking;
+    PlayerMovement pm;
 
     void Start()
     {
         player = GameObject.FindGameObjectWithTag(Mine.Tags.Player);
+        pm = player.GetComponent<PlayerMovement>();
     }
 
     void Update()
     {
-        looking = Quaternion.Euler(transform.rotation.x, transform.rotation.y, transform.rotation.z);
         Rotation(sensiX, sensiY, deadZone);
         FollowPlayer(
             posDis: Quaternion.Euler(angleX, angleY, 0) * posDistance,

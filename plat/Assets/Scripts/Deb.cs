@@ -14,7 +14,6 @@ public class Deb : MonoBehaviour
 
     void Update()
     {
-        t.text = @$"player: {player.transform.rotation}
-        camera: {cam.transform.rotation}".ToString();
+        t.text = player.IsMoving.ToString();
     }
 }

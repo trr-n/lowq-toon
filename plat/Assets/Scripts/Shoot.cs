@@ -48,14 +48,14 @@ public class Shoot : MonoBehaviour
     void Start()
     {
         nozzle = GameObject.Find(nozzleName);
+        timer = fireRate;
     }
 
     void Update()
     {
         genPos = nozzle.transform.position + new Vector3(10, 20, 25);
 
-        // if (Input.GetMouseButton(0))
-        if (true)
+        if (Input.GetMouseButton(0))
         {
             Fire(power);
         }
@@ -75,6 +75,7 @@ public class Shoot : MonoBehaviour
         var bulletIns = Instantiate(bullet, genPos, Quaternion.identity);
         var bulletRb = bulletIns.GetComponent<Rigidbody>();
         bulletRb.AddForce(transform.right * power, ForceMode.Impulse);
+        Destroy(bulletIns, 10);
         timer = 0;
     }
 }
