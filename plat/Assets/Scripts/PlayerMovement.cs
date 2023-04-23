@@ -7,8 +7,13 @@ public class PlayerMovement : MonoBehaviour
 {
     class V
     {
-        // move
+        /// <summary>
+        /// 基本の移動速度
+        /// </summary>
         public float basis;
+        /// <summary>
+        /// 減速比
+        /// </summary>
         public float reduction;
         public V(float basis, float reduction)
         {
@@ -16,7 +21,9 @@ public class PlayerMovement : MonoBehaviour
             this.reduction = reduction;
         }
 
-        // jump
+        /// <summary>
+        /// ジャンプ力
+        /// </summary>
         public float power;
         public V(float power)
         {
@@ -25,25 +32,24 @@ public class PlayerMovement : MonoBehaviour
     }
 
     GameObject self;
-    GameObject playerCamera;
+    new GameObject camera;
     Rigidbody rb;
     CameraMovement caMove;
     Quaternion q;
 
     V m, j;
 
-    Vector3 initPos = new(0, 70, 0);
     Vector3 selfPos;
 
     bool isMoving = false;
     /// <summary>
-    /// 移動中か
+    /// 動いていたらtrue
     /// </summary>
     public bool IsMoving => isMoving;
 
     bool isFloating = false;
     /// <summary>
-    /// 地に足がついているか
+    /// 地に足がついていたらfalse
     /// </summary>
     public bool IsFloating => isFloating;
 
@@ -54,16 +60,9 @@ public class PlayerMovement : MonoBehaviour
 
     float velocity;
     /// <summary>
-    /// 移動速度
+    /// プレイヤーの移動速度
     /// </summary>
     public float Velocity => velocity;
-
-    void Start()
-    {
-        GetStart();
-
-        Initial(initPos);
-    }
 
     // async Task<int> test()
     // {
@@ -73,7 +72,7 @@ public class PlayerMovement : MonoBehaviour
     //     return 0;
     // }
 
-    void GetStart()
+    void Start()
     {
         self = this.gameObject;
         selfPos = this.gameObject.transform.position;
@@ -84,18 +83,23 @@ public class PlayerMovement : MonoBehaviour
         q = new();
 
         rb = this.gameObject.GetComponent<Rigidbody>();
-        playerCamera = GameObject.FindGameObjectWithTag(Mine.Tags.Cam);
-        caMove = playerCamera.GetComponent<CameraMovement>();
+        camera = GameObject.FindGameObjectWithTag(Mine.Tags.Cam);
+        caMove = camera.GetComponent<CameraMovement>();
 
     }
 
     void FixedUpdate()
     {
         Moves(m.basis, m.reduction);
-        // Jumps(j.power);
     }
 
-    void Initial(Vector3 position) => self.transform.position = position;
+    void Update()
+    {
+        if (!isFloating && Input.GetButtonDown("Jump"))
+        {
+            Jumps(j.power);
+        }
+    }
 
     /// <summary>
     /// プレイヤーの移動、回転処理
@@ -106,7 +110,7 @@ public class PlayerMovement : MonoBehaviour
     {
         float h = Input.GetAxisRaw("Horizontal"), v = Input.GetAxisRaw("Vertical");
         // カメラの向きを起点に前後左右に動く
-        Vector3 hv = h * playerCamera.transform.right + v * playerCamera.transform.forward;
+        Vector3 hv = h * camera.transform.right + v * camera.transform.forward;
         hv.y = 0.0f;
         velocity = hv.magnitude;
         isMoving = velocity > .01f;
@@ -123,11 +127,28 @@ public class PlayerMovement : MonoBehaviour
             transform.rotation, q, rotSpeed * Time.deltaTime);
     }
 
+    /// <summary>
+    /// ジャンプ
+    /// </summary>
+    /// <param name="power">脚力</param>
     void Jumps(float power)
     {
-        if (Input.GetButton(Mine.Keys.Jump))
+        rb.AddForce(Vector3.up * power, ForceMode.Impulse);
+    }
+
+    void OnCollisionEnter(Collision collisionInfo)
+    {
+        if (collisionInfo.gameObject.CompareTag("Ground"))
         {
-            rb.AddForce(Vector3.up * power, ForceMode.Impulse);
+            isFloating = false;
+        }
+    }
+
+    void OnCollisionExit(Collision collisionInfo)
+    {
+        if (collisionInfo.gameObject.CompareTag("Ground"))
+        {
+            isFloating = true;
         }
     }
 }

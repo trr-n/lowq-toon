@@ -54,8 +54,8 @@ namespace Mine
         {
             string characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
             // var charasArr = new char[(int)count];
-            char[] charaArr = count == null ?
-                new char[Mine.Script.Randint(2, 16)] : new char[(int)count];
+            char[] charaArr = count != null ?
+                new char[(int)count] : new char[Mine.Script.Randint(2, 16)];
             System.Random random = new();
             for (int i = 0; i < charaArr.Length; i++)
                 charaArr[i] = characters[random.Next(characters.Length)];
@@ -77,8 +77,7 @@ namespace Mine
             transform.position = cursor;
         }
 
-        public void Move2D(
-            float? speed = null, string _hor = "Horizontal", string _ver = "Vertical")
+        public void Move2D(string _hor, string _ver, float? speed = null)
         {
             float hor = Input.GetAxis(_hor), ver = Input.GetAxis(_ver);
             Vector2 inputAxis = new(hor, ver);

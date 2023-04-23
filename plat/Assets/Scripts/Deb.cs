@@ -8,8 +8,6 @@ public class Deb : MonoBehaviour
     [SerializeField]
     Text t;
     [SerializeField]
-    CameraMovement cam;
-    [SerializeField]
     PlayerMovement player;
 
     void Update()

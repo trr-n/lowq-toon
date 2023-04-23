@@ -35,53 +35,57 @@ public class CameraMovement : MonoBehaviour
     float angleX = 0.0f, angleY = 0.0f;
 
     GameObject player;
+    new GameObject camera;
 
-    PlayerMovement pm;
+    PlayerMovement playerMovement;
 
     void Start()
     {
         player = GameObject.FindGameObjectWithTag(Mine.Tags.Player);
-        pm = player.GetComponent<PlayerMovement>();
+        playerMovement = player.GetComponent<PlayerMovement>();
     }
 
     void Update()
     {
         Rotation(sensiX, sensiY, deadZone);
         FollowPlayer(
-            posDis: Quaternion.Euler(angleX, angleY, 0) * posDistance,
-            lookAt
+            _posDis: Quaternion.Euler(angleX, angleY, 0) * posDistance,
+            _lookAt: lookAt
         );
     }
 
     /// <summary>
     /// 視点移動
     /// </summary>
-    /// <param name="sensiX">縦移動感度</param>
-    /// <param name="sensiY">横移動感度</param>
-    /// <param name="deadZone">入力感度の調整</param>
-    void Rotation(float sensiX, float sensiY, float deadZone)
+    /// <param name="_sensiX">縦移動感度</param>
+    /// <param name="_sensiY">横移動感度</param>
+    /// <param name="_deadZone">入力感度の調整</param>
+    void Rotation(float _sensiX, float _sensiY, float _deadZone)
     {
         float mx = Input.GetAxis(Mine.Keys.MX),
             my = Input.GetAxis(Mine.Keys.MY);
-        Vector3 cam = this.transform.position, play = player.transform.position;
 
         // プレイヤーを中心に回転させる
-        if (Mathf.Abs(mx) >= deadZone)
+        if (Mathf.Abs(mx) >= _deadZone)
         {
-            angleY += mx * sensiY;
+            angleY += mx * _sensiY;
         }
 
-        if (Mathf.Abs(my) >= deadZone)
+        if (Mathf.Abs(my) >= _deadZone)
         {
-            angleX -= my * sensiX;
+            angleX -= my * _sensiX;
         }
     }
 
-    void FollowPlayer(Vector3 posDis, Vector3 lookAt)
+    /// <summary>
+    /// プレイヤーを追随
+    /// </summary>
+    /// <param name="_posDistance">プレイヤーとカメラの距離</param>
+    /// <param name="_lookAt">カメラがみる座標</param>
+    void FollowPlayer(Vector3 _posDis, Vector3 _lookAt)
     {
-        this.transform.position =
-            player.transform.position + posDis;
-        lookingAt = player.transform.position + lookAt;
+        this.transform.position = player.transform.position + _posDis;
+        lookingAt = player.transform.position + _lookAt;
         this.transform.LookAt(lookingAt);
     }
 }
