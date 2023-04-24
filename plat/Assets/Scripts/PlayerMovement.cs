@@ -84,12 +84,18 @@ public class PlayerMovement : MonoBehaviour
         m = new(basis: 15, reduction: 0.5f);
         j = new(power: 200);
 
-        q = new();
+        //q = new();
 
         rb = this.gameObject.GetComponent<Rigidbody>();
-        camera = GameObject.FindGameObjectWithTag(Mine.Tags.Cam);
         cameraMovement = camera.GetComponent<CameraMovement>();
-
+        try
+        {
+            camera = GameObject.FindGameObjectWithTag(Mine.Tags.Cam);
+        }
+        catch
+        {
+            camera = GameObject.Find("cam0");
+        }
     }
 
     void FixedUpdate()
@@ -110,7 +116,7 @@ public class PlayerMovement : MonoBehaviour
     /// プレイヤーの移動、回転処理
     /// </summary>
     /// <param name="basis">基本の移動速度</param>
-    /// <param name="reductionRatio">減速の倍率</param>
+    /// <param name="reductionRatio">減速比</param>
     void Moves(float basis, float reductionRatio)
     {
         float h = Input.GetAxisRaw("Horizontal"), v = Input.GetAxisRaw("Vertical");
@@ -138,10 +144,11 @@ public class PlayerMovement : MonoBehaviour
     {
         // プレイヤーが移動していて視点と違う方向を向いていたらゆっくり視点の方向に回転
         // カメラとプレイヤーが5度以上ずれていたら
-        if (!isMoving && (transform.localRotation.y - cameraMovement.Rotation.y) <= 5)
+        if (!isMoving && (this.transform.localEulerAngles.y - cameraMovement.Rotation.y) <= 5)
         {
             return;
         }
+        print("in rots");
         // this.transform.rotation = Quaternion.Lerp(transform.rotation, cameraMovement.Rotation, speed);
     }
 
