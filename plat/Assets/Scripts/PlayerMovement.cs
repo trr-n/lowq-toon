@@ -35,7 +35,7 @@ public class PlayerMovement : MonoBehaviour
     GameObject self;
     new GameObject camera;
     Rigidbody rb;
-    CameraMovement caMove;
+    CameraMovement cameraMovement;
     Quaternion q;
 
     // [SerializeField]
@@ -88,7 +88,7 @@ public class PlayerMovement : MonoBehaviour
 
         rb = this.gameObject.GetComponent<Rigidbody>();
         camera = GameObject.FindGameObjectWithTag(Mine.Tags.Cam);
-        caMove = camera.GetComponent<CameraMovement>();
+        cameraMovement = camera.GetComponent<CameraMovement>();
 
     }
 
@@ -128,6 +128,27 @@ public class PlayerMovement : MonoBehaviour
         q.SetLookRotation(view: hv, up: Vector3.up);
         self.transform.rotation = Quaternion.Lerp(
             transform.rotation, q, rotSpeed * Time.deltaTime);
+    }
+
+    /// <summary>
+    /// 移動したら回転
+    /// </summary>
+    void Rots(float speed)
+    {
+        // プレイヤーが移動していて視点と違う方向を向いていたらゆっくり視点の方向に回転
+        // カメラとプレイヤーが5度以上ずれていたら
+        if (!isMoving && (this.transform.rotation.y - cameraMovement.Rotation.y) <= 5)
+        {
+            return;
+        }
+        this.transform.rotation = Quaternion.Lerp(transform.rotation, cameraMovement.Rotation, speed);
+    }
+
+    /// <summary>
+    /// 発砲したら回転
+    /// </summary>
+    void Rotss()
+    {
     }
 
     /// <summary>

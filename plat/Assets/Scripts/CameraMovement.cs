@@ -39,6 +39,9 @@ public class CameraMovement : MonoBehaviour
 
     PlayerMovement playerMovement;
 
+    Quaternion rotation;
+    public Quaternion Rotation => rotation;
+
     void Start()
     {
         player = GameObject.FindGameObjectWithTag(Mine.Tags.Player);
@@ -47,7 +50,8 @@ public class CameraMovement : MonoBehaviour
 
     void Update()
     {
-        Rotation(sensiX, sensiY, deadZone);
+        rotation = camera.transform.rotation;
+        ViewRotation(sensiX, sensiY, deadZone);
         FollowPlayer(
             _posDis: Quaternion.Euler(angleX, angleY, 0) * posDistance,
             _lookAt: lookAt
@@ -60,7 +64,7 @@ public class CameraMovement : MonoBehaviour
     /// <param name="_sensiX">縦移動感度</param>
     /// <param name="_sensiY">横移動感度</param>
     /// <param name="_deadZone">入力感度の調整</param>
-    void Rotation(float _sensiX, float _sensiY, float _deadZone)
+    void ViewRotation(float _sensiX, float _sensiY, float _deadZone)
     {
         float mx = Input.GetAxis(Mine.Keys.MX),
             my = Input.GetAxis(Mine.Keys.MY);
