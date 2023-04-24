@@ -35,7 +35,6 @@ public class CameraMovement : MonoBehaviour
     float angleX = 0.0f, angleY = 0.0f;
 
     GameObject player;
-    new GameObject camera;
 
     PlayerMovement playerMovement;
 
@@ -50,7 +49,7 @@ public class CameraMovement : MonoBehaviour
 
     void Update()
     {
-        rotation = camera.transform.rotation;
+        rotation = this.transform.rotation;
         ViewRotation(sensiX, sensiY, deadZone);
         FollowPlayer(
             _posDis: Quaternion.Euler(angleX, angleY, 0) * posDistance,

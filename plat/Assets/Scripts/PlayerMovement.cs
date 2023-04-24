@@ -103,6 +103,7 @@ public class PlayerMovement : MonoBehaviour
         {
             Jumps(j.power);
         }
+        Rots(1);
     }
 
     /// <summary>
@@ -137,11 +138,11 @@ public class PlayerMovement : MonoBehaviour
     {
         // プレイヤーが移動していて視点と違う方向を向いていたらゆっくり視点の方向に回転
         // カメラとプレイヤーが5度以上ずれていたら
-        if (!isMoving && (this.transform.rotation.y - cameraMovement.Rotation.y) <= 5)
+        if (!isMoving && (transform.localRotation.y - cameraMovement.Rotation.y) <= 5)
         {
             return;
         }
-        this.transform.rotation = Quaternion.Lerp(transform.rotation, cameraMovement.Rotation, speed);
+        // this.transform.rotation = Quaternion.Lerp(transform.rotation, cameraMovement.Rotation, speed);
     }
 
     /// <summary>

@@ -12,6 +12,6 @@ public class Deb : MonoBehaviour
 
     void Update()
     {
-        t.text = player.IsMoving.ToString();
+        t.text = @$"{player.IsMoving.ToString()}";
     }
 }
