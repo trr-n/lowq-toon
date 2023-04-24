@@ -19,12 +19,12 @@ public class CameraMovement : MonoBehaviour
     /// <summary>
     /// プレイヤーとカメラの距離
     /// </summary>
-    Vector3 posDistance = new(0, 184, -256);
+    Vector3 posDistance = new(0, 1.84f, -2.56f);
 
     /// <summary>
     /// カメラが見る座標
     /// </summary>
-    Vector3 lookAt = new(0, 100, 0);
+    Vector3 lookAt = new(0, 1, 0);
 
     /// <summary>
     /// カメラが見ている座標    

@@ -8,6 +8,7 @@ TagManager:
   - Cam
   - Bullet
   - Enemy
+  - Gun
   layers:
   - Default
   - TransparentFX

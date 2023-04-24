@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    // [System.Serializable]
     class V
     {
         /// <summary>
@@ -36,6 +37,9 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody rb;
     CameraMovement caMove;
     Quaternion q;
+
+    // [SerializeField]
+    // V v;
 
     V m, j;
 
@@ -77,8 +81,8 @@ public class PlayerMovement : MonoBehaviour
         self = this.gameObject;
         selfPos = this.gameObject.transform.position;
 
-        m = new(basis: 500, reduction: 0.5f);
-        j = new(power: 500);
+        m = new(basis: 15, reduction: 0.5f);
+        j = new(power: 200);
 
         q = new();
 
@@ -95,7 +99,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if (!isFloating && Input.GetButtonDown("Jump"))
+        if (!isFloating && Input.GetButton("Jump"))
         {
             Jumps(j.power);
         }
@@ -119,9 +123,8 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity *= reductionRatio;
             return;
         }
-        // self.transform.position += hv.normalized * basis * Time.deltaTime;
-        rb.velocity += hv * basis * Time.deltaTime;
 
+        rb.velocity += hv * basis * Time.deltaTime;
         q.SetLookRotation(view: hv, up: Vector3.up);
         self.transform.rotation = Quaternion.Lerp(
             transform.rotation, q, rotSpeed * Time.deltaTime);

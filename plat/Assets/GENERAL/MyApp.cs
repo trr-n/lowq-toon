@@ -44,7 +44,7 @@ namespace Mine
         /// <param name="msg">出力するテキスト</param>
         new public static void print(object msg) => Debug.Log(msg);
 
-        public static float Randfloat(float min, float max = 0)
+        public static float Randfloat(float min = 0, float max = 0)
         => UnityEngine.Random.Range(min, max);
 
         public static int Randint(int min = 0, int max = 0)
