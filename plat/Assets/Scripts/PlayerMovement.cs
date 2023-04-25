@@ -1,7 +1,9 @@
+using System;
 using System.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.VisualScripting;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -32,8 +34,9 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    GameObject self;
+    [SerializeField]
     new GameObject camera;
+
     Rigidbody rb;
     CameraMovement cameraMovement;
     Quaternion q;
@@ -42,8 +45,6 @@ public class PlayerMovement : MonoBehaviour
     // V v;
 
     V m, j;
-
-    Vector3 selfPos;
 
     bool isMoving = false;
     /// <summary>
@@ -76,26 +77,26 @@ public class PlayerMovement : MonoBehaviour
     //     return 0;
     // }
 
+    Guns gun;
+
     void Start()
     {
-        self = this.gameObject;
-        selfPos = this.gameObject.transform.position;
-
         m = new(basis: 15, reduction: 0.5f);
         j = new(power: 200);
 
         //q = new();
 
         rb = this.gameObject.GetComponent<Rigidbody>();
-        cameraMovement = camera.GetComponent<CameraMovement>();
         try
         {
             camera = GameObject.FindGameObjectWithTag(Mine.Tags.Cam);
         }
-        catch
+        catch(System.NullReferenceException)
         {
             camera = GameObject.Find("cam0");
         }
+        cameraMovement = camera.GetComponent<CameraMovement>();
+        gun = GameObject.Find("muzzle").GetComponent<Guns>();
     }
 
     void FixedUpdate()
@@ -105,11 +106,8 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if (!isFloating && Input.GetButton("Jump"))
-        {
-            Jumps(j.power);
-        }
-        Rots(1);
+        Jumps(j.power);
+        Rotate(100);
     }
 
     /// <summary>
@@ -127,36 +125,48 @@ public class PlayerMovement : MonoBehaviour
         isMoving = velocity > .01f;
         if (!isMoving)
         {
+            // 減速
             rb.velocity *= reductionRatio;
             return;
         }
 
         rb.velocity += hv * basis * Time.deltaTime;
         q.SetLookRotation(view: hv, up: Vector3.up);
-        self.transform.rotation = Quaternion.Lerp(
-            transform.rotation, q, rotSpeed * Time.deltaTime);
+        transform.rotation = Quaternion.Lerp(transform.rotation, q, rotSpeed * Time.deltaTime);
     }
 
     /// <summary>
-    /// 移動したら回転
+    /// (銃用)プレイヤーとカメラのy座標を同期
     /// </summary>
-    void Rots(float speed)
+    public void Rotate4Gun()
     {
-        // プレイヤーが移動していて視点と違う方向を向いていたらゆっくり視点の方向に回転
-        // カメラとプレイヤーが5度以上ずれていたら
-        if (!isMoving && (this.transform.localEulerAngles.y - cameraMovement.Rotation.y) <= 5)
+        //var a = transform.rotation;
+        //a.y = camera.transform.rotation.y;
+        this.transform.Rotate(new(transform.rotation.x, camera.transform.rotation.y, transform.rotation.z));
+
+        //transform.rotation = camera.transform.rotation;
+    }
+
+    /// <summary>
+    /// 移動か発砲したら回転
+    /// </summary>
+    void Rotate(float speed)
+    {
+        // プレイヤーとカメラの角度同じならtrue
+        int playerAngleY = (int)Mathf.Floor(this.transform.eulerAngles.y),
+            cameraAngleY = (int)Mathf.Floor(camera.transform.eulerAngles.y);
+        int rotDiff = (int)Mathf.DeltaAngle(playerAngleY, cameraAngleY);
+
+        // 移動か射撃していて回転y座標の差が0じゃなかったら
+        if ((/*isMoving ||*/ gun.Shootable) && rotDiff != 0)
         {
             return;
         }
-        print("in rots");
-        // this.transform.rotation = Quaternion.Lerp(transform.rotation, cameraMovement.Rotation, speed);
-    }
+        // プレイやーのyをカメラのyにする
+        var leAngles = transform.localEulerAngles;
+        leAngles.y = camera.transform.eulerAngles.y;
+        //leAngles.y = Mathf.Lerp(transform.eulerAngles.y, camera.transform.eulerAngles.y, speed * Time.deltaTime);
 
-    /// <summary>
-    /// 発砲したら回転
-    /// </summary>
-    void Rotss()
-    {
     }
 
     /// <summary>
@@ -165,7 +175,10 @@ public class PlayerMovement : MonoBehaviour
     /// <param name="power">脚力</param>
     void Jumps(float power)
     {
-        rb.AddForce(Vector3.up * power, ForceMode.Impulse);
+        if (!isFloating && Input.GetButton("Jump"))
+        {
+            rb.AddForce(Vector3.up * power, ForceMode.Impulse);
+        }
     }
 
     void OnCollisionEnter(Collision collisionInfo)

@@ -12,8 +12,11 @@ public class Deb2 : MonoBehaviour
 
     void Update()
     {
-        t.text = @$"player: {player.transform.localEulerAngles.y}
-             camera: {cam.transform.localEulerAngles.y}";
+        float v = Mathf.Floor(player.transform.eulerAngles.y), vv = Mathf.Floor(cam.transform.eulerAngles.y);
+        //t.text = @$"player: {player.transform.localEulerAngles.y}
+             //camera: {cam.transform.localEulerAngles.y}";
+        t.text = @$"player: {v}, camera: {vv}
+            diff: {Mathf.DeltaAngle(v, vv)}";
         //t.text = $"distance: {Quaternion.Angle(player.transform.rotation, cam.transform.rotation)}";
         //t.text = $"distance: {Vector3.SignedAngle(player.transform.rotation, cam.transform.rotation, Vector3.up)}";
         //t.text = GetAngleDiff(player.transform.rotation, cam.transform.rotation).ToString();
