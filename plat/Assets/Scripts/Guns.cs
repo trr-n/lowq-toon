@@ -23,31 +23,22 @@ public class Guns : MonoBehaviour
     /// </summary>
     Vector3 generatePosition = new(0, 0, 0.2f);
 
-    bool shootable = false;
-    /// <summary>
-    /// 発砲したらtrue
-    /// </summary>
-    public bool Shootable => shootable;
+    GameManager gameManager;
 
-    enum Clicks
+    void Start()
     {
-        Left = 0, 
-        Right = 1
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
-    [SerializeField]
-    Clicks clicks = Clicks.Left;
 
     void Update()
     {
-        shootable = Input.GetMouseButtonDown((int)clicks);
         Trigger();
     }
 
     void Trigger()
     {
-        if (shootable)
+        if (Input.GetMouseButtonDown((int)gameManager.Click4Shoot))
         {
-            print("called");
             player.GetComponent<PlayerMovement>().Rotate4Gun();
             Fire(moving: power);
         }

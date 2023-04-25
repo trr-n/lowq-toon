@@ -3,34 +3,26 @@ using System.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Unity.VisualScripting;
 
 public class PlayerMovement : MonoBehaviour
 {
-    // [System.Serializable]
+    [Serializable]
     class V
     {
-        /// <summary>
-        /// 基本の移動速度
-        /// </summary>
         public float basis;
-        /// <summary>
-        /// 減速比
-        /// </summary>
         public float reduction;
-        public V(float basis, float reduction)
+        /// <summary>moving</summary>
+        public V(float _basis, float _reduction)
         {
-            this.basis = basis;
-            this.reduction = reduction;
+            basis = _basis;
+            reduction = _reduction;
         }
 
-        /// <summary>
-        /// ジャンプ力
-        /// </summary>
         public float power;
-        public V(float power)
+        /// <summary>jumping</summary>
+        public V(float _power)
         {
-            this.power = power;
+            power = _power;
         }
     }
 
@@ -40,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody rb;
     CameraMovement cameraMovement;
     Quaternion q;
+    GameManager gameManager;
 
     // [SerializeField]
     // V v;
@@ -81,8 +74,8 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-        m = new(basis: 15, reduction: 0.5f);
-        j = new(power: 200);
+        m = new(_basis: 15, _reduction: 0.5f);
+        j = new(_power: 200);
 
         //q = new();
 
@@ -91,12 +84,13 @@ public class PlayerMovement : MonoBehaviour
         {
             camera = GameObject.FindGameObjectWithTag(Mine.Tags.Cam);
         }
-        catch(System.NullReferenceException)
+        catch (System.NullReferenceException)
         {
             camera = GameObject.Find("cam0");
         }
         cameraMovement = camera.GetComponent<CameraMovement>();
         gun = GameObject.Find("muzzle").GetComponent<Guns>();
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     void FixedUpdate()
@@ -140,9 +134,8 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     public void Rotate4Gun()
     {
-        //var a = transform.rotation;
-        //a.y = camera.transform.rotation.y;
-        this.transform.Rotate(new(transform.rotation.x, camera.transform.rotation.y, transform.rotation.z));
+        var a = transform.rotation;
+        a.y = camera.transform.rotation.y;
 
         //transform.rotation = camera.transform.rotation;
     }
@@ -156,9 +149,11 @@ public class PlayerMovement : MonoBehaviour
         int playerAngleY = (int)Mathf.Floor(this.transform.eulerAngles.y),
             cameraAngleY = (int)Mathf.Floor(camera.transform.eulerAngles.y);
         int rotDiff = (int)Mathf.DeltaAngle(playerAngleY, cameraAngleY);
+        bool shot = Input.GetMouseButtonDown((int)gameManager.Click4Shoot);
 
-        // 移動か射撃していて回転y座標の差が0じゃなかったら
-        if ((/*isMoving ||*/ gun.Shootable) && rotDiff != 0)
+        //// 移動か射撃していて回転y座標の差が0じゃなかったら
+        // 射撃した瞬間プレイヤーとカメラのY座標の差が0じゃなかったらtrue
+        if ((/*isMoving ||*/ shot) && rotDiff != 0)
         {
             return;
         }
@@ -166,7 +161,6 @@ public class PlayerMovement : MonoBehaviour
         var leAngles = transform.localEulerAngles;
         leAngles.y = camera.transform.eulerAngles.y;
         //leAngles.y = Mathf.Lerp(transform.eulerAngles.y, camera.transform.eulerAngles.y, speed * Time.deltaTime);
-
     }
 
     /// <summary>
