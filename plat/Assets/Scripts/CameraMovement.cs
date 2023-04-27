@@ -30,7 +30,7 @@ public class CameraMovement : MonoBehaviour
     /// カメラが見ている座標    
     /// </summary>
     Vector3 lookingAt;
-    public Vector3 LookingAt => lookingAt;
+    public Vector3 CameraLookingAt => lookingAt;
 
     float angleX = 0.0f, angleY = 0.0f;
 
@@ -65,8 +65,8 @@ public class CameraMovement : MonoBehaviour
     /// <param name="_deadZone">入力感度の調整</param>
     void ViewRotation(float _sensiX, float _sensiY, float _deadZone)
     {
-        float mx = Input.GetAxis(Mine.Keys.MX),
-            my = Input.GetAxis(Mine.Keys.MY);
+        float mx = Input.GetAxis("Mouse X"),
+            my = Input.GetAxis("Mouse Y");
 
         // プレイヤーを中心に回転させる
         if (Mathf.Abs(mx) >= _deadZone)

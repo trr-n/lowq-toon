@@ -11,17 +11,11 @@ public class PlayerMovement : MonoBehaviour
     {
         public float basis;
         public float reduction;
-        /// <summary>moving</summary>
-        public V(float _basis, float _reduction)
+        public float power;
+        public V(float _basis, float _reduction, float _power)
         {
             basis = _basis;
             reduction = _reduction;
-        }
-
-        public float power;
-        /// <summary>jumping</summary>
-        public V(float _power)
-        {
             power = _power;
         }
     }
@@ -37,17 +31,17 @@ public class PlayerMovement : MonoBehaviour
     // [SerializeField]
     // V v;
 
-    V m, j;
+    V vv;
 
     bool isMoving = false;
     /// <summary>
-    /// 動いていたらtrue
+    /// 動いていたら(移動キーが押されたら)true
     /// </summary>
     public bool IsMoving => isMoving;
 
     bool isFloating = false;
     /// <summary>
-    /// 地に足がついていたらfalse
+    /// プレイヤーが空中にいたらtrue
     /// </summary>
     public bool IsFloating => isFloating;
 
@@ -70,37 +64,23 @@ public class PlayerMovement : MonoBehaviour
     //     return 0;
     // }
 
-    Guns gun;
-
     void Start()
     {
-        m = new(_basis: 15, _reduction: 0.5f);
-        j = new(_power: 200);
-
-        //q = new();
+        vv = new(_basis: 15, _reduction: 0.5f, _power: 200);
 
         rb = this.gameObject.GetComponent<Rigidbody>();
-        try
-        {
-            camera = GameObject.FindGameObjectWithTag(Mine.Tags.Cam);
-        }
-        catch (System.NullReferenceException)
-        {
-            camera = GameObject.Find("cam0");
-        }
+        camera = GameObject.FindGameObjectWithTag(Mine.Tags.Cam);
         cameraMovement = camera.GetComponent<CameraMovement>();
-        gun = GameObject.Find("muzzle").GetComponent<Guns>();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
-
     void FixedUpdate()
     {
-        Moves(m.basis, m.reduction);
+        Moves(vv.basis, vv.reduction);
     }
 
     void Update()
     {
-        Jumps(j.power);
+        Jumps(vv.power);
         Rotate(100);
     }
 

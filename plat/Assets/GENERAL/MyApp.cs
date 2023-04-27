@@ -38,10 +38,7 @@ namespace Mine
 
     public class Script : MonoBehaviour
     {
-        /// <summary>
-        /// 自分用printテスト
-        /// </summary>
-        /// <param name="msg">出力するテキスト</param>
+        // test
         new public static void print(object msg) => Debug.Log(msg);
 
         public static float Randfloat(float min = 0, float max = 0)
