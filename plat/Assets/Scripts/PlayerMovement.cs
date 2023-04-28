@@ -9,11 +9,11 @@ public class PlayerMovement : MonoBehaviour
     [Serializable]
     class V
     {
-        public float basis;
-        public float reduction;
-        public float power;
-        public float rotation;
-        public float rotation4move;
+        public float basis = 15;
+        public float reduction = 0.5f;
+        public float power = 200;
+        public float rotation = 10;
+        public float rotation4move = 10;
 
         public V(float _basis, float _reduction, float _power, float _rotation, float _rotation4move)
         {
@@ -33,9 +33,7 @@ public class PlayerMovement : MonoBehaviour
     Quaternion q;
     GameManager gameManager;
 
-    // [SerializeField]
-    // V v;
-
+    [SerializeField]
     V vv;
 
     PlayerInput playerInput;
@@ -68,8 +66,6 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-        vv = new(_basis: 15, _reduction: 0.5f, _power: 200, _rotation: 50, _rotation4move: 10);
-
         rb = this.gameObject.GetComponent<Rigidbody>();
         camera = GameObject.FindGameObjectWithTag(Mine.Tags.Cam);
         cameraMovement = camera.GetComponent<CameraMovement>();
@@ -129,36 +125,24 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     void Rotate(float rotSpeed)
     {
-        int playerAngleY = (int)Mathf.Floor(this.transform.eulerAngles.y);
-        int cameraAngleY = (int)Mathf.Floor(camera.transform.eulerAngles.y);
-        int angleYDiff = (int)Mathf.DeltaAngle(playerAngleY, cameraAngleY);
-
-        if (playerInput.IsRotating)
+        if (!playerInput.IsRotating)
         {
-            // プレイやーのyをカメラのyにする
-            var leAngles = transform.localEulerAngles;
-            leAngles.y = camera.transform.eulerAngles.y;
-            //transform.localEulerAngles = leAngles;
+            return;
+        }
+        float playerAngleY = this.transform.eulerAngles.y, cameraAngleY = camera.transform.eulerAngles.y;
+        float angleYDiff = Mathf.DeltaAngle(playerAngleY, cameraAngleY);
 
-            // angleYDiff が180以上だったら逆回転
-            float rots = angleYDiff > 180 ? -rotSpeed : rotSpeed;
-            transform.localEulerAngles = new(
-                transform.localEulerAngles.x,
-                Mathf.Lerp(transform.localEulerAngles.y, camera.transform.eulerAngles.y, rots * Time.deltaTime),
-                transform.localEulerAngles.z
-            );
-            
-            /*
-            rb.velocity += basis * Time.deltaTime * hv;
-            q.SetLookRotation(view: hv, up: Vector3.up);
-            transform.rotation = Quaternion.Lerp(transform.rotation, q, rotSpeed * Time.deltaTime);
-            */
-            
-            // 差が0だったら回転終了
-            if (angleYDiff == 0)
-            {
-                playerInput.IsRotating = false;
-            }
+        // プレイやーのyをカメラのyにする
+        transform.localEulerAngles = new(
+            transform.localEulerAngles.x,
+            y: Mathf.Lerp(playerAngleY, playerAngleY + angleYDiff, rotSpeed * Time.deltaTime),
+            transform.localEulerAngles.z
+        );
+
+        // 差が0.1以下だったら回転終了
+        if (Mathf.Abs(angleYDiff) <= 0.1)
+        {
+            playerInput.IsRotating = false;
         }
     }
 
