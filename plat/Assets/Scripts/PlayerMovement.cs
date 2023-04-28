@@ -7,21 +7,23 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [Serializable]
-    class V
+    class Values
     {
         public float basis = 15;
         public float reduction = 0.5f;
         public float power = 200;
-        public float rotation = 10;
+        public float rotation = 30;
         public float rotation4move = 10;
+        public float tolerance = 0.5f;
 
-        public V(float _basis, float _reduction, float _power, float _rotation, float _rotation4move)
+        public Values(float _basis, float _reduction, float _power, float _rotation, float _rotation4move, float _tolerance)
         {
             basis = _basis;
             reduction = _reduction;
             power = _power;
             rotation = _rotation;
             rotation4move = _rotation4move;
+            tolerance = _tolerance;
         }
     }
 
@@ -34,7 +36,7 @@ public class PlayerMovement : MonoBehaviour
     GameManager gameManager;
 
     [SerializeField]
-    V vv;
+    Values values;
 
     PlayerInput playerInput;
 
@@ -75,13 +77,13 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        Moves(vv.basis, vv.reduction, vv.rotation4move);
+        Moves(values.basis, values.reduction, values.rotation4move);
     }
 
     void Update()
     {
-        Jumps(vv.power);
-        Rotate(vv.rotation);
+        Jumps(values.power);
+        Rotate(values.rotation, values.tolerance);
     }
 
     /// <summary>
@@ -103,7 +105,6 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity *= reductionRatio;
             return;
         }
-
         rb.velocity += basis * Time.deltaTime * hv;
         q.SetLookRotation(view: hv, up: Vector3.up);
         transform.rotation = Quaternion.Lerp(transform.rotation, q, rotSpeed * Time.deltaTime);
@@ -121,26 +122,30 @@ public class PlayerMovement : MonoBehaviour
     }
 
     /// <summary>
-    /// 回転
+    /// 回転処理
     /// </summary>
-    void Rotate(float rotSpeed)
+    /// <param name="rotSpeed">回転速度</param>
+    /// <param name="tolerance">許容値 仮</param>
+    void Rotate(float rotSpeed, float tolerance)
     {
         if (!playerInput.IsRotating)
         {
             return;
         }
+        playerInput.IsRotating = true;
+
         float playerAngleY = this.transform.eulerAngles.y, cameraAngleY = camera.transform.eulerAngles.y;
         float angleYDiff = Mathf.DeltaAngle(playerAngleY, cameraAngleY);
 
         // プレイやーのyをカメラのyにする
         transform.localEulerAngles = new(
             transform.localEulerAngles.x,
-            y: Mathf.Lerp(playerAngleY, playerAngleY + angleYDiff, rotSpeed * Time.deltaTime),
+            Mathf.Lerp(playerAngleY, playerAngleY + angleYDiff, rotSpeed * Time.deltaTime),
             transform.localEulerAngles.z
         );
 
-        // 差が0.1以下だったら回転終了
-        if (Mathf.Abs(angleYDiff) <= 0.1)
+        // 差がtolerance(許容値)以下で回転終了
+        if (Mathf.Abs(angleYDiff) <= tolerance)
         {
             playerInput.IsRotating = false;
         }

@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
-    GameManager gm;
-
+    // shootable が true のときにクリックしたら発砲
     bool shootable;
     /// <summary>
     /// 発砲可能ならtrue
     /// </summary>
-    public bool Shootable => shootable;
+    public bool Shootable { get => shootable; set => shootable = value; }
 
     bool isRotating;
     /// <summary>
@@ -18,22 +17,24 @@ public class PlayerInput : MonoBehaviour
     /// </summary>
     public bool IsRotating { get => isRotating; set => isRotating = value; }
 
-    void Start()
-    {
-        gm = GameObject.Find("GameManager").GetComponent<GameManager>();  
-    }
+    [SerializeField]
+    int click4shoot = 0;
+    /// <summary>
+    /// 射撃キー
+    /// </summary>
+    public int Click4Shoot => click4shoot;
 
     void Update()
     {
-        print($"shootable: {shootable}");
-        var click = Input.GetMouseButtonDown((int)gm.Click4Shoot);
+        var clicks = Input.GetMouseButtonDown(click4shoot);
+
+        // クリックして回転してなかったらtrue
+        //shootable = !isRotating;// && clicks;
+
         // 射撃キー押したら回転フラグをtrue
-        if (click)
+        if (clicks)
         {
             isRotating = true;
-        }
-        if (click && !isRotating)
-        {
             shootable = true;
         }
     }

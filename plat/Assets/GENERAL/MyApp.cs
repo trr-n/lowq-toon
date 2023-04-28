@@ -10,14 +10,15 @@ namespace Mine
 {
     public static class Scenes
     {
-        public static string
+        public static readonly string
             Main = "Main"
             ;
+        public static readonly Vector3 gravity = new(0,-9.81f, 0);
     }
 
-    public class Keys
+    public static class Keys
     {
-        public static string
+        public static readonly string
             Hor = "Horizontal",
             Ver = "Vertical",
             Jump = "Jump",
@@ -36,6 +37,7 @@ namespace Mine
             ;
     }
 
+    // 拡張メソッド
     public class Script : MonoBehaviour
     {
         // test

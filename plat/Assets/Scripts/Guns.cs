@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mine;
-using Unity.VisualScripting;
 
 public class Guns : MonoBehaviour
 {
@@ -25,9 +24,13 @@ public class Guns : MonoBehaviour
 
     PlayerInput playerInput;
 
+    Renderer r4GunBody;
+
     void Start()
     {
         playerInput = GameObject.Find("player0").GetComponent<PlayerInput>();
+
+        r4GunBody = GameObject.Find("body").GetComponent<Renderer>();
     }
 
     void Update()
@@ -37,11 +40,14 @@ public class Guns : MonoBehaviour
 
     void Trigger()
     {
-        if (playerInput.Shootable)
+        if (playerInput.Shootable && !playerInput.IsRotating && Input.GetMouseButton(0))
         {
+            r4GunBody.material.color = Color.red;
+            print("body turns red");
             player.GetComponent<PlayerMovement>().Rotate4Gun();
             Fire(moving: power);
         }
+        r4GunBody.material.color = Color.white;
     }
 
     /// <summary>
