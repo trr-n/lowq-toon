@@ -6,25 +6,26 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [Serializable]
+    // [Serializable]
+    // 設定し直しめんどくさいから生弄り
     class Values
     {
-        public float basis = 15;
-        public float reduction = 0.5f;
-        public float power = 200;
-        public float rotation = 30;
-        public float rotation4move = 10;
-        public float tolerance = 0.5f;
+        public static float basis = 15;
+        public static float reduction = 0.5f;
+        public static float power = 200;
+        public static float rotation = 30;
+        public static float rotation4move = 10;
+        public static float tolerance = 0.5f;
 
-        public Values(float _basis, float _reduction, float _power, float _rotation, float _rotation4move, float _tolerance)
-        {
-            basis = _basis;
-            reduction = _reduction;
-            power = _power;
-            rotation = _rotation;
-            rotation4move = _rotation4move;
-            tolerance = _tolerance;
-        }
+        // public Values(float _basis, float _reduction, float _power, float _rotation, float _rotation4move, float _tolerance)
+        // {
+        //     basis = _basis;
+        //     reduction = _reduction;
+        //     power = _power;
+        //     rotation = _rotation;
+        //     rotation4move = _rotation4move;
+        //     tolerance = _tolerance;
+        // }
     }
 
     [SerializeField]
@@ -35,8 +36,8 @@ public class PlayerMovement : MonoBehaviour
     Quaternion q;
     GameManager gameManager;
 
-    [SerializeField]
-    Values values;
+    // [SerializeField]
+    // Values values;
 
     PlayerInput playerInput;
 
@@ -77,13 +78,13 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        Moves(values.basis, values.reduction, values.rotation4move);
+        Moves(Values.basis, Values.reduction, Values.rotation4move);
     }
 
     void Update()
     {
-        Jumps(values.power);
-        Rotate(values.rotation, values.tolerance);
+        Jumps(Values.power);
+        Rotate(Values.rotation, Values.tolerance);
     }
 
     /// <summary>

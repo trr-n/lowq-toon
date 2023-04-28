@@ -5,14 +5,8 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    /// <summary>
-    /// 重力
-    /// </summary>
-    [SerializeField]
-    Vector3 gravity = new(0, -9.81f, 0);
-
     void Start()
     {
-        Physics.gravity = gravity;
+        Physics.gravity = Mine.Scenes.MainGravity;
     }
 }

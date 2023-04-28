@@ -13,7 +13,8 @@ namespace Mine
         public static readonly string
             Main = "Main"
             ;
-        public static readonly Vector3 gravity = new(0,-9.81f, 0);
+
+        public static readonly Vector3 MainGravity = new(0, -9.81f, 0);
     }
 
     public static class Keys
@@ -37,7 +38,36 @@ namespace Mine
             ;
     }
 
-    // 拡張メソッド
+    // 拡張メソッド版
+    public static class Extended
+    {
+        /// <summary>
+        /// ケツにつけて使うタイプ
+        /// </summary>
+        /// <param name="max"></param>
+        /// <returns></returns>
+        public static int rint(this int max)
+        {
+            // System.Random random = new();
+            // return random.Next(max);
+            return UnityEngine.Random.Range(0, max);
+
+            // Example: 
+            //
+            // List<int> numbers = new();
+            // for (int i = 0; i < 10; i++)
+            // {
+            //     numbers.Add(i);
+            // }
+            // numbers[numbers.Capacity.rint()].show();
+        }
+
+        /// <summary>
+        /// ケツに付けるタイプのprint()
+        /// </summary>
+        public static void show(this object number) => Debug.Log(number);
+    }
+
     public class Script : MonoBehaviour
     {
         // test
@@ -68,8 +98,8 @@ namespace Mine
         }
 
         public static GameObject Randins(
-            GameObject[] objects, Vector3 vec3, Quaternion quaternion)
-        => Instantiate(objects[Randint(max: objects.Length)], vec3, quaternion);
+            GameObject[] objs, Vector3 vec3, Quaternion quaternion)
+        => Instantiate(objs[Randint(max: objs.Length)], vec3, quaternion);
 
         public static GameObject Ins(
             GameObject @object, Vector3 v3, Quaternion quaternion)
