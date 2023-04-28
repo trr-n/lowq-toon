@@ -23,11 +23,11 @@ public class Guns : MonoBehaviour
     /// </summary>
     Vector3 generatePosition = new(0, 0, 0.2f);
 
-    GameManager gameManager;
+    PlayerInput playerInput;
 
     void Start()
     {
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        playerInput = GameObject.Find("player0").GetComponent<PlayerInput>();
     }
 
     void Update()
@@ -37,7 +37,7 @@ public class Guns : MonoBehaviour
 
     void Trigger()
     {
-        if (Input.GetMouseButtonDown((int)gameManager.Click4Shoot))
+        if (playerInput.Shootable)
         {
             player.GetComponent<PlayerMovement>().Rotate4Gun();
             Fire(moving: power);

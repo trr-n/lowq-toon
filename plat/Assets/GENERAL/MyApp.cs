@@ -47,6 +47,12 @@ namespace Mine
         public static int Randint(int min = 0, int max = 0)
         => UnityEngine.Random.Range(min, max);
 
+        //public static T Rand<T>(T min, T max)
+        //    where T : struct, IComparable, IFormattable, IConvertible, IComparable<T>, IEquatable<T>
+        //{
+        //    return UnityEngine.Random.Range(min, max);
+        //}
+
         public static string Randstring(int? count)
         {
             string characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";

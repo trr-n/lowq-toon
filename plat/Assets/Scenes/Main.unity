@@ -789,7 +789,6 @@ MonoBehaviour:
   - {fileID: 5275317666581082051, guid: 26030fa8b6e62e24f893865edc64dad3, type: 3}
   - {fileID: 5275317666581082051, guid: 26030fa8b6e62e24f893865edc64dad3, type: 3}
   player: {fileID: 1907096498}
-  clicks: 0
 --- !u!65 &1767969843
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -931,6 +930,18 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5567431144257868214, guid: e382d0822b152224cbe413ee6cb13a10, type: 3}
   m_PrefabInstance: {fileID: 5567431145037374352}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1907139957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1907096498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b3aa4fce97741c4dbbc29b953f20906, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1928162260
 GameObject:
   m_ObjectHideFlags: 0
@@ -961,6 +972,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gravity: {x: 0, y: -9.81, z: 0}
+  click4shooting: 0
 --- !u!4 &1928162262
 Transform:
   m_ObjectHideFlags: 0
