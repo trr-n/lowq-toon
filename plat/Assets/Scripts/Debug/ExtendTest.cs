@@ -9,11 +9,15 @@ public class ExtendTest : MonoBehaviour
 
     void Start()
     {
-        for (int j = 0; j < 100; j++)
+        i ??= null;
+        for (int j = 1; j <= 100; j++)
         {
             i.Add(j);
         }
+    }
 
-        i[i.Capacity.rint()].show();
+    void Update()
+    {
+        i[i.Capacity.random()].show();
     }
 }

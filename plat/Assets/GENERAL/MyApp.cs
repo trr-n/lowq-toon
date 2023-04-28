@@ -34,7 +34,8 @@ namespace Mine
             Player = "Player",
             Ground = "Ground",
             MainCam = "MainCamera",
-            Cam = "Cam"
+            Cam = "Cam",
+            Gun = "Gun"
             ;
     }
 
@@ -42,11 +43,9 @@ namespace Mine
     public static class Extended
     {
         /// <summary>
-        /// ケツにつけて使うタイプ
+        /// ケツにつけて使うタイプ、最大値のみ設定可能
         /// </summary>
-        /// <param name="max"></param>
-        /// <returns></returns>
-        public static int rint(this int max)
+        public static int random(this int max)
         {
             // System.Random random = new();
             // return random.Next(max);
@@ -62,6 +61,11 @@ namespace Mine
             // numbers[numbers.Capacity.rint()].show();
         }
 
+        public static float random(this float max)
+        {
+            return UnityEngine.Random.Range(0f, max);
+        }
+
         /// <summary>
         /// ケツに付けるタイプのprint()
         /// </summary>
@@ -70,9 +74,6 @@ namespace Mine
 
     public class Script : MonoBehaviour
     {
-        // test
-        new public static void print(object msg) => Debug.Log(msg);
-
         public static float Randfloat(float min = 0, float max = 0)
         => UnityEngine.Random.Range(min, max);
 
@@ -102,8 +103,8 @@ namespace Mine
         => Instantiate(objs[Randint(max: objs.Length)], vec3, quaternion);
 
         public static GameObject Ins(
-            GameObject @object, Vector3 v3, Quaternion quaternion)
-        => Instantiate(@object, v3, quaternion);
+            GameObject obj, Vector3 v3, Quaternion quaternion)
+        => Instantiate(obj, v3, quaternion);
 
         public void FollowCursor(float z = 0)
         {
@@ -112,24 +113,24 @@ namespace Mine
             transform.position = cursor;
         }
 
-        public void Move2D(string _hor, string _ver, float? speed = null)
+        public static void Move2D(Transform target, string _hor, string _ver, float speed = 20)
         {
             float hor = Input.GetAxis(_hor), ver = Input.GetAxis(_ver);
             Vector2 inputAxis = new(hor, ver);
-            speed = speed != null ? speed : 20;
-            transform.Translate(inputAxis * (float)speed * Time.deltaTime);
+            target.Translate(inputAxis * speed * Time.deltaTime);
+        }
+
+        public static void Move3D(Rigidbody target, string hor, string ver, float speed)
+        {
+            float _hor = Input.GetAxis(hor), _ver = Input.GetAxis(ver);
+            Vector3 inputAxis =
+                _hor * target.transform.forward + _ver * target.transform.right;
+            target.velocity = inputAxis;
         }
 
         public static void Jump2D(Rigidbody2D rb, float jumpingPower = 5f)
-        => rb.AddForce(Vector3.up * jumpingPower, ForceMode2D.Impulse);
-
-        /// <summary>
-        /// 破壊
-        /// </summary>
-        public static void RemoveObject(float lifeTime = 0)
         {
-            Component comp = new();
-            Destroy(comp.gameObject, lifeTime);
+            rb.AddForce(Vector3.up * jumpingPower, ForceMode2D.Impulse);
         }
 
         /// <summary>
@@ -140,8 +141,8 @@ namespace Mine
         {
             if (Input.GetMouseButtonDown(click))
             {
-                Vector3 or = transform.position, dir = new(100, 0, 0);
-                RaycastHit2D h = Physics2D.Raycast(or, dir);
+                Vector3 origin = transform.position, direction = new(100, 0, 0);
+                RaycastHit2D h = Physics2D.Raycast(origin, direction);
                 if (h.collider)
                 {
                     var pos = h.collider.gameObject.transform.position;
@@ -152,8 +153,7 @@ namespace Mine
 
         public static float ComputeFps() => Mathf.Floor(1 / Time.deltaTime);
 
-        public static string Timer(int digits)
-        => Time.time.ToString("F" + digits);
+        public static string Timer(int digits) => Time.time.ToString("F" + digits);
 
         public static void VisibleCursor(bool isVisible = false)
         => Cursor.visible = isVisible;
@@ -196,8 +196,10 @@ namespace Mine
         }
 
         public static void ReloadScene(string name)
-        => SceneManager.LoadScene(
-            name is null ? SceneManager.GetActiveScene().name : name);
+        {
+            SceneManager.LoadScene(
+                name != null ? name : SceneManager.GetActiveScene().name);
+        }
     }
 
     // public class TestException : System.Exception

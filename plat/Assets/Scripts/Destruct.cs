@@ -6,15 +6,9 @@ public class Destruct : MonoBehaviour
 {
     [SerializeField]
     float life;
-    float timer;
 
-    void Update()
+    void Start()
     {
-        timer += Time.deltaTime;
-        if (timer > life)
-        {
-            Destroy(this.gameObject);
-            timer = 0;
-        }
+        Destroy(this.gameObject, life);
     }
 }

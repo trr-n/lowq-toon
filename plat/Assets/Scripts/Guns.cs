@@ -24,13 +24,14 @@ public class Guns : MonoBehaviour
 
     PlayerInput playerInput;
 
+    GameObject[] guns;
     Renderer r4GunBody;
 
     void Start()
     {
-        playerInput = GameObject.Find("player0").GetComponent<PlayerInput>();
-
-        r4GunBody = GameObject.Find("body").GetComponent<Renderer>();
+        playerInput = GameObject.FindGameObjectWithTag(Mine.Tags.Player).GetComponent<PlayerInput>();
+        guns = GameObject.FindGameObjectsWithTag(Mine.Tags.Gun);
+        r4GunBody = guns[1].GetComponent<Renderer>();
     }
 
     void Update()
