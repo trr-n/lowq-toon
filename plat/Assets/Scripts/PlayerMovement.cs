@@ -32,13 +32,9 @@ public class PlayerMovement : MonoBehaviour
     new GameObject camera;
 
     Rigidbody rb;
-    CameraMovement cameraMovement;
     Quaternion q;
-    GameManager gameManager;
 
-    // [SerializeField]
-    // Values values;
-
+    CameraMovement cameraMovement;
     PlayerInput playerInput;
 
     bool isMoving = false;
@@ -59,21 +55,14 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     public float Velocity => velocity;
 
-    // async Task<int> test()
-    // {
-    //     print(0);
-    //     await Task.Delay(2000);
-    //     print(1);
-    //     return 0;
-    // }
-
     void Start()
     {
         rb = this.gameObject.GetComponent<Rigidbody>();
         camera = GameObject.FindGameObjectWithTag(Mine.Tags.Cam);
         cameraMovement = camera.GetComponent<CameraMovement>();
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         playerInput = gameObject.GetComponent<PlayerInput>();
+
+        print(velocity.GetType().Name.ToString());
     }
 
     void FixedUpdate()

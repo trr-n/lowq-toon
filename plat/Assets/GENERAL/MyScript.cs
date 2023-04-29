@@ -28,7 +28,7 @@ namespace Mine
             ;
     }
 
-    public class Tags
+    public static class Tags
     {
         public static string
             Player = "Player",
@@ -42,37 +42,17 @@ namespace Mine
     // 拡張メソッド版
     public static class Extended
     {
-        /// <summary>
-        /// ケツにつけて使うタイプ、最大値のみ設定可能
-        /// </summary>
-        public static int random(this int max)
-        {
-            // System.Random random = new();
-            // return random.Next(max);
-            return UnityEngine.Random.Range(0, max);
+        public static int random(this int max) => UnityEngine.Random.Range(0, max);
+        public static float random(this float max) => UnityEngine.Random.Range(0f, max).ToInt();
 
-            // Example: 
-            //
-            // List<int> numbers = new();
-            // for (int i = 0; i < 10; i++)
-            // {
-            //     numbers.Add(i);
-            // }
-            // numbers[numbers.Capacity.rint()].show();
-        }
+        public static float ToSingle(this object num) => (float)num;
+        public static int ToInt(this object num) => (int)num;
+        public static T TypeCast<T>(this object obj) => (T)obj;
 
-        public static float random(this float max)
-        {
-            return UnityEngine.Random.Range(0f, max);
-        }
-
-        /// <summary>
-        /// ケツに付けるタイプのprint()
-        /// </summary>
-        public static void show(this object number) => Debug.Log(number);
+        public static void show(this object msg) => UnityEngine.Debug.Log(msg);
     }
 
-    public class Script : MonoBehaviour
+    public static class Random
     {
         public static float Randfloat(float min = 0, float max = 0)
         => UnityEngine.Random.Range(min, max);
@@ -80,37 +60,39 @@ namespace Mine
         public static int Randint(int min = 0, int max = 0)
         => UnityEngine.Random.Range(min, max);
 
-        //public static T Rand<T>(T min, T max)
-        //    where T : struct, IComparable, IFormattable, IConvertible, IComparable<T>, IEquatable<T>
-        //{
-        //    return UnityEngine.Random.Range(min, max);
-        //}
+        public static GameObject Randins(
+            GameObject[] objects, Vector3 position, Quaternion rotation)
+        => UnityEngine.MonoBehaviour.Instantiate(
+            // objects[Random.Randint(max: objects.Length)], position, rotation);
+            objects[objects.Length.random()], position, rotation);
+    }
 
+    public class Script : MonoBehaviour
+    {
         public static string Randstring(int? count)
         {
             string characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
             // var charasArr = new char[(int)count];
             char[] charaArr = count != null ?
-                new char[(int)count] : new char[Mine.Script.Randint(2, 16)];
+                new char[count.ToInt()] : new char[Random.Randint(2, 16)];
             System.Random random = new();
             for (int i = 0; i < charaArr.Length; i++)
+            {
                 charaArr[i] = characters[random.Next(characters.Length)];
+            }
             return charaArr.ToString();
         }
 
-        public static GameObject Randins(
-            GameObject[] objs, Vector3 vec3, Quaternion quaternion)
-        => Instantiate(objs[Randint(max: objs.Length)], vec3, quaternion);
 
         public static GameObject Ins(
             GameObject obj, Vector3 v3, Quaternion quaternion)
         => Instantiate(obj, v3, quaternion);
 
-        public void FollowCursor(float z = 0)
+        public void FollowCursor(Transform target, float z = 0)
         {
             var cursor = UnityEngine.Camera.main.ScreenToWorldPoint(Input.mousePosition);
             cursor.z = z;
-            transform.position = cursor;
+            target.position = cursor;
         }
 
         public static void Move2D(Transform target, string _hor, string _ver, float speed = 20)
@@ -120,24 +102,18 @@ namespace Mine
             target.Translate(inputAxis * speed * Time.deltaTime);
         }
 
-        public static void Move3D(Rigidbody target, string hor, string ver, float speed)
+        public static void Move3D(Rigidbody targetRb, string hor, string ver, float speed)
         {
             float _hor = Input.GetAxis(hor), _ver = Input.GetAxis(ver);
-            Vector3 inputAxis =
-                _hor * target.transform.forward + _ver * target.transform.right;
-            target.velocity = inputAxis;
-        }
-
-        public static void Jump2D(Rigidbody2D rb, float jumpingPower = 5f)
-        {
-            rb.AddForce(Vector3.up * jumpingPower, ForceMode2D.Impulse);
+            Vector3 inputAxis = _hor * targetRb.transform.forward + _ver * targetRb.transform.right;
+            targetRb.velocity = inputAxis;
         }
 
         /// <summary>
         /// クリックでオブジェクト取得
         /// <param name="click">0: left, 1: right</param>
         /// </summary>
-        public void GetObject(int click = 0)
+        public void GetObject(Transform transform, int click = 0)
         {
             if (Input.GetMouseButtonDown(click))
             {
@@ -146,7 +122,7 @@ namespace Mine
                 if (h.collider)
                 {
                     var pos = h.collider.gameObject.transform.position;
-                    Debug.Log($"position:{pos}");
+                    $"position:{pos}".show();
                 }
             }
         }
@@ -161,7 +137,7 @@ namespace Mine
         public static void AudioSlider(AudioSource audioSource, float volume = .01f)
         => audioSource.volume = volume;
 
-        public void LimitRange(float x, float y, float? z)
+        public void LimitRange(Transform transform, float x, float y, float? z)
         {
             var tp = transform.position;
             Vector3 coords = new(

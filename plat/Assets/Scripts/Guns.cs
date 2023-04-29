@@ -1,75 +1,78 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Mine;
 
-public class Guns : MonoBehaviour
+namespace Mine
 {
-    [Tooltip("弾のプレハブ")]
-    [SerializeField]
-    GameObject[] bulletPrefabs;
-
-    [SerializeField]
-    GameObject player;
-
-    /// <summary>
-    /// 弾速
-    /// </summary>
-    float power = 10;
-
-    /// <summary>
-    /// 弾の生成座標
-    /// </summary>
-    Vector3 generatePosition = new(0, 0, 0.2f);
-
-    PlayerInput playerInput;
-
-    GameObject[] guns;
-    Renderer r4GunBody;
-
-    void Start()
+    public class Guns : MonoBehaviour
     {
-        playerInput = GameObject.FindGameObjectWithTag(Mine.Tags.Player).GetComponent<PlayerInput>();
-        guns = GameObject.FindGameObjectsWithTag(Mine.Tags.Gun);
-        r4GunBody = guns[1].GetComponent<Renderer>();
-    }
+        [Tooltip("弾のプレハブ")]
+        [SerializeField]
+        GameObject[] bulletPrefabs;
 
-    void Update()
-    {
-        Trigger();
-    }
+        [SerializeField]
+        GameObject player;
 
-    void Trigger()
-    {
-        if (playerInput.Shootable && !playerInput.IsRotating && Input.GetMouseButton(0))
+        /// <summary>
+        /// 弾速
+        /// </summary>
+        float power = 10;
+
+        /// <summary>
+        /// 弾の生成座標
+        /// </summary>
+        Vector3 generatePosition = new(0, 0, 0.2f);
+
+        PlayerInput playerInput;
+
+        GameObject[] guns;
+        Renderer r4GunBody;
+
+        void Start()
         {
-            r4GunBody.material.color = Color.red;
-            print("body turns red");
-            player.GetComponent<PlayerMovement>().Rotate4Gun();
-            Fire(moving: power);
+            playerInput = GameObject.FindGameObjectWithTag(Mine.Tags.Player).GetComponent<PlayerInput>();
+            guns = GameObject.FindGameObjectsWithTag(Mine.Tags.Gun);
+            r4GunBody = guns[1].GetComponent<Renderer>();
         }
-        r4GunBody.material.color = Color.white;
-    }
 
-    /// <summary>
-    /// 発砲処理
-    /// </summary>
-    /// <param name="moving">弾速</param>
-    void Fire(float moving)
-    {
-        var bullet = Instantiate(
-            bulletPrefabs[Script.Randint(max: bulletPrefabs.Length)],
-            this.transform.position + generatePosition,
-            Quaternion.Euler(
-                Script.Randfloat(max: 360),
-                Script.Randfloat(max: 360),
-                Script.Randfloat(max: 360)
-            )
-        );
-        var bulletRb = bullet.GetComponent<Rigidbody>();
-        bulletRb.velocity = moving * this.gameObject.transform.forward;
+        void Update()
+        {
+            Trigger();
+        }
 
-        // 10秒後に破壊
-        Destroy(bullet, 10);
+        void Trigger()
+        {
+            if (playerInput.Shootable && !playerInput.IsRotating && Input.GetMouseButton(0))
+            {
+                r4GunBody.material.color = Color.red;
+                print("body turns red");
+                player.GetComponent<PlayerMovement>().Rotate4Gun();
+                Fire(moving: power);
+            }
+            r4GunBody.material.color = Color.white;
+        }
+
+        /// <summary>
+        /// 発砲処理
+        /// </summary>
+        /// <param name="moving">弾速</param>
+        void Fire(float moving)
+        {
+            var bullet = Instantiate(
+                // bulletPrefabs[Mine.Random.Randint(max: bulletPrefabs.Length)],
+                bulletPrefabs[bulletPrefabs.Length.random()],
+                this.transform.position + generatePosition,
+                Quaternion.Euler(
+                    Random.Randfloat(max: 360),
+                    Random.Randfloat(max: 360),
+                    Random.Randfloat(max: 360)
+                )
+            );
+            var bulletRb = bullet.GetComponent<Rigidbody>();
+            bulletRb.velocity = moving * this.gameObject.transform.forward;
+
+            // 10秒後に破壊
+            Destroy(bullet, 10);
+        }
     }
 }
