@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Mine
+namespace GameTitle
 {
     public class Guns : MonoBehaviour
     {
@@ -30,8 +30,8 @@ namespace Mine
 
         void Start()
         {
-            playerInput = GameObject.FindGameObjectWithTag(Mine.Tags.Player).GetComponent<PlayerInput>();
-            guns = GameObject.FindGameObjectsWithTag(Mine.Tags.Gun);
+            playerInput = GameObject.FindGameObjectWithTag(Tags.Player).GetComponent<PlayerInput>();
+            guns = GameObject.FindGameObjectsWithTag(Tags.Gun);
             r4GunBody = guns[1].GetComponent<Renderer>();
         }
 
@@ -46,6 +46,7 @@ namespace Mine
             {
                 r4GunBody.material.color = Color.red;
                 print("body turns red");
+                "body turns red".show();
                 player.GetComponent<PlayerMovement>().Rotate4Gun();
                 Fire(moving: power);
             }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Mine.Debug
+namespace GameTitle.Debug
 {
     public class ShowIsMoving : MonoBehaviour
     {

@@ -2,13 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Destruct : MonoBehaviour
+namespace GameTitle
 {
-    [SerializeField]
-    float life;
-
-    void Start()
+    public class Destruct : MonoBehaviour
     {
-        Destroy(this.gameObject, life);
+        [Tooltip("破壊までの時間")]
+        [SerializeField]
+        float life = 10;
+
+        void Start()
+        {
+            Destroy(this.gameObject, life);
+        }
     }
 }

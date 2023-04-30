@@ -2,30 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+namespace GameTitle
 {
-    int maxHp = 100;
-    int hp;
-
-    void Start()
+    public class Enemy : MonoBehaviour
     {
-        hp = maxHp;
-    }
+        int maxHp = 100;
+        int hp;
 
-    void Update()
-    {
-        if (hp <= 0)
+        void Start()
         {
-            Destroy(this.gameObject);
+            hp = maxHp;
         }
-    }
 
-    void OnCollisionEnter(Collision c)
-    {
-        if (c.gameObject.CompareTag("Bullet"))
+        void Update()
         {
-            hp -= 10;
-            Destroy(c.gameObject);
+            if (hp <= 0)
+            {
+                Destroy(this.gameObject);
+            }
+        }
+
+        void OnCollisionEnter(Collision c)
+        {
+            if (c.gameObject.CompareTag("Bullet"))
+            {
+                hp -= 10;
+                Destroy(c.gameObject);
+            }
         }
     }
 }

@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Mine;
+using GameTitle;
 
 public class ExtendTest : MonoBehaviour
 {
@@ -19,5 +19,14 @@ public class ExtendTest : MonoBehaviour
     void Update()
     {
         i[i.Capacity.random()].show();
+
+        if (1 == 1)// true
+        {
+            "1です".show();
+        }
+        if (1 == 2)
+        {
+
+        }
     }
 }

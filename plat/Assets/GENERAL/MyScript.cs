@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace Mine
+namespace GameTitle
 {
     public static class Scenes
     {
@@ -47,7 +47,7 @@ namespace Mine
 
         public static float ToSingle(this object num) => (float)num;
         public static int ToInt(this object num) => (int)num;
-        public static T TypeCast<T>(this object obj) => (T)obj;
+        // public static T TypeCast<T>(this object obj) => (T)obj;
 
         public static void show(this object msg) => UnityEngine.Debug.Log(msg);
     }
@@ -88,25 +88,11 @@ namespace Mine
             GameObject obj, Vector3 v3, Quaternion quaternion)
         => Instantiate(obj, v3, quaternion);
 
-        public void FollowCursor(Transform target, float z = 0)
+        public void FollowCursor(Transform transform, float z = 0)
         {
             var cursor = UnityEngine.Camera.main.ScreenToWorldPoint(Input.mousePosition);
             cursor.z = z;
-            target.position = cursor;
-        }
-
-        public static void Move2D(Transform target, string _hor, string _ver, float speed = 20)
-        {
-            float hor = Input.GetAxis(_hor), ver = Input.GetAxis(_ver);
-            Vector2 inputAxis = new(hor, ver);
-            target.Translate(inputAxis * speed * Time.deltaTime);
-        }
-
-        public static void Move3D(Rigidbody targetRb, string hor, string ver, float speed)
-        {
-            float _hor = Input.GetAxis(hor), _ver = Input.GetAxis(ver);
-            Vector3 inputAxis = _hor * targetRb.transform.forward + _ver * targetRb.transform.right;
-            targetRb.velocity = inputAxis;
+            transform.position = cursor;
         }
 
         /// <summary>
@@ -137,7 +123,7 @@ namespace Mine
         public static void AudioSlider(AudioSource audioSource, float volume = .01f)
         => audioSource.volume = volume;
 
-        public void LimitRange(Transform transform, float x, float y, float? z)
+        public static void LimitRange(Transform transform, float x, float y, float? z)
         {
             var tp = transform.position;
             Vector3 coords = new(

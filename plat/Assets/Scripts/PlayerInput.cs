@@ -2,31 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerInput : MonoBehaviour
+namespace GameTitle
 {
-    bool shootable;
-    public bool Shootable { get => shootable; set => shootable = value; }
-
-    bool isRotating;
-    public bool IsRotating { get => isRotating; set => isRotating = value; }
-
-    [SerializeField]
-    int click4shoot = 0;
-    public int Click4Shoot => click4shoot;
-    public int CC { get => 0; }
-
-    void Update()
+    public class PlayerInput : MonoBehaviour
     {
-        print(CC);
+        bool shootable;
+        public bool Shootable { get => shootable; set => shootable = value; }
 
-        var clicks = Input.GetMouseButtonDown(click4shoot);
+        bool isRotating;
+        public bool IsRotating { get => isRotating; set => isRotating = value; }
 
-        //shootable = !isRotating;// && clicks;
+        [SerializeField]
+        int click4shoot = 0;
+        public int Click4Shoot => click4shoot;
 
-        if (clicks)
+        void Update()
         {
-            isRotating = true;
-            shootable = true;
+            var clicks = Input.GetMouseButtonDown(click4shoot);
+
+            if (clicks)
+            {
+                isRotating = true;
+                shootable = true;
+            }
         }
     }
 }

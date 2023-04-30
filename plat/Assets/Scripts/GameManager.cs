@@ -2,11 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+namespace GameTitle
 {
-    void Start()
+    public class GameManager : MonoBehaviour
     {
-        Physics.gravity = Mine.Scenes.MainGravity;
+        void Start()
+        {
+            Physics.gravity = Scenes.MainGravity;
+        }
+
+        void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.F1))
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            }
+        }
     }
 }

@@ -3,14 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Mine.Debug
+namespace GameTitle.Debug
 {
     public class ShowAngleDiff : MonoBehaviour
     {
-        [SerializeField]
         GameObject player, cam;
-        [SerializeField]
         Text t;
+
+        void Start()
+        {
+            player = GameObject.FindGameObjectWithTag(Tags.Player);
+            cam = GameObject.FindGameObjectWithTag(Tags.Cam);
+            t = GetComponent<Text>();
+        }
 
         void Update()
         {
