@@ -32,8 +32,16 @@ namespace GameTitle
         [SerializeField]
         new GameObject camera;
 
-        [SerializeField]
-        Values values;
+        // [SerializeField]
+        // Values value;
+        Values value = new(
+            _basis: 15,
+            _reduction: 0.5f,
+            _power: 200,
+            _rotation: 30,
+            _rotation4move: 10,
+            _tolerance: 0.5f
+        );
 
         Rigidbody rb;
         Quaternion q;
@@ -65,20 +73,17 @@ namespace GameTitle
             camera = GameObject.FindGameObjectWithTag(GameTitle.Tags.Cam);
             cameraMovement = camera.GetComponent<CameraMovement>();
             playerInput = gameObject.GetComponent<PlayerInput>();
-
-            print(values.basis);
         }
 
         void FixedUpdate()
         {
-            Moves(values.basis, values.reduction, values.rotation4move);
+            Moves(value.basis, value.reduction, value.rotation4move);
         }
 
         void Update()
         {
-            // TODO mistery huge jump
-            // Jumps(Values.power);
-            Rotate(values.rotation, values.tolerance);
+            Jumps(value.power);
+            Rotate(value.rotation, value.tolerance);
         }
 
         /// <summary>
@@ -89,7 +94,6 @@ namespace GameTitle
         void Moves(float basis, float reductionRatio, float rotSpeed)
         {
             float h = Input.GetAxisRaw("Horizontal"), v = Input.GetAxisRaw("Vertical");
-            $"h: {h}, v: {v}".show();
             // カメラの向きを起点に前後左右に動く
             Vector3 hv = h * camera.transform.right + v * camera.transform.forward;
             hv.y = 0.0f;
@@ -97,7 +101,7 @@ namespace GameTitle
             isMoving = velocity > .01f;
             if (!isMoving)
             {
-                // 減速
+                // 入力が0.01未満だったら毎フレームreductionRatioずつ減速
                 rb.velocity *= reductionRatio;
                 return;
             }
@@ -113,8 +117,6 @@ namespace GameTitle
         {
             var a = transform.rotation;
             a.y = camera.transform.rotation.y;
-
-            //transform.rotation = camera.transform.rotation;
         }
 
         /// <summary>
