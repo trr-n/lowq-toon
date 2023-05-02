@@ -11,30 +11,34 @@ namespace GameTitle
         AudioClip[] musics;
         new AudioSource audio;
 
+        [SerializeField, Range(0.01f, 0.1f)]
+        float initVolume = 0.05f;
+
+        [SerializeField]
+        float vChange = 0.02f;
+
+        public float Volume;
+
         void Start()
         {
             audio = this.gameObject.GetComponent<AudioSource>();
-            audio.clip = musics[0];
+            audio.clip = musics[musics.Length.random()];
+            audio.volume = initVolume;
+            audio.Play();
         }
 
         void Update()
         {
-            // PlayMusic();
-        }
-
-        public void PlayMusic()
-        {
-            if (audio.isPlaying)
+            Volume = audio.volume;
+            if (Input.GetKeyDown(KeyCode.UpArrow))
             {
-                return;
+                audio.volume += vChange;
             }
-            // audio.clip = musics[Random.Randint(musics.Length)];
-            audio.clip = musics[musics.Length.random()];
-        }
 
-        public void AudioVolumeChange(float _volume)
-        {
-            audio.volume = _volume;
+            else if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                audio.volume -= vChange;
+            }
         }
     }
 }

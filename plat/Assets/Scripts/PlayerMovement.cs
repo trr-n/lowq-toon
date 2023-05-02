@@ -97,6 +97,7 @@ namespace GameTitle
             // カメラの向きを起点に前後左右に動く
             Vector3 hv = h * camera.transform.right + v * camera.transform.forward;
             hv.y = 0.0f;
+            hv.magnitude.show();
             velocity = hv.magnitude;
             isMoving = velocity > .01f;
             if (!isMoving)
@@ -107,7 +108,7 @@ namespace GameTitle
             }
             rb.velocity += basis * Time.deltaTime * hv;
             q.SetLookRotation(view: hv, up: Vector3.up);
-            transform.rotation = Quaternion.Lerp(transform.rotation, q, rotSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(transform.rotation, q, rotSpeed * Time.deltaTime);
         }
 
         /// <summary>
