@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace GameTitle.Debug
 {
-    public class ShowAngleDiff : MonoBehaviour
+    public class DebugAngleDiff : MonoBehaviour
     {
         GameObject player, cam;
         Text t;

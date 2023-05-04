@@ -24,7 +24,8 @@ namespace GameTitle
             Ver = "Vertical",
             Jump = "Jump",
             MX = "Mouse X",
-            MY = "Mouse Y"
+            MY = "Mouse Y",
+            Volume = "Volume"
             ;
     }
 

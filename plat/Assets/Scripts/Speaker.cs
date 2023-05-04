@@ -11,13 +11,26 @@ namespace GameTitle
         AudioClip[] musics;
         new AudioSource audio;
 
-        [SerializeField, Range(0.01f, 0.1f)]
-        float initVolume = 0.05f;
+        /// <summary>
+        /// 初期の音量
+        /// </summary>
+        float initVolume = 0.03f;
 
-        [SerializeField]
-        float vChange = 0.02f;
+        /// <summary>
+        /// 音量の変化量
+        /// </summary>
+        readonly float vChange = 0.02f;
 
+        float inputV;
+        public float InputV => inputV;
         public float Volume;
+
+        KeyCode[] codes = new KeyCode[3] {
+            KeyCode.UpArrow,
+            KeyCode.DownArrow,
+            KeyCode.RightShift
+        };
+        const int Up = 0, Down = 1, RShift = 2;
 
         void Start()
         {
@@ -29,16 +42,33 @@ namespace GameTitle
 
         void Update()
         {
+            inputV = Input.GetAxisRaw(Keys.Volume) / 100;
+            float preMuteVolume = 0,
+                vol = Mathf.Clamp(audio.volume, 0, 0.1f);
             Volume = audio.volume;
-            if (Input.GetKeyDown(KeyCode.UpArrow))
+            // if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow))
+            if (func(codes[Up]) || func(codes[Down]))
             {
-                audio.volume += vChange;
+                vol += inputV;
             }
 
-            else if (Input.GetKeyDown(KeyCode.DownArrow))
+            // if (Input.GetKeyDown(KeyCode.RightShift) && Input.GetKeyDown(KeyCode.DownArrow))
+            if (func(codes[RShift]) && func(codes[Down]))
             {
-                audio.volume -= vChange;
+                preMuteVolume = audio.volume;
+                vol = 0;
             }
+
+            else if (func(codes[RShift]) && func(codes[Up]))
+            {
+                vol = preMuteVolume;
+            }
+            audio.volume = vol;
+        }
+
+        bool func(KeyCode keyCode)
+        {
+            return Input.GetKeyDown(keyCode);
         }
     }
 }

@@ -5,16 +5,22 @@ using UnityEngine.UI;
 
 namespace GameTitle.Debug
 {
-    public class ShowIsMoving : MonoBehaviour
+    public class DebugVolumeControl : MonoBehaviour
     {
         [SerializeField]
         Text t;
         [SerializeField]
-        PlayerMovement player;
+        GameObject speaker;
+        Speaker spk;
+
+        void Start()
+        {
+            spk = speaker.GetComponent<Speaker>();
+        }
 
         void Update()
         {
-            t.text = @$"{player.IsMoving.ToString()}";
+            t.text = spk.InputV.ToString();
         }
     }
 }

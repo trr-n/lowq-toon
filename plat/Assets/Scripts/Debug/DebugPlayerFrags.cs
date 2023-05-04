@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace GameTitle.Debug
 {
-    public class ShowPlayerFrags : MonoBehaviour
+    public class DebugPlayerFrags : MonoBehaviour
     {
         [SerializeField]
         Text t;
