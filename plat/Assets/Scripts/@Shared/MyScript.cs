@@ -11,7 +11,8 @@ namespace GameTitle
     public static class Scenes
     {
         public static readonly string
-            Main = "Main"
+            Main = "Main",
+            Title = "Title"
             ;
 
         public static readonly Vector3 MainGravity = new(0, -9.81f, 0);

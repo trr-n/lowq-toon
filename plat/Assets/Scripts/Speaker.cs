@@ -16,11 +16,6 @@ namespace GameTitle
         /// </summary>
         float initVolume = 0.03f;
 
-        /// <summary>
-        /// 音量の変化量
-        /// </summary>
-        readonly float vChange = 0.02f;
-
         float inputV;
         public float InputV => inputV;
         public float Volume;
