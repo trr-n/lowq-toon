@@ -25,14 +25,12 @@ namespace GameTitle
 
         PlayerInput playerInput;
 
-        GameObject[] guns;
-        Renderer r4GunBody;
+        GameObject gun;
 
         void Start()
         {
             playerInput = GameObject.FindGameObjectWithTag(Tags.Player).GetComponent<PlayerInput>();
-            guns = GameObject.FindGameObjectsWithTag(Tags.Gun);
-            r4GunBody = guns[1].GetComponent<Renderer>();
+            gun = GameObject.FindGameObjectWithTag(Tags.Gun);
         }
 
         void Update()
@@ -44,13 +42,11 @@ namespace GameTitle
         {
             if (playerInput.Shootable && !playerInput.IsRotating && Input.GetMouseButton(0))
             {
-                r4GunBody.material.color = Color.red;
                 "body turns red".show();
                 player.GetComponent<PlayerMovement>().Rotate4Gun();
                 // Fire(moving: power);
                 Fire2(power);
             }
-            r4GunBody.material.color = Color.white;
         }
 
         /// <summary>
