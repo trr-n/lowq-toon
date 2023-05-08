@@ -31,6 +31,7 @@ namespace GameTitle
             MY = "Mouse Y",
             Volume = "Volume"
             ;
+        public static readonly KeyCode Crouch = KeyCode.C;
     }
 
     public static class Tags

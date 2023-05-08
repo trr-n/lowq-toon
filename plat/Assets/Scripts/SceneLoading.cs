@@ -33,5 +33,3 @@ namespace GameTitle
         }
     }
 }
-
-// https://nosystemnolife.com/unity_loading/
