@@ -6,7 +6,7 @@ namespace GameTitle
 {
     public class Guns : MonoBehaviour
     {
-        [Tooltip("弾のプレハブ")]
+        [Tooltip("prefab of bullets")]
         [SerializeField]
         GameObject[] bulletPrefabs;
 
@@ -45,10 +45,10 @@ namespace GameTitle
             if (playerInput.Shootable && !playerInput.IsRotating && Input.GetMouseButton(0))
             {
                 r4GunBody.material.color = Color.red;
-                print("body turns red");
                 "body turns red".show();
                 player.GetComponent<PlayerMovement>().Rotate4Gun();
-                Fire(moving: power);
+                // Fire(moving: power);
+                Fire2(power);
             }
             r4GunBody.material.color = Color.white;
         }
@@ -60,20 +60,33 @@ namespace GameTitle
         void Fire(float moving)
         {
             var bullet = Instantiate(
-                // bulletPrefabs[Mine.Random.Randint(max: bulletPrefabs.Length)],
-                bulletPrefabs[bulletPrefabs.Length.random()],
+                bulletPrefabs[rand.i(max: bulletPrefabs.Length)],
                 this.transform.position + generatePosition,
                 Quaternion.Euler(
-                    Random.Randfloat(max: 360),
-                    Random.Randfloat(max: 360),
-                    Random.Randfloat(max: 360)
+                    rand.f(max: 360),
+                    rand.f(max: 360),
+                    rand.f(max: 360)
                 )
             );
             var bulletRb = bullet.GetComponent<Rigidbody>();
             bulletRb.velocity = moving * this.gameObject.transform.forward;
 
-            // 10秒後に破壊
+            // 10秒後に仮破壊
             Destroy(bullet, 10);
+        }
+
+        void Fire2(float moving = 0)
+        {
+            var bullet = Instantiate(
+                bulletPrefabs[bulletPrefabs.Length.random()],
+                this.transform.position + generatePosition,
+                Quaternion.identity
+            );
+            var bulletRb = bullet.GetComponent<Rigidbody>();
+            bulletRb.velocity = moving * this.gameObject.transform.forward;
+
+            // 10秒後に仮破壊
+            // Destroy(bullet, 10);
         }
     }
 }

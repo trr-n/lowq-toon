@@ -12,15 +12,17 @@ namespace GameTitle
         class Values
         {
             public float basis = 15;
+            public float floating;
             public float reduction = 0.5f;
             public float power = 200;
             public float rotation = 30;
             public float rotation4move = 10;
             public float tolerance = 0.5f;
 
-            public Values(float _basis, float _reduction, float _power, float _rotation, float _rotation4move, float _tolerance)
+            public Values(float _basis, float _floating, float _reduction, float _power, float _rotation, float _rotation4move, float _tolerance)
             {
                 basis = _basis;
+                floating = _floating;
                 reduction = _reduction;
                 power = _power;
                 rotation = _rotation;
@@ -34,10 +36,11 @@ namespace GameTitle
 
         // [SerializeField]
         // Values value;
-        Values value = new(
+        readonly Values value = new(
             _basis: 15,
+            _floating: 10,
             _reduction: 0.5f,
-            _power: 200,
+            _power: 100,
             _rotation: 30,
             _rotation4move: 10,
             _tolerance: 0.5f
@@ -97,7 +100,6 @@ namespace GameTitle
             // カメラの向きを起点に前後左右に動く
             Vector3 hv = h * camera.transform.right + v * camera.transform.forward;
             hv.y = 0.0f;
-            hv.magnitude.show();
             velocity = hv.magnitude;
             isMoving = velocity > .01f;
             if (!isMoving)
@@ -106,7 +108,9 @@ namespace GameTitle
                 rb.velocity *= reductionRatio;
                 return;
             }
-            rb.velocity += basis * Time.deltaTime * hv;
+            //rb.velocity += basis * Time.deltaTime * hv;
+            // 0.5x speed if you are jumping
+            rb.velocity += (isFloating ? value.floating : basis) * Time.deltaTime * hv;
             q.SetLookRotation(view: hv, up: Vector3.up);
             transform.rotation = Quaternion.Slerp(transform.rotation, q, rotSpeed * Time.deltaTime);
         }
@@ -156,15 +160,16 @@ namespace GameTitle
         /// <param name="power">脚力</param>
         void Jumps(float power)
         {
-            if (!isFloating && Input.GetButton("Jump"))
+            if (!isFloating && Input.GetButtonDown(Keys.Jump))
             {
+                //isFloating = true;
                 rb.AddForce(Vector3.up * power, ForceMode.Impulse);
             }
         }
 
         void OnCollisionEnter(Collision collisionInfo)
         {
-            if (collisionInfo.gameObject.CompareTag("Ground"))
+            if (collisionInfo.gameObject.CompareTag(Tags.Ground))
             {
                 isFloating = false;
             }
@@ -172,7 +177,7 @@ namespace GameTitle
 
         void OnCollisionExit(Collision collisionInfo)
         {
-            if (collisionInfo.gameObject.CompareTag("Ground"))
+            if (collisionInfo.gameObject.CompareTag(Tags.Ground))
             {
                 isFloating = true;
             }

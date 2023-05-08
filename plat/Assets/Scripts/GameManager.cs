@@ -10,7 +10,11 @@ namespace GameTitle
     {
         void Start()
         {
+            // set gravity of main scene
             Physics.gravity = Scenes.MainGravity;
+
+            // hide cursor
+            Script.VisibleCursor();
         }
 
         void Update()

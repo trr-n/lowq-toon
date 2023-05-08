@@ -41,13 +41,12 @@ namespace GameTitle
             float preMuteVolume = 0,
                 vol = Mathf.Clamp(audio.volume, 0, 0.1f);
             Volume = audio.volume;
-            // if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow))
-            if (func(codes[Up]) || func(codes[Down]))
-            {
-                vol += inputV;
-            }
+            vol = func(codes[Up]) || func(codes[Down]) ? +inputV : vol;
+            // if (func(codes[Up]) || func(codes[Down]))
+            // {
+            // vol += inputV;
+            // }
 
-            // if (Input.GetKeyDown(KeyCode.RightShift) && Input.GetKeyDown(KeyCode.DownArrow))
             if (func(codes[RShift]) && func(codes[Down]))
             {
                 preMuteVolume = audio.volume;
