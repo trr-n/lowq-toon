@@ -50,11 +50,13 @@ namespace GameTitle
         public static int random(this int max) => UnityEngine.Random.Range(0, max);
         public static float random(this float max) => UnityEngine.Random.Range(0f, max).ToInt();
 
+        public static int arr(this int i) => i - 1;
+
         public static float ToSingle(this object num) => (float)num;
         public static int ToInt(this object num) => (int)num;
         // public static T TypeCast<T>(this object obj) => (T)obj;
 
-        public static void show(this object msg) => UnityEngine.Debug.Log($"{msg} <size=10>{Script.GetCaller()}</size>");
+        public static void show(this object msg) => UnityEngine.Debug.Log($"<color=orange>{msg}</color> <size=10>{Script.GetCaller()}</size>");
     }
 
     public static class rand

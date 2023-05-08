@@ -21,11 +21,12 @@ namespace GameTitle
         /// <summary>
         /// プレイヤーとカメラの距離
         /// </summary>
-        Vector3 posDistance = new(0, 1.84f, -2.56f);
+        Vector3 posDistance = new(0, 2, -4);
 
         /// <summary>
         /// カメラが見る座標
         /// </summary>
+        [SerializeField]
         Vector3 lookAt = new(0, 1, 0);
 
         /// <summary>
@@ -41,7 +42,6 @@ namespace GameTitle
         PlayerMovement playerMovement;
 
         Quaternion rotation;
-        public Quaternion Rotation => rotation;
 
         void Start()
         {
@@ -67,8 +67,8 @@ namespace GameTitle
         /// <param name="_deadZone">入力感度の調整</param>
         void ViewRotation(float _sensiX, float _sensiY, float _deadZone)
         {
-            float mx = Input.GetAxis("Mouse X"),
-                my = Input.GetAxis("Mouse Y");
+            float mx = Input.GetAxis(Keys.MX),
+                my = Input.GetAxis(Keys.MY);
 
             // プレイヤーを中心に回転させる
             if (Mathf.Abs(mx) >= _deadZone)
@@ -85,13 +85,12 @@ namespace GameTitle
         /// <summary>
         /// プレイヤーを追随
         /// </summary>
-        /// <param name="_posDistance">プレイヤーとカメラの距離</param>
+        /// <param name="_posDis">プレイヤーとカメラの距離</param>
         /// <param name="_lookAt">カメラがみる座標</param>
         void FollowPlayer(Vector3 _posDis, Vector3 _lookAt)
         {
             this.transform.position = player.transform.position + _posDis;
-            lookingAt = player.transform.position + _lookAt;
-            this.transform.LookAt(lookingAt);
+            this.transform.LookAt(player.transform.position + _lookAt);
         }
     }
 }

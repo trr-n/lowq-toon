@@ -14,7 +14,7 @@ namespace GameTitle
         /// <summary>
         /// 初期の音量
         /// </summary>
-        float initVolume = 0.03f;
+        float initVolume = 0.05f;
 
         float inputV;
         public float InputV => inputV;
@@ -30,7 +30,7 @@ namespace GameTitle
         void Start()
         {
             audio = this.gameObject.GetComponent<AudioSource>();
-            audio.clip = musics[musics.Length.random()];
+            audio.clip = musics[rand.i(musics.Length.arr())];
             audio.volume = initVolume;
             audio.Play();
         }
@@ -38,14 +38,14 @@ namespace GameTitle
         void Update()
         {
             inputV = Input.GetAxisRaw(Keys.Volume) / 100;
-            float preMuteVolume = 0,
-                vol = Mathf.Clamp(audio.volume, 0, 0.1f);
+            float preMuteVolume = 0;
+            float vol = Mathf.Clamp(audio.volume, 0, 0.1f);
             Volume = audio.volume;
-            vol = func(codes[Up]) || func(codes[Down]) ? +inputV : vol;
-            // if (func(codes[Up]) || func(codes[Down]))
-            // {
-            // vol += inputV;
-            // }
+
+            if (func(codes[Up]) || func(codes[Down]))
+            {
+                vol += inputV;
+            }
 
             if (func(codes[RShift]) && func(codes[Down]))
             {
