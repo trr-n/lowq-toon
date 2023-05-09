@@ -6,17 +6,14 @@ using UnityEngine.SceneManagement;
 
 namespace GameTitle
 {
-    public class GameManager : MonoBehaviour
+    public class Manager : MonoBehaviour
     {
         [SerializeField] Material skybox;
 
         void Start()
         {
-            // set main gravity
-            Physics.gravity = Scenes.MainGravity;
-
             // set skybox material
-            RenderSettings.skybox = skybox;
+            // RenderSettings.skybox = skybox;
         }
 
         void Update()
@@ -25,10 +22,6 @@ namespace GameTitle
 
             // hide cursor
             visual.cursor(c.hide);
-
-            "show".show();
-            "warn".warn();
-            "error".error();
         }
 
         /// <summary>
@@ -39,6 +32,19 @@ namespace GameTitle
             if (Input.GetKeyDown(KeyCode.F1))
             {
                 scene.load(scene.active());
+            }
+        }
+
+        void SetGravity()
+        {
+            if (scene.active() == Scenes.Title)
+            {
+                Physics.gravity = new(0, 0, 0);
+            }
+
+            if (scene.active() == Scenes.Main)
+            {
+                Physics.gravity = Scenes.MainGravity;
             }
         }
     }

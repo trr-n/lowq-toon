@@ -51,8 +51,8 @@ namespace GameTitle
         public static int random(this int max) => UnityEngine.Random.Range(0, max);
         public static float random(this float max) => UnityEngine.Random.Range(0f, max);
 
-        public static float ToSingle(this object num) => (float)num;
-        public static int ToInt(this object num) => (int)num;
+        public static float single(this object num) => (float)num;
+        public static int @int(this object num) => (int)num;
         // public static T cast<T>(this object obj) => (T)obj;
         public static object cast<T>(this object obj) => (T)obj;
 
@@ -90,7 +90,7 @@ namespace GameTitle
             string characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
             // var charasArr = new char[(int)count];
             char[] charaArr = count != null ?
-                new char[count.ToInt()] : new char[rand.i(2, 16)];
+                new char[count.@int()] : new char[rand.i(2, 16)];
             System.Random random = new();
             for (int i = 0; i < charaArr.Length; i++)
             {
@@ -142,7 +142,7 @@ namespace GameTitle
             var tp = transform.position;
             Vector3 coordinate = new(
                 x: Mathf.Clamp(tp.x, -x, x), y: Mathf.Clamp(tp.y, -y, y),
-                z: Mathf.Clamp(tp.z, -z.ToSingle(), z.ToSingle())
+                z: Mathf.Clamp(tp.z, -z.single(), z.single())
             );
             transform.position = coordinate;
         }

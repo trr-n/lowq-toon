@@ -42,8 +42,7 @@ namespace GameTitle
             // if (playerInput.Shootable && !playerInput.IsRotating && Input.GetMouseButton(0))
             if (Input.GetMouseButtonDown(0))
             {
-                "fire".show();
-                // Fire(moving: power);
+                "Just fired".show();
                 Fire2(power);
             }
         }

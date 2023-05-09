@@ -19,6 +19,7 @@ namespace GameTitle
         float inputV;
         public float InputV => inputV;
         public float Volume;
+        public const float MaxVolume = 0.5f;
 
         KeyCode[] codes = new KeyCode[3] {
             KeyCode.UpArrow,
@@ -39,7 +40,7 @@ namespace GameTitle
         {
             inputV = Input.GetAxisRaw(Keys.Volume) / 100;
             float preMuteVolume = 0;
-            float vol = Mathf.Clamp(audio.volume, 0, 0.5f);
+            float vol = Mathf.Clamp(audio.volume, 0, MaxVolume);
             Volume = audio.volume;
 
             if (func(codes[Up]) || func(codes[Down]))
