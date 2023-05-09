@@ -43,16 +43,11 @@ namespace GameTitle
             if (Input.GetMouseButtonDown(0))
             {
                 "fire".show();
-                // player.GetComponent<PlayerMovement>().Rotate4Gun();
                 // Fire(moving: power);
                 Fire2(power);
             }
         }
 
-        // /// <summary>
-        // /// 発砲処理
-        // /// </summary>
-        // /// <param name="moving">弾速</param>
         // void Fire(float moving)
         // {
         //     var bullet = Instantiate(
@@ -74,7 +69,7 @@ namespace GameTitle
         void Fire2(float moving = 0)
         {
             var bullet = Instantiate(
-                bulletPrefabs[rand.i(bulletPrefabs.Length.arr())],
+                bulletPrefabs[rand.choice(bulletPrefabs.Length)],
                 this.transform.position + generatePosition,
                 Quaternion.identity
             );

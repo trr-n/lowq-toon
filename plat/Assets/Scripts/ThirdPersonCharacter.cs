@@ -10,7 +10,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         [SerializeField] float m_MovingTurnSpeed = 360;
         [SerializeField] float m_StationaryTurnSpeed = 180;
         [SerializeField] float m_JumpPower = 12f;
-        [Range(1f, 4f)][SerializeField] float m_GravityMultiplier = 2f;
+        // [Range(1f, 4f)][SerializeField] float m_GravityMultiplier = 2f;
         [SerializeField] float m_RunCycleLegOffset = 0.2f; //specific to the character in sample assets, will need to be modified to work with others
         [SerializeField] float m_MoveSpeedMultiplier = 1f;
         [SerializeField] float m_AnimSpeedMultiplier = 1f;
@@ -48,7 +48,10 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             // convert the world relative moveInput vector into a local-relative
             // turn amount and forward amount required to head in the desired
             // direction.
-            if (move.magnitude > 1f) move.Normalize();
+            if (move.magnitude > 1f)
+            {
+                move.Normalize();
+            }
             move = transform.InverseTransformDirection(move);
             CheckGroundStatus();
             move = Vector3.ProjectOnPlane(move, m_GroundNormal);
@@ -113,7 +116,6 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             }
         }
 
-
         void UpdateAnimator(Vector3 move)
         {
             // update the animator parameters
@@ -146,19 +148,11 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             }
             else
             {
-                // don't use that while airborne
-                m_Animator.speed = 1;
+                // don't use that while airborne m_Animator.speed = 1;
             }
         }
-
-
         void HandleAirborneMovement()
-        {
-            // apply extra gravity from multiplier:
-            Vector3 extraGravityForce = (Physics.gravity * m_GravityMultiplier) - Physics.gravity;
-            m_Rigidbody.AddForce(extraGravityForce);
-
-            m_GroundCheckDistance = m_Rigidbody.velocity.y < 0 ? m_OrigGroundCheckDistance : 0.01f;
+        { // apply extra gravity from multiplier: Vector3 extraGravityForce = (Physics.gravity * m_GravityMultiplier) - Physics.gravity; m_Rigidbody.AddForce(extraGravityForce); m_GroundCheckDistance = m_Rigidbody.velocity.y < 0 ? m_OrigGroundCheckDistance : 0.01f;
         }
 
 

@@ -30,7 +30,7 @@ namespace GameTitle
         void Start()
         {
             audio = this.gameObject.GetComponent<AudioSource>();
-            audio.clip = musics[rand.i(musics.Length.arr())];
+            audio.clip = musics[rand.choice(musics.Length)];
             audio.volume = initVolume;
             audio.Play();
         }

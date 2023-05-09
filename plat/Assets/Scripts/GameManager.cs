@@ -8,20 +8,37 @@ namespace GameTitle
 {
     public class GameManager : MonoBehaviour
     {
+        [SerializeField] Material skybox;
+
         void Start()
         {
-            // set gravity of main scene
+            // set main gravity
             Physics.gravity = Scenes.MainGravity;
 
-            // hide cursor
-            Script.VisibleCursor();
+            // set skybox material
+            RenderSettings.skybox = skybox;
         }
 
         void Update()
         {
+            SceneReloading();
+
+            // hide cursor
+            visual.cursor(c.hide);
+
+            "show".show();
+            "warn".warn();
+            "error".error();
+        }
+
+        /// <summary>
+        /// reloading current scene when reloadKey is pressed
+        /// </summary>
+        void SceneReloading()
+        {
             if (Input.GetKeyDown(KeyCode.F1))
             {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                scene.load(scene.active());
             }
         }
     }

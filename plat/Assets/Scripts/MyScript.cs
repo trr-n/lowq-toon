@@ -49,17 +49,26 @@ namespace GameTitle
     public static class Extended
     {
         public static int random(this int max) => UnityEngine.Random.Range(0, max);
-        public static float random(this float max) => UnityEngine.Random.Range(0f, max).ToInt();
-
-        public static int arr(this int i) => i - 1;
+        public static float random(this float max) => UnityEngine.Random.Range(0f, max);
 
         public static float ToSingle(this object num) => (float)num;
         public static int ToInt(this object num) => (int)num;
-        // public static T TypeCast<T>(this object obj) => (T)obj;
+        // public static T cast<T>(this object obj) => (T)obj;
+        public static object cast<T>(this object obj) => (T)obj;
 
-        public static void show(this object msg) => UnityEngine.Debug.Log($"<color=orange>{msg}</color> <size=10>{Script.GetCaller()}</size>");
+        public static void show(this object msg)
+        => UnityEngine.Debug.Log($"<color=white>{msg}</color> <size=10>{file.caller()}</size>");
+
+        public static void warn(this object msg)
+        => UnityEngine.Debug.LogWarning($"<color=orange>{msg}</color> <size=10>{file.caller()}</size>");
+
+        public static void error(this object msg)
+        => UnityEngine.Debug.LogError($"<color=red>{msg}</color> <size=10>{file.caller()}</size>");
     }
 
+    /// <summary>
+    /// random number generator
+    /// </summary>
     public static class rand
     {
         public static float f(float min = 0, float max = 0)
@@ -68,26 +77,15 @@ namespace GameTitle
         public static int i(int min = 0, int max = 0)
         => UnityEngine.Random.Range(min, max);
 
+        public static int choice(int length)
+        => rand.i(max: length - 1);
+
         public static GameObject ins(
             GameObject[] objects, Vector3 position, Quaternion rotation)
         => UnityEngine.MonoBehaviour.Instantiate(
-            // objects[Random.Randint(max: objects.Length)], position, rotation);
-            objects[objects.Length.random()], position, rotation);
-    }
+            objects[rand.choice(objects.Length)], position, rotation);
 
-    public class Script : MonoBehaviour
-    {
-        new public static void print(object msg) => UnityEngine.Debug.Log(msg);
-
-        public static string GetCaller(
-            [CallerFilePath] string path = "",
-            [CallerLineNumber] int line = 0
-        )
-        {
-            return $"at {path}: {line}";
-        }
-
-        public static string Randstring(int? count)
+        public static string str(int? count)
         {
             string characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
             // var charasArr = new char[(int)count];
@@ -100,56 +98,88 @@ namespace GameTitle
             }
             return charaArr.ToString();
         }
+    }
 
-
-        public static GameObject Ins(
-            GameObject obj, Vector3 v3, Quaternion quaternion)
-        => Instantiate(obj, v3, quaternion);
-
-        public void FollowCursor(Transform transform, float z = 0)
-        {
-            var cursor = UnityEngine.Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            cursor.z = z;
-            transform.position = cursor;
-        }
+    public static class scene
+    {
+        public static void load(string name)
+        => SceneManager.LoadScene(name);
 
         /// <summary>
-        /// クリックでオブジェクト取得
-        /// <param name="click">0: left, 1: right</param>
+        /// active scene name
         /// </summary>
+        public static string active()
+        => SceneManager.GetActiveScene().name;
+    }
+
+    public static class file
+    {
+        public static string caller(
+            [CallerFilePath] string path = "", [CallerLineNumber] int line = 0)
+        => $"at {path}: {line}";
+    }
+
+    public enum c { hide, show }
+    /// <summary>
+    /// related 2 appearance
+    /// </summary>
+    public static class visual
+    {
+        public static float fps() => Mathf.Floor(1 / Time.deltaTime);
+
+        public static string timer(int digits) => Time.time.ToString("F" + digits);
+
+        public static void cursor(c status) => Cursor.visible = status != c.hide;
+    }
+
+    /// <summary>
+    /// related 2 coordinate
+    /// </summary>
+    public static class coord
+    {
+        public static void clamped(Transform transform, float x, float y, float? z)
+        {
+            var tp = transform.position;
+            Vector3 coordinate = new(
+                x: Mathf.Clamp(tp.x, -x, x), y: Mathf.Clamp(tp.y, -y, y),
+                z: Mathf.Clamp(tp.z, -z.ToSingle(), z.ToSingle())
+            );
+            transform.position = coordinate;
+        }
+    }
+
+    public class Script //: MonoBehaviour
+    {
+        public static void print(object msg) => UnityEngine.Debug.Log(msg);
+
+        public static GameObject Ins(GameObject obj, Vector3 v3, Quaternion quaternion)
+        => MonoBehaviour.Instantiate(obj, v3, quaternion);
+
+        public void FollowCursor(Transform tt, float z = 0)
+        {
+            var cur = UnityEngine.Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            cur.z = z;
+            tt.position = cur;
+        }
+
+        public void FollowCursorRay(Transform tt, float z = 0)
+        {
+            var cur = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
+            tt.position = cur.direction;
+        }
+
         public void GetObject(Transform transform, int click = 0)
         {
             if (Input.GetMouseButtonDown(click))
             {
                 Vector3 origin = transform.position, direction = new(100, 0, 0);
-                RaycastHit2D h = Physics2D.Raycast(origin, direction);
-                if (h.collider)
+                RaycastHit2D hit = Physics2D.Raycast(origin, direction);
+                if (hit.collider)
                 {
-                    var pos = h.collider.gameObject.transform.position;
-                    $"position:{pos}".show();
+                    var position = hit.collider.gameObject.transform.position;
+                    $"position:{position}".show();
                 }
             }
-        }
-
-        public static float ComputeFps() => Mathf.Floor(1 / Time.deltaTime);
-
-        public static string Timer(int digits) => Time.time.ToString("F" + digits);
-
-        public static void VisibleCursor(bool isVisible = false)
-        => Cursor.visible = isVisible;
-
-        public static void AudioSlider(AudioSource audioSource, float volume = .01f)
-        => audioSource.volume = volume;
-
-        public static void LimitRange(Transform transform, float x, float y, float? z)
-        {
-            var tp = transform.position;
-            Vector3 coords = new(
-                Mathf.Clamp(tp.x, -x, x),
-                Mathf.Clamp(tp.y, -y, y),
-                Mathf.Clamp(tp.z, (float)-z, (float)z)
-            );
-            transform.position = coords;
         }
 
         public static string CurrentTime()
@@ -173,12 +203,6 @@ namespace GameTitle
                 animeTime = animeTime != null ? animeTime : .05f;
                 yield return new WaitForSeconds((float)animeTime);
             }
-        }
-
-        public static void ReloadScene(string name)
-        {
-            SceneManager.LoadScene(
-                name != null ? name : SceneManager.GetActiveScene().name);
         }
     }
 
