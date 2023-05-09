@@ -84,7 +84,7 @@ namespace GameTitle
             [CallerLineNumber] int line = 0
         )
         {
-            return $"(at {path}: {line})";
+            return $"at {path}: {line}";
         }
 
         public static string Randstring(int? count)

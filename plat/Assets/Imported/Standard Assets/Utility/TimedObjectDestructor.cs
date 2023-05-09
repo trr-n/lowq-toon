@@ -14,14 +14,13 @@ namespace UnityStandardAssets.Utility
             Invoke("DestroyNow", m_TimeOut);
         }
 
-
         private void DestroyNow()
         {
             if (m_DetachChildren)
             {
                 transform.DetachChildren();
             }
-            DestroyObject(gameObject);
+            Destroy(gameObject);
         }
     }
 }

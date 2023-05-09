@@ -39,7 +39,7 @@ namespace GameTitle
         {
             inputV = Input.GetAxisRaw(Keys.Volume) / 100;
             float preMuteVolume = 0;
-            float vol = Mathf.Clamp(audio.volume, 0, 0.1f);
+            float vol = Mathf.Clamp(audio.volume, 0, 0.5f);
             Volume = audio.volume;
 
             if (func(codes[Up]) || func(codes[Down]))
