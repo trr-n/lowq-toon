@@ -9,6 +9,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
     public class ThirdPersonUserControl : MonoBehaviour
     {
         [SerializeField]
+        [Tooltip("my camera")]
         GameObject cam;
 
         ThirdPersonCharacter m_Character;
@@ -32,7 +33,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         {
             if (!m_Jump)
             {
-                m_Jump = CrossPlatformInputManager.GetButtonDown(Keys.Jump);
+                // m_Jump = CrossPlatformInputManager.GetButtonDown(Keys.Jump);
             }
         }
 
@@ -45,17 +46,17 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             if (m_Cam != null)
             {
                 m_CamForward = Vector3.Scale(m_Cam.forward, new Vector3(1, 0, 1)).normalized;
-                // Vector3 hv = h * camera.transform.right + v * camera.transform.forward;
                 m_Move = h * m_Cam.right + v * m_CamForward;
             }
             else
             {
-                m_Move = v * Vector3.forward + h * Vector3.right;
+                m_Move = h * Vector3.right + v * Vector3.forward;
             }
-#if !MOBILE_INPUT
 
-            if (Input.GetKey(KeyCode.LeftShift)) m_Move *= 0.5f;
-#endif
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                m_Move *= 0.5f;
+            }
 
             m_Character.Move(m_Move, crouchKey, m_Jump);
             m_Jump = false;

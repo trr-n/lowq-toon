@@ -19,7 +19,7 @@ namespace GameTitle
         float inputV;
         public float InputV => inputV;
         public float Volume;
-        public const float MaxVolume = 0.5f;
+        public readonly float MaxVolume = 0.5f;
 
         KeyCode[] codes = new KeyCode[3] {
             KeyCode.UpArrow,

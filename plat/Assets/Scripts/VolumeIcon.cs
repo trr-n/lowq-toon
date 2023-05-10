@@ -12,39 +12,55 @@ namespace GameTitle
         [SerializeField] GameObject speaker;
 
         Speaker spk;
-        float volume;
 
-        const int mute = 0, min = 1, mid = 2, max = 3;
+        float volume;
+        float max_vol;
+        const int mute = 0;
+        const int quiet = 1;
+        const int boring = 2;
+        const int loud = 3;
+
+        bool isMute;
+        bool isQuiet;
+        bool isBoring;
+        bool isLoud;
 
         void Start()
         {
             spk = speaker.GetComponent<Speaker>();
-
             image.sprite = icons[mute];
         }
 
         void Update()
         {
+            volumie();
+        }
+
+        void volumie()
+        {
             volume = spk.Volume;
-            // mute: lower - 0
-            if (volume <= 0)
+            max_vol = spk.MaxVolume;
+
+            isMute = volume <= 0;
+            isQuiet = volume <= max_vol / 4;
+            isBoring = volume <= max_vol / 2;
+            isLoud = !(isMute && isQuiet && isBoring);
+
+            if (isMute)
             {
                 image.sprite = icons[mute];
             }
-            // min: 0 - 0.125
-            else if (volume <= 0.125f && volume >= 0)
+            else if (isQuiet)
             {
-                image.sprite = icons[min];
+                image.sprite = icons[quiet];
             }
-            // mid: 0.125 - 0.2
-            else if (volume <= 0.125f && volume >= 0.2f)
+            else if (isBoring)
             {
-                image.sprite = icons[mid];
+                image.sprite = icons[boring];
             }
-            // max: 0.2 - upper
-            else if (volume >= 0.2f)
+            else if (isLoud)
             {
-                image.sprite = icons[max];
+                image.sprite = icons[loud];
             }
         }
     }
