@@ -25,9 +25,9 @@ namespace GameTitle.Debug
             //camera: {cam.transform.localEulerAngles.y}";
             t.text = @$"player: {playerAngle}, camera: {cameraAngle}
             diff: {Mathf.DeltaAngle(playerAngle, cameraAngle)}";
-            //t.text = $"distance: {Quaternion.Angle(player.transform.rotation, cam.transform.rotation)}";
-            //t.text = $"distance: {Vector3.SignedAngle(player.transform.rotation, cam.transform.rotation, Vector3.up)}";
-            //t.text = GetAngleDiff(player.transform.rotation, cam.transform.rotation).ToString();
+            // t.text = $"distance: {Quaternion.Angle(player.transform.rotation, cam.transform.rotation)}";
+            // t.text = $"distance: {Vector3.SignedAngle(player.transform.rotation, cam.transform.rotation, Vector3.up)}";
+            // t.text = GetAngleDiff(player.transform.rotation, cam.transform.rotation).ToString();
         }
 
         //public static float GetAngleDiff(Quaternion a, Quaternion b)

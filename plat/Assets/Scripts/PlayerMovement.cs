@@ -8,9 +8,10 @@ namespace GameTitle
 {
     public class PlayerMovement : MonoBehaviour
     {
-        [Serializable]
+        // [Serializable]
         class Values
         {
+            // static 
             public float basis = 15;
             public float floating;
             public float reduction = 0.5f;
@@ -31,8 +32,12 @@ namespace GameTitle
             }
         }
 
-        [SerializeField]
-        new GameObject camera;
+        [SerializeField] new GameObject camera;
+
+        Rigidbody rb;
+        Quaternion q;
+        CameraMovement cameraMovement;
+        PlayerInput playerInput;
 
         // [SerializeField]
         // Values value;
@@ -45,12 +50,6 @@ namespace GameTitle
             _rotation4move: 10,
             _tolerance: 0.5f
         );
-
-        Rigidbody rb;
-        Quaternion q;
-
-        CameraMovement cameraMovement;
-        PlayerInput playerInput;
 
         bool isMoving = false;
         /// <summary>
@@ -73,9 +72,9 @@ namespace GameTitle
         void Start()
         {
             rb = this.gameObject.GetComponent<Rigidbody>();
+            playerInput = gameObject.GetComponent<PlayerInput>();
             camera = GameObject.FindGameObjectWithTag(GameTitle.Tags.Cam);
             cameraMovement = camera.GetComponent<CameraMovement>();
-            playerInput = gameObject.GetComponent<PlayerInput>();
         }
 
         void FixedUpdate()
@@ -97,6 +96,7 @@ namespace GameTitle
         void Moves(float basis, float reductionRatio, float rotSpeed)
         {
             float h = Input.GetAxisRaw("Horizontal"), v = Input.GetAxisRaw("Vertical");
+
             // カメラの向きを起点に前後左右に動く
             Vector3 hv = h * camera.transform.right + v * camera.transform.forward;
             hv.y = 0.0f;
@@ -109,6 +109,7 @@ namespace GameTitle
                 return;
             }
             //rb.velocity += basis * Time.deltaTime * hv;
+
             // 0.5x speed if you are jumping
             rb.velocity += (isFloating ? value.floating : basis) * Time.deltaTime * hv;
             q.SetLookRotation(view: hv, up: Vector3.up);
@@ -137,20 +138,39 @@ namespace GameTitle
             }
             playerInput.IsRotating = true;
 
-            float playerAngleY = this.transform.eulerAngles.y, cameraAngleY = camera.transform.eulerAngles.y;
+            float playerAngleY = this.transform.eulerAngles.y,
+                cameraAngleY = camera.transform.eulerAngles.y;
             float angleYDiff = Mathf.DeltaAngle(playerAngleY, cameraAngleY);
 
-            // プレイやーのyをカメラのyにする
+            // camera y is syncing player y
             transform.localEulerAngles = new(
                 transform.localEulerAngles.x,
                 Mathf.Lerp(playerAngleY, playerAngleY + angleYDiff, rotSpeed * Time.deltaTime),
                 transform.localEulerAngles.z
             );
 
-            // 差がtolerance(許容値)以下で回転終了
+            // 差がtolerance(許容値)以下で!IsRotating
             if (Mathf.Abs(angleYDiff) <= tolerance)
             {
                 playerInput.IsRotating = false;
+            }
+        }
+
+        void VMove(float _diff)
+        {
+            playerPos = this.transform.position;
+            cameraPos = camera.gameObject.transform.position;
+            bool boolean = false;
+
+            // 
+            if (Mathf.DeltaAngle(playerPos.y, cameraPos.y) >= _diff)
+            {
+                boolean = true;
+            }
+
+            if (boolean)
+            {
+                ;
             }
         }
 

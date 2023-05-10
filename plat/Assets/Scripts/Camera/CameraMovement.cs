@@ -38,9 +38,7 @@ namespace GameTitle
         float angleX = 0.0f, angleY = 0.0f;
 
         GameObject player;
-
         PlayerMovement playerMovement;
-
         Quaternion rotation;
 
         void Start()

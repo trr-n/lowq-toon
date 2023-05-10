@@ -9,27 +9,29 @@ namespace GameTitle
     public class Manager : MonoBehaviour
     {
         [SerializeField] Material skybox;
+        [SerializeField] KeyCode key_reload = KeyCode.F1;
 
         void Start()
         {
-            // set skybox material
-            // RenderSettings.skybox = skybox;
+            // set skybox
+            RenderSettings.skybox = null; //skybox;
         }
 
         void Update()
         {
-            SceneReloading();
+            // current scene reloading when ur pressed 'keyCode' 
+            Reload(key_reload);
 
             // hide cursor
             visual.cursor(c.hide);
+
+            // set gravity
+            SetGravity();
         }
 
-        /// <summary>
-        /// reloading current scene when reloadKey is pressed
-        /// </summary>
-        void SceneReloading()
+        void Reload(KeyCode keyCode)
         {
-            if (Input.GetKeyDown(KeyCode.F1))
+            if (Input.GetKeyDown(keyCode))
             {
                 scene.load(scene.active());
             }
@@ -44,6 +46,7 @@ namespace GameTitle
 
             if (scene.active() == Scenes.Main)
             {
+                "set".show();
                 Physics.gravity = Scenes.MainGravity;
             }
         }
