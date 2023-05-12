@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GameTitle
+namespace Toon
 {
     public class PlayerMovement : MonoBehaviour
     {
@@ -73,7 +73,7 @@ namespace GameTitle
         {
             rb = this.gameObject.GetComponent<Rigidbody>();
             playerInput = gameObject.GetComponent<PlayerInput>();
-            camera = GameObject.FindGameObjectWithTag(GameTitle.Tags.Cam);
+            camera = GameObject.FindGameObjectWithTag(Const.Cam);
             cameraMovement = camera.GetComponent<CameraMovement>();
         }
 
@@ -158,20 +158,19 @@ namespace GameTitle
 
         void VMove(float _diff)
         {
-            playerPos = this.transform.position;
-            cameraPos = camera.gameObject.transform.position;
-            bool boolean = false;
+            // playerPos = this.transform.position;
+            // cameraPos = camera.gameObject.transform.position;
+            // bool boolean = false;
 
-            // 
-            if (Mathf.DeltaAngle(playerPos.y, cameraPos.y) >= _diff)
-            {
-                boolean = true;
-            }
+            // if (Mathf.DeltaAngle(playerPos.y, cameraPos.y) >= _diff)
+            // {
+            //     boolean = true;
+            // }
 
-            if (boolean)
-            {
-                ;
-            }
+            // if (boolean)
+            // {
+            //     ;
+            // }
         }
 
         /// <summary>
@@ -180,7 +179,7 @@ namespace GameTitle
         /// <param name="power">脚力</param>
         void Jumps(float power)
         {
-            if (!isFloating && Input.GetButtonDown(Keys.Jump))
+            if (!isFloating && Input.GetButtonDown(Const.Jump))
             {
                 //isFloating = true;
                 rb.AddForce(Vector3.up * power, ForceMode.Impulse);
@@ -189,7 +188,7 @@ namespace GameTitle
 
         void OnCollisionEnter(Collision collisionInfo)
         {
-            if (collisionInfo.gameObject.CompareTag(Tags.Ground))
+            if (collisionInfo.gameObject.CompareTag(Const.Ground))
             {
                 isFloating = false;
             }
@@ -197,7 +196,7 @@ namespace GameTitle
 
         void OnCollisionExit(Collision collisionInfo)
         {
-            if (collisionInfo.gameObject.CompareTag(Tags.Ground))
+            if (collisionInfo.gameObject.CompareTag(Const.Ground))
             {
                 isFloating = true;
             }

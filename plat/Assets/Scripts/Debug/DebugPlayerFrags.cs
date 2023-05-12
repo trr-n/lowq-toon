@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Toon;
 
-namespace GameTitle.Debug
+namespace Toon.Debug
 {
     public class DebugPlayerFrags : MonoBehaviour
     {
@@ -14,7 +15,7 @@ namespace GameTitle.Debug
 
         void Start()
         {
-            pi = GameObject.FindGameObjectWithTag(Tags.Player).GetComponent<PlayerInput>();
+            pi = GameObject.FindGameObjectWithTag(Const.Player).GetComponent<PlayerInput>();
         }
 
         void Update()

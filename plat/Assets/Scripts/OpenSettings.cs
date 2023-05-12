@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using Toon.Extend;
 
-namespace GameTitle
+namespace Toon
 {
     public class OpenSettings : MonoBehaviour
     {

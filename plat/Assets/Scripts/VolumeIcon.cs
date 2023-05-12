@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GameTitle
+namespace Toon
 {
     public class VolumeIcon : MonoBehaviour
     {

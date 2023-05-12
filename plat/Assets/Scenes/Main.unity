@@ -1008,6 +1008,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skybox: {fileID: 2100000, guid: 2039a0ad0a9d05549928b70362f54902, type: 2}
+  key_reload: 282
 --- !u!4 &1928162262
 Transform:
   m_ObjectHideFlags: 0
@@ -1212,8 +1213,16 @@ PrefabInstance:
       value: mygirl
       objectReference: {fileID: 0}
     - target: {fileID: 6905493415294200399, guid: dd20e7a5bd966574d89d98376afb2f80, type: 3}
+      propertyPath: jumpPower
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6905493415294200399, guid: dd20e7a5bd966574d89d98376afb2f80, type: 3}
       propertyPath: m_JumpPower
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6905493415294200399, guid: dd20e7a5bd966574d89d98376afb2f80, type: 3}
+      propertyPath: groundCheckDistance
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6905493415294225003, guid: dd20e7a5bd966574d89d98376afb2f80, type: 3}
       propertyPath: cam

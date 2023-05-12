@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
+using Toon.Extend;
 
-namespace GameTitle
+namespace Toon
 {
     public class Manager : MonoBehaviour
     {
@@ -33,21 +33,21 @@ namespace GameTitle
         {
             if (Input.GetKeyDown(keyCode))
             {
-                scene.load(scene.active());
+                Scene.load(Scene.active());
             }
         }
 
         void SetGravity()
         {
-            if (scene.active() == Scenes.Title)
+            if (Scene.active() == Const.Title)
             {
                 Physics.gravity = new(0, 0, 0);
             }
 
-            if (scene.active() == Scenes.Main)
+            if (Scene.active() == Const.Main)
             {
                 "set".show();
-                Physics.gravity = Scenes.MainGravity;
+                Physics.gravity = Const.MainGravity;
             }
         }
     }

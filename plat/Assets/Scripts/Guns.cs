@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Toon.Extend;
 
-namespace GameTitle
+namespace Toon
 {
     public class Guns : MonoBehaviour
     {
@@ -28,8 +29,8 @@ namespace GameTitle
 
         void Start()
         {
-            playerInput = GameObject.FindGameObjectWithTag(Tags.Player).GetComponent<PlayerInput>();
-            gun = GameObject.FindGameObjectWithTag(Tags.Gun);
+            playerInput = GameObject.FindGameObjectWithTag(Const.Player).GetComponent<PlayerInput>();
+            gun = GameObject.FindGameObjectWithTag(Const.Gun);
         }
 
         void Update()
@@ -68,7 +69,8 @@ namespace GameTitle
         void Fire2(float moving = 0)
         {
             var bullet = Instantiate(
-                bulletPrefabs[rand.choice(bulletPrefabs.Length)],
+                // bulletPrefabs[bulletPrefabs.Length.random()],
+                bulletPrefabs[Rand.om(max: bulletPrefabs.Length)],
                 this.transform.position + generatePosition,
                 Quaternion.identity
             );

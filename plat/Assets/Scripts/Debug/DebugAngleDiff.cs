@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Toon;
 
-namespace GameTitle.Debug
+namespace Toon.Debug
 {
     public class DebugAngleDiff : MonoBehaviour
     {
@@ -12,8 +13,8 @@ namespace GameTitle.Debug
 
         void Start()
         {
-            player = GameObject.FindGameObjectWithTag(Tags.Player);
-            cam = GameObject.FindGameObjectWithTag(Tags.Cam);
+            player = GameObject.FindGameObjectWithTag(Const.Player);
+            cam = GameObject.FindGameObjectWithTag(Const.Cam);
             t = GetComponent<Text>();
         }
 

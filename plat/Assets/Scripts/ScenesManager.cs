@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace GameTitle
+namespace Toon
 {
     public class ScenesManager : MonoBehaviour
     {
         public void ToMainScene()
         {
-            SceneManager.LoadScene(Scenes.Main);
+            SceneManager.LoadScene(Const.Main);
         }
 
         public void ToTitleScene()
         {
-            SceneManager.LoadScene(Scenes.Title);
+            SceneManager.LoadScene(Const.Title);
         }
     }
 }

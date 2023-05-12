@@ -13,7 +13,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         [SerializeField] float runCycleLegOffset = 0.2f;
         [SerializeField] float moveSpeedMultiplier = 1f;
         [SerializeField] float animSpeedMultiplier = 1f;
-        [SerializeField] float groundCheckDistance = 0.1f;
+        [SerializeField] float groundCheckDistance = 1f;
 
         new Rigidbody rigidbody;
         Vector3 groundNormal;
@@ -150,7 +150,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
                 rigidbody.velocity = new Vector3(rigidbody.velocity.x, jumpPower, rigidbody.velocity.z);
                 isGrounded = false;
                 animator.applyRootMotion = false;
-                groundCheckDistance = 0.1f;
+                // groundCheckDistance = 0.1f;
             }
         }
 

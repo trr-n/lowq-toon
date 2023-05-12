@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GameTitle
+namespace Toon
 {
     public class CameraMovement : MonoBehaviour
     {
@@ -43,7 +43,7 @@ namespace GameTitle
 
         void Start()
         {
-            player = GameObject.FindGameObjectWithTag(Tags.Player);
+            player = GameObject.FindGameObjectWithTag(Const.Player);
             playerMovement = player.GetComponent<PlayerMovement>();
         }
 
@@ -65,8 +65,8 @@ namespace GameTitle
         /// <param name="_deadZone">入力感度の調整</param>
         void ViewRotation(float _sensiX, float _sensiY, float _deadZone)
         {
-            float mx = Input.GetAxis(Keys.MX),
-                my = Input.GetAxis(Keys.MY);
+            float mx = Input.GetAxis(Const.MX),
+                my = Input.GetAxis(Const.MY);
 
             // プレイヤーを中心に回転させる
             if (Mathf.Abs(mx) >= _deadZone)

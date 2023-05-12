@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
-using GameTitle;
+using Toon;
 
 namespace UnityStandardAssets.Characters.ThirdPerson
 {
@@ -39,9 +39,9 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
         void FixedUpdate()
         {
-            float h = CrossPlatformInputManager.GetAxis(Keys.Hor),
-                v = CrossPlatformInputManager.GetAxis(Keys.Ver);
-            bool crouchKey = Input.GetKey(Keys.Crouch);
+            float h = CrossPlatformInputManager.GetAxis(Const.Hor),
+                v = CrossPlatformInputManager.GetAxis(Const.Ver);
+            bool crouchKey = Input.GetKey(Const.Crouch);
 
             if (m_Cam != null)
             {

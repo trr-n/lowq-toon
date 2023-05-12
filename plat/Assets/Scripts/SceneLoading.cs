@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-namespace GameTitle
+namespace Toon
 {
     public class SceneLoading : MonoBehaviour
     {
@@ -23,7 +23,7 @@ namespace GameTitle
 
         IEnumerator LoadingScene()
         {
-            var async = SceneManager.LoadSceneAsync(Scenes.Main);
+            var async = SceneManager.LoadSceneAsync(Const.Main);
 
             while (!async.isDone)
             {

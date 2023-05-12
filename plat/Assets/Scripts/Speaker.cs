@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Toon.Extend;
 
-namespace GameTitle
+namespace Toon
 {
     [RequireComponent(typeof(AudioSource))]
     public class Speaker : MonoBehaviour
@@ -31,14 +32,14 @@ namespace GameTitle
         void Start()
         {
             audio = this.gameObject.GetComponent<AudioSource>();
-            audio.clip = musics[rand.choice(musics.Length)];
+            audio.clip = musics[Rand.om(max: musics.Length)];
             audio.volume = initVolume;
             audio.Play();
         }
 
         void Update()
         {
-            inputV = Input.GetAxisRaw(Keys.Volume) / 100;
+            inputV = Input.GetAxisRaw(Const.Volume) / 100;
             float preMuteVolume = 0;
             float vol = Mathf.Clamp(audio.volume, 0, MaxVolume);
             Volume = audio.volume;

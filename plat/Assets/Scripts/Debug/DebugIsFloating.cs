@@ -1,10 +1,10 @@
-using GameTitle;
+using Toon;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GameTitle.Debug
+namespace Toon.Debug
 {
     public class DebugIsFloating : MonoBehaviour
     {
