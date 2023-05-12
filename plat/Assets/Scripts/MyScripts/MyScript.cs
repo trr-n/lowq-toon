@@ -8,7 +8,7 @@ namespace Toon.Extend
     /// <summary>
     /// related 2 coordinate
     /// </summary>
-    public static class coord
+    public static class coords
     {
         public static void clamped(Transform transform, float x, float y, float? z)
         {

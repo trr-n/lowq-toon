@@ -9,8 +9,7 @@ namespace Toon.Extend
         => UnityEngine.MonoBehaviour.Instantiate(
             objects[Rand.choice(objects.Length)], position, rotation);
 
-        // extended
-        public static GameObject ins2(
+        public static GameObject instance(
             this GameObject[] gameObject, Vector3 position, Quaternion rotation)
         => UnityEngine.MonoBehaviour.Instantiate(
             gameObject[Rand.choice(gameObject.Length)], position, rotation);

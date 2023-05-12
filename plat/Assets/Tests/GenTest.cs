@@ -18,7 +18,7 @@ namespace Toon
         {
             while (true)
             {
-                gameObjects.ins2(transform.position, Quaternion.identity);
+                gameObjects.instance(transform.position, Quaternion.identity);
                 yield return new WaitForSeconds(1f);
             }
         }

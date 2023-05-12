@@ -18,6 +18,7 @@ namespace Toon.Extend
         public static int choice(int length)
         => i(max: length - 1);
 
+        [System.Obsolete("cannot execute")]
         public static string str(int? count)
         {
             string characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
