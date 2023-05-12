@@ -23,13 +23,15 @@ namespace Toon
         /// </summary>
         Vector3 generatePosition = new(0, 0, 0.2f);
 
-        PlayerInput playerInput;
-
+        PlayerInput pi;
         GameObject gun;
+
+        float fireRate = 0.5f;
+        float timer;
 
         void Start()
         {
-            playerInput = GameObject.FindGameObjectWithTag(Const.Player).GetComponent<PlayerInput>();
+            pi = GameObject.FindGameObjectWithTag(Const.Player).GetComponent<PlayerInput>();
             gun = GameObject.FindGameObjectWithTag(Const.Gun);
         }
 
@@ -40,11 +42,14 @@ namespace Toon
 
         void Trigger()
         {
-            // if (playerInput.Shootable && !playerInput.IsRotating && Input.GetMouseButton(0))
-            if (Input.GetMouseButtonDown(0))
+            timer.show();
+            timer += Time.deltaTime;
+            bool shootable = pi.Shootable && !pi.IsRotating && timer > fireRate;
+            if (shootable)
             {
-                "Just fired".show();
                 Fire2(power);
+                pi.Shootable = false;
+                timer = 0;
             }
         }
 
@@ -66,7 +71,7 @@ namespace Toon
         //     Destroy(bullet, 10);
         // }
 
-        void Fire2(float moving = 0)
+        void Fire2(float moving)
         {
             var bullet = Instantiate(
                 // bulletPrefabs[bulletPrefabs.Length.random()],

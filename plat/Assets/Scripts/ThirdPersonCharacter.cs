@@ -1,4 +1,5 @@
 using UnityEngine;
+using Toon;
 
 namespace UnityStandardAssets.Characters.ThirdPerson
 {
@@ -14,8 +15,14 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         [SerializeField] float moveSpeedMultiplier = 1f;
         [SerializeField] float animSpeedMultiplier = 1f;
         [SerializeField] float groundCheckDistance = 1f;
+        [SerializeField] float tolerance = 0.5f;
+        [SerializeField] new GameObject camera;
+        [SerializeField] Guns gun;
+
+        PlayerInput pi;
 
         new Rigidbody rigidbody;
+        public Rigidbody Rigidbody => rigidbody;
         Vector3 groundNormal;
         Vector3 capsuleCenter;
         Animator animator;
@@ -30,8 +37,12 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         bool isCrouching;
         bool isGrounded;
 
+        int bulletLayer;
+        int hitLayer;
+
         void Start()
         {
+            pi = GetComponent<Toon.PlayerInput>();
             animator = GetComponent<Animator>();
             rigidbody = GetComponent<Rigidbody>();
             capsuleCol = GetComponent<CapsuleCollider>();
@@ -41,9 +52,12 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
             rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
             origGroundCheckDistance = groundCheckDistance;
+
+            bulletLayer = LayerMask.NameToLayer(Const.BulletLayer);
+            hitLayer = ~(1 << bulletLayer);
         }
 
-        public void Move(Vector3 move, bool crouch, bool jump)
+        public void Move(Vector3 move, bool crouch, bool jump, float rot = 5)
         {
             if (move.magnitude > 1f)
             {
@@ -55,7 +69,10 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             turnAmount = Mathf.Atan2(move.x, move.z);
             forwardAmount = move.z;
 
-            ApplyExtraTurnRotation();
+            if (!pi.IsRotating)
+            {
+                ApplyExtraTurnRotation();
+            }
 
             if (isGrounded)
             {
@@ -70,6 +87,44 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             PreventStandingInLowHeadroom();
 
             UpdateAnimator(move);
+            Rotate(movingTurnSpeed, tolerance);
+        }
+
+        // self made
+        void Rotate(float rotSpeed, float tolerance)
+        {
+            if (!pi.IsRotating)
+            {
+                return;
+            }
+            pi.IsRotating = true;
+
+            float playerAngleY = this.transform.eulerAngles.y,
+                cameraAngleY = camera.transform.eulerAngles.y;
+            float angleYDiff = Mathf.DeltaAngle(playerAngleY, cameraAngleY);
+
+            // camera y is syncing player y
+            transform.localEulerAngles = new(
+                transform.localEulerAngles.x,
+                Mathf.Lerp(playerAngleY, playerAngleY + angleYDiff, rotSpeed * Time.deltaTime),
+                transform.localEulerAngles.z
+            );
+
+            // 差がtolerance(許容値)以下で!IsRotating
+            if (Mathf.Abs(angleYDiff) <= tolerance)
+            {
+                pi.IsRotating = false;
+            }
+        }
+
+        void LikeCrab()
+        {
+            // 移動しながら撃ってるときかにあるき
+            bool do_crab = Input.GetMouseButtonDown(pi.Click4Shoot);
+            if (do_crab)
+            {
+                ;
+            }
         }
 
         void ScaleCapsuleForCrouching(bool crouch)
@@ -88,7 +143,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             {
                 Ray crouchRay = new(rigidbody.position + Vector3.up * capsuleCol.radius * k_Half, Vector3.up);
                 float crouchRayLength = capsuleHeight - capsuleCol.radius * k_Half;
-                if (Physics.SphereCast(crouchRay, capsuleCol.radius * k_Half, crouchRayLength, Physics.AllLayers, QueryTriggerInteraction.Ignore))
+                if (Physics.SphereCast(crouchRay, capsuleCol.radius * k_Half, crouchRayLength, hitLayer, QueryTriggerInteraction.Ignore))
                 {
                     isCrouching = true;
                     return;
@@ -105,7 +160,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             {
                 Ray crouchRay = new Ray(rigidbody.position + Vector3.up * capsuleCol.radius * k_Half, Vector3.up);
                 float crouchRayLength = capsuleHeight - capsuleCol.radius * k_Half;
-                if (Physics.SphereCast(crouchRay, capsuleCol.radius * k_Half, crouchRayLength, Physics.AllLayers, QueryTriggerInteraction.Ignore))
+                if (Physics.SphereCast(crouchRay, capsuleCol.radius * k_Half, crouchRayLength, hitLayer, QueryTriggerInteraction.Ignore))
                 {
                     isCrouching = true;
                 }
@@ -143,7 +198,6 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
         void HandleGroundedMovement(bool crouch, bool jump)
         {
-
             if (jump && !crouch && animator.GetCurrentAnimatorStateInfo(0).IsName("Grounded"))
             {
 
@@ -156,7 +210,6 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
         void ApplyExtraTurnRotation()
         {
-
             float turnSpeed = Mathf.Lerp(stationaryTurnSpeed, movingTurnSpeed, forwardAmount);
             transform.Rotate(0, turnAmount * turnSpeed * Time.deltaTime, 0);
         }

@@ -5,19 +5,6 @@ using UnityEngine.SceneManagement;
 
 namespace Toon.Extend
 {
-    public enum c { hide, show }
-    /// <summary>
-    /// related 2 appearance
-    /// </summary>
-    public static class visual
-    {
-        public static float fps() => Mathf.Floor(1 / Time.deltaTime);
-
-        public static string timer(int digits) => Time.time.ToString("F" + digits);
-
-        public static void cursor(c status) => Cursor.visible = status != c.hide;
-    }
-
     /// <summary>
     /// related 2 coordinate
     /// </summary>

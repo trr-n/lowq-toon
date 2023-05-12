@@ -18,7 +18,7 @@ namespace Toon
 
         void Update()
         {
-            var clicks = Input.GetMouseButtonDown(click4shoot);
+            var clicks = Input.GetMouseButton(click4shoot);
 
             if (clicks)
             {

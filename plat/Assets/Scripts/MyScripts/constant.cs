@@ -11,26 +11,31 @@ namespace Toon
         // SCENE NAME
         //------------------------------------------------------------------------------
         Main = "Main",
-        Title = "Title",
+        Title = "Title"
+        ;
 
         //------------------------------------------------------------------------------
         // KEY NAME?
         //------------------------------------------------------------------------------
+        public static readonly string
         Hor = "Horizontal",
         Ver = "Vertical",
         Jump = "Jump",
         MX = "Mouse X",
         MY = "Mouse Y",
-        Volume = "Volume",
+        Volume = "Volume"
+        ;
 
         //------------------------------------------------------------------------------
         // TAG NAME
         //------------------------------------------------------------------------------
+        public static readonly string
         Player = "Player",
         Ground = "Ground",
         MainCam = "MainCamera",
         Cam = "Cam",
-        Gun = "Gun"
+        Gun = "Gun",
+        BulletLayer = "Bullet"
         ;
 
         public static readonly Vector3 MainGravity = new(0, -9.81f, 0);

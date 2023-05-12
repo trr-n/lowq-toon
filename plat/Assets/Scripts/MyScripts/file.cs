@@ -4,9 +4,17 @@ namespace Toon.Extend
 {
     public static class File
     {
-        public static string path(
+        public static string caller_path(
+            [CallerFilePath] string path = "")
+        => path;
+
+        public static int caller_line_number(
+            [CallerLineNumber] int line = 0)
+        => line;
+
+        public static string caller(
             [CallerFilePath] string path = "",
             [CallerLineNumber] int line = 0
-        ) => $"at {path}: {line}";
+        ) => $"{path}: {line}";
     }
 }
