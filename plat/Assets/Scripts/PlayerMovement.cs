@@ -73,7 +73,7 @@ namespace Toon
         {
             rb = this.gameObject.GetComponent<Rigidbody>();
             playerInput = gameObject.GetComponent<PlayerInput>();
-            camera = GameObject.FindGameObjectWithTag(Const.Cam);
+            camera = GameObject.FindGameObjectWithTag(constant.Cam);
             cameraMovement = camera.GetComponent<CameraMovement>();
         }
 
@@ -132,11 +132,11 @@ namespace Toon
         /// <param name="tolerance">許容値 仮</param>
         void Rotate(float rotSpeed, float tolerance)
         {
-            if (!playerInput.IsRotating)
+            if (!playerInput.isRotating)
             {
                 return;
             }
-            playerInput.IsRotating = true;
+            playerInput.isRotating = true;
 
             float playerAngleY = this.transform.eulerAngles.y,
                 cameraAngleY = camera.transform.eulerAngles.y;
@@ -152,7 +152,7 @@ namespace Toon
             // 差がtolerance(許容値)以下で!IsRotating
             if (Mathf.Abs(angleYDiff) <= tolerance)
             {
-                playerInput.IsRotating = false;
+                playerInput.isRotating = false;
             }
         }
 
@@ -179,7 +179,7 @@ namespace Toon
         /// <param name="power">脚力</param>
         void Jumps(float power)
         {
-            if (!isFloating && Input.GetButtonDown(Const.Jump))
+            if (!isFloating && Input.GetButtonDown(constant.Jump))
             {
                 //isFloating = true;
                 rb.AddForce(Vector3.up * power, ForceMode.Impulse);
@@ -188,7 +188,7 @@ namespace Toon
 
         void OnCollisionEnter(Collision collisionInfo)
         {
-            if (collisionInfo.gameObject.CompareTag(Const.Ground))
+            if (collisionInfo.gameObject.CompareTag(constant.Ground))
             {
                 isFloating = false;
             }
@@ -196,7 +196,7 @@ namespace Toon
 
         void OnCollisionExit(Collision collisionInfo)
         {
-            if (collisionInfo.gameObject.CompareTag(Const.Ground))
+            if (collisionInfo.gameObject.CompareTag(constant.Ground))
             {
                 isFloating = true;
             }

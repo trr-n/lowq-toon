@@ -1,5 +1,6 @@
 using UnityEngine;
 using Toon;
+using Toon.Extend;
 
 namespace UnityStandardAssets.Characters.ThirdPerson
 {
@@ -36,6 +37,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
         bool isCrouching;
         bool isGrounded;
+        public static bool isMoving { get; set; }
 
         int bulletLayer;
         int hitLayer;
@@ -53,7 +55,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
             origGroundCheckDistance = groundCheckDistance;
 
-            bulletLayer = LayerMask.NameToLayer(Const.BulletLayer);
+            bulletLayer = LayerMask.NameToLayer(constant.BulletLayer);
             hitLayer = ~(1 << bulletLayer);
         }
 
@@ -68,8 +70,9 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             move = Vector3.ProjectOnPlane(move, groundNormal);
             turnAmount = Mathf.Atan2(move.x, move.z);
             forwardAmount = move.z;
+            isMoving = Mathf.Abs(rigidbody.velocity.magnitude) > tolerance2;
 
-            if (!pi.IsRotating)
+            if (!pi.isRotating)
             {
                 ApplyExtraTurnRotation();
             }
@@ -93,11 +96,11 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         // self made
         void Rotate(float rotSpeed, float tolerance)
         {
-            if (!pi.IsRotating)
+            if (!pi.isRotating)
             {
                 return;
             }
-            pi.IsRotating = true;
+            pi.isRotating = true;
 
             float playerAngleY = this.transform.eulerAngles.y,
                 cameraAngleY = camera.transform.eulerAngles.y;
@@ -113,14 +116,15 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             // 差がtolerance(許容値)以下で!IsRotating
             if (Mathf.Abs(angleYDiff) <= tolerance)
             {
-                pi.IsRotating = false;
+                pi.isRotating = false;
             }
         }
 
+        float tolerance2 = 0.1f;
         void LikeCrab()
         {
             // 移動しながら撃ってるときかにあるき
-            bool do_crab = Input.GetMouseButtonDown(pi.Click4Shoot);
+            bool do_crab = pi.Clicks && isMoving;
             if (do_crab)
             {
                 ;

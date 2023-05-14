@@ -43,7 +43,7 @@ namespace Toon
 
         void Start()
         {
-            player = GameObject.FindGameObjectWithTag(Const.Player);
+            player = GameObject.FindGameObjectWithTag(constant.Player);
             playerMovement = player.GetComponent<PlayerMovement>();
         }
 
@@ -65,8 +65,8 @@ namespace Toon
         /// <param name="_deadZone">入力感度の調整</param>
         void ViewRotation(float _sensiX, float _sensiY, float _deadZone)
         {
-            float mx = Input.GetAxis(Const.MX),
-                my = Input.GetAxis(Const.MY);
+            float mx = Input.GetAxis(constant.MX),
+                my = Input.GetAxis(constant.MY);
 
             // プレイヤーを中心に回転させる
             if (Mathf.Abs(mx) >= _deadZone)

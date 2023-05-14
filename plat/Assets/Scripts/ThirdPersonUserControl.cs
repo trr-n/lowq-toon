@@ -39,9 +39,9 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
         void FixedUpdate()
         {
-            float h = CrossPlatformInputManager.GetAxis(Const.Hor),
-                v = CrossPlatformInputManager.GetAxis(Const.Ver);
-            bool crouchKey = Input.GetKey(Const.Crouch);
+            float h = CrossPlatformInputManager.GetAxis(constant.Hor),
+                v = CrossPlatformInputManager.GetAxis(constant.Ver);
+            bool crouchKey = Input.GetKey(constant.Crouch);
 
             if (m_Cam != null)
             {

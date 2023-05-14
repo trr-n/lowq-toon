@@ -1,24 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Toon.Extend;
 
 namespace Toon
 {
     public class PlayerInput : MonoBehaviour
     {
-        bool shootable;
-        public bool Shootable { get => shootable; set => shootable = value; }
-
-        bool isRotating;
-        public bool IsRotating { get => isRotating; set => isRotating = value; }
+        public bool shootable { get; set; }
+        public bool isRotating { get; set; }
 
         [SerializeField]
         int click4shoot = 0;
         public int Click4Shoot => click4shoot;
 
+        bool clicks;
+        public bool Clicks { get => this; set => clicks = value; }
+
         void Update()
         {
-            var clicks = Input.GetMouseButton(click4shoot);
+            clicks = input.pressed(click4shoot);
 
             if (clicks)
             {

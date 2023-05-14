@@ -25,7 +25,7 @@ namespace Toon
             // current scene reloading when ur pressed 'keyCode' 
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                Scene.load(Scene.active());
+                scene.load(scene.active());
             }
 
             // hide cursor
@@ -43,16 +43,16 @@ namespace Toon
 
         void SetGravity()
         {
-            if (Scene.active() == Const.Title)
+            if (scene.active() == constant.Title)
             {
                 "del".show();
                 Physics.gravity = new(0, 0, 0);
             }
 
-            else if (Scene.active() == Const.Main)
+            else if (scene.active() == constant.Main)
             {
                 "set".show();
-                Physics.gravity = Const.MainGravity;
+                Physics.gravity = constant.MainGravity;
             }
         }
     }

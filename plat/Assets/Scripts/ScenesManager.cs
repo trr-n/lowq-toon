@@ -9,12 +9,12 @@ namespace Toon
     {
         public void ToMainScene()
         {
-            SceneManager.LoadScene(Const.Main);
+            SceneManager.LoadScene(constant.Main);
         }
 
         public void ToTitleScene()
         {
-            SceneManager.LoadScene(Const.Title);
+            SceneManager.LoadScene(constant.Title);
         }
     }
 }

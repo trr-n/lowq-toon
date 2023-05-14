@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Toon.Extend
 {
-    public static class Rand
+    public static class rand
     {
         public static int om(this int max) => UnityEngine.Random.Range(0, max);
         public static float om(this float max) => UnityEngine.Random.Range(0f, max);

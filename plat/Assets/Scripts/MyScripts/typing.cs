@@ -2,7 +2,7 @@ using System;
 
 namespace Toon.Extend
 {
-    public static class Typing
+    public static class typing
     {
         public static Type get(object obj) => obj.GetType();
 

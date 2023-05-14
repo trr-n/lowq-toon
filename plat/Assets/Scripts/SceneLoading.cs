@@ -23,7 +23,7 @@ namespace Toon
 
         IEnumerator LoadingScene()
         {
-            var async = SceneManager.LoadSceneAsync(Const.Main);
+            var async = SceneManager.LoadSceneAsync(constant.Main);
 
             while (!async.isDone)
             {

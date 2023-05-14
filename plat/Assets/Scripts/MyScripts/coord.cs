@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Toon.Extend
 {
-    public static class Coord
+    public static class coord
     {
         public static void set(this Transform transform,
             float? x = null, float? y = null, float? z = null)

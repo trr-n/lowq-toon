@@ -31,8 +31,8 @@ namespace Toon
 
         void Start()
         {
-            pi = GameObject.FindGameObjectWithTag(Const.Player).GetComponent<PlayerInput>();
-            gun = GameObject.FindGameObjectWithTag(Const.Gun);
+            pi = GameObject.FindGameObjectWithTag(constant.Player).GetComponent<PlayerInput>();
+            gun = GameObject.FindGameObjectWithTag(constant.Gun);
         }
 
         void Update()
@@ -44,11 +44,11 @@ namespace Toon
         {
             timer.show();
             timer += Time.deltaTime;
-            bool shootable = pi.Shootable && !pi.IsRotating && timer > fireRate;
+            bool shootable = pi.shootable && !pi.isRotating && timer > fireRate;
             if (shootable)
             {
                 Fire2(power);
-                pi.Shootable = false;
+                pi.shootable = false;
                 timer = 0;
             }
         }
@@ -75,7 +75,7 @@ namespace Toon
         {
             var bullet = Instantiate(
                 // bulletPrefabs[bulletPrefabs.Length.random()],
-                bulletPrefabs[Rand.om(max: bulletPrefabs.Length)],
+                bulletPrefabs[rand.om(max: bulletPrefabs.Length)],
                 this.transform.position + generatePosition,
                 Quaternion.identity
             );

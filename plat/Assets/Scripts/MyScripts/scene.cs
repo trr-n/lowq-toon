@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 namespace Toon.Extend
 {
-    public class Scene
+    public class scene
     {
         public static void load(string name)
         => SceneManager.LoadScene(name);

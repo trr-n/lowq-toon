@@ -32,14 +32,14 @@ namespace Toon
         void Start()
         {
             audio = this.gameObject.GetComponent<AudioSource>();
-            audio.clip = musics[Rand.om(max: musics.Length)];
+            audio.clip = musics[rand.om(max: musics.Length)];
             audio.volume = initVolume;
             audio.Play();
         }
 
         void Update()
         {
-            inputV = Input.GetAxisRaw(Const.Volume) / 100;
+            inputV = Input.GetAxisRaw(constant.Volume) / 100;
             float preMuteVolume = 0;
             float vol = Mathf.Clamp(audio.volume, 0, MaxVolume);
             Volume = audio.volume;

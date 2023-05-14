@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Toon
 {
-    public static class Const
+    public static class constant
     {
         public static readonly string
         //------------------------------------------------------------------------------

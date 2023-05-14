@@ -15,12 +15,12 @@ namespace Toon.Debug
 
         void Start()
         {
-            pi = GameObject.FindGameObjectWithTag(Const.Player).GetComponent<PlayerInput>();
+            pi = GameObject.FindGameObjectWithTag(constant.Player).GetComponent<PlayerInput>();
         }
 
         void Update()
         {
-            t.text = $"Shootable: {pi.Shootable}, IsRotating: {pi.IsRotating}";
+            t.text = $"Shootable: {pi.shootable}, IsRotating: {pi.isRotating}";
         }
     }
 }

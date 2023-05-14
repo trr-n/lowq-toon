@@ -2,7 +2,7 @@ using System.Runtime.CompilerServices;
 
 namespace Toon.Extend
 {
-    public static class File
+    public static class file
     {
         public static string caller_path(
             [CallerFilePath] string path = "")
