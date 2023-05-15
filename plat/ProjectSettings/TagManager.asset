@@ -10,6 +10,7 @@ TagManager:
   - Enemy
   - Gun
   - Missile
+  - Manager
   layers:
   - Default
   - TransparentFX

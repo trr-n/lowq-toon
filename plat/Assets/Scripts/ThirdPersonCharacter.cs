@@ -50,7 +50,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
         void Start()
         {
-            pi = GetComponent<Toon.PlayerInput>();
+            pi = GameObject.FindGameObjectWithTag(constant.Manager).GetComponent<Toon.PlayerInput>();
             tpuc = GetComponent<ThirdPersonUserControl>();
             animator = GetComponent<Animator>();
             rigidbody = GetComponent<Rigidbody>();
@@ -79,7 +79,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             forwardAmount = move.z;
             isMoving = Mathf.Abs(rigidbody.velocity.magnitude) > tolerance2;
 
-            if (!pi.isRotating)
+            // if (!pi.isRotating)
             {
                 ApplyExtraTurnRotation();
             }
@@ -98,10 +98,9 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
             UpdateAnimator(move);
             Rotate(movingTurnSpeed, tolerance);
-            ImitateCrab();
+            SyncCoordPlayerYWithCameraY();
         }
 
-        // self made
         void Rotate(float rotationSpeed, float tolerance)
         {
             if (!pi.isRotating)
@@ -127,20 +126,19 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             }
         }
 
-        /// <summary>
-        /// 移動しながら撃ってるときかにあるき
-        /// </summary>
-        void ImitateCrab()
+        void SyncCoordPlayerYWithCameraY()
         {
             moveInfo = tpuc.M_Move;
             walkWhileShooting = pi.Clicks && isMoving;
-            GameObject _camera = camera.gameObject;
             if (walkWhileShooting)
             {
-                // TODO -----
-                // 体は正面向いたまま移動
-                this.transform.setr(eulerY: _camera.transform.rotation.y);
+                transform.setr(eulerY: camera.transform.rotation.y);
             }
+        }
+
+        void movei(Vector3 _move)
+        {
+
         }
 
         void ScaleCapsuleForCrouching(bool crouch)
@@ -157,9 +155,15 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             }
             else
             {
-                Ray crouchRay = new(rigidbody.position + Vector3.up * capsuleCol.radius * k_Half, Vector3.up);
+                Ray crouchRay = new(
+                    rigidbody.position + Vector3.up * capsuleCol.radius * k_Half, Vector3.up);
                 float crouchRayLength = capsuleHeight - capsuleCol.radius * k_Half;
-                if (Physics.SphereCast(crouchRay, capsuleCol.radius * k_Half, crouchRayLength, hitLayer, QueryTriggerInteraction.Ignore))
+                if (Physics.SphereCast(
+                    crouchRay,
+                    capsuleCol.radius * k_Half,
+                    crouchRayLength, hitLayer,
+                    QueryTriggerInteraction.Ignore
+                ))
                 {
                     isCrouching = true;
                     return;
@@ -176,7 +180,13 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             {
                 Ray crouchRay = new Ray(rigidbody.position + Vector3.up * capsuleCol.radius * k_Half, Vector3.up);
                 float crouchRayLength = capsuleHeight - capsuleCol.radius * k_Half;
-                if (Physics.SphereCast(crouchRay, capsuleCol.radius * k_Half, crouchRayLength, hitLayer, QueryTriggerInteraction.Ignore))
+                if (Physics.SphereCast(
+                    crouchRay,
+                    capsuleCol.radius * k_Half,
+                    crouchRayLength,
+                    hitLayer,
+                    QueryTriggerInteraction.Ignore
+                ))
                 {
                     isCrouching = true;
                 }
@@ -216,8 +226,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         {
             if (jump && !crouch && animator.GetCurrentAnimatorStateInfo(0).IsName("Grounded"))
             {
-
-                rigidbody.velocity = new Vector3(rigidbody.velocity.x, jumpPower, rigidbody.velocity.z);
+                rigidbody.velocity = new(
+                    rigidbody.velocity.x, jumpPower, rigidbody.velocity.z);
                 isGrounded = false;
                 animator.applyRootMotion = false;
                 // groundCheckDistance = 0.1f;
@@ -233,13 +243,9 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
         public void OnAnimatorMove()
         {
-
-
             if (isGrounded && Time.deltaTime > 0)
             {
                 Vector3 v = (animator.deltaPosition * moveSpeedMultiplier) / Time.deltaTime;
-
-
                 v.y = rigidbody.velocity.y;
                 rigidbody.velocity = v;
             }
@@ -253,7 +259,6 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 #if UNITY_EDITOR
             Debug.DrawLine(transform.position + (Vector3.up * 0.1f), transform.position + (Vector3.up * 0.1f) + (Vector3.down * groundCheckDistance));
 #endif
-
 
             if (Physics.Raycast(transform.position + (Vector3.up * 0.1f), Vector3.down, out hitInfo, groundCheckDistance))
             {

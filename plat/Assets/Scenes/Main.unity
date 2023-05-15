@@ -270,17 +270,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6905493415300276493, guid: dd20e7a5bd966574d89d98376afb2f80, type: 3}
   m_PrefabInstance: {fileID: 6905493416075959777}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &503735901 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6905493416042822531, guid: dd20e7a5bd966574d89d98376afb2f80, type: 3}
-  m_PrefabInstance: {fileID: 6905493416075959777}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 503735899}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b3aa4fce97741c4dbbc29b953f20906, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &622244045
 GameObject:
   m_ObjectHideFlags: 0
@@ -1196,9 +1185,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1928162262}
   - component: {fileID: 1928162261}
+  - component: {fileID: 1928162263}
   m_Layer: 0
   m_Name: Manager
-  m_TagString: Untagged
+  m_TagString: Manager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1231,6 +1221,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1928162263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1928162260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b3aa4fce97741c4dbbc29b953f20906, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  click4shoot: 0
 --- !u!1001 &5567431145037374352
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1438,7 +1441,7 @@ PrefabInstance:
     - target: {fileID: 6905493415294200399, guid: dd20e7a5bd966574d89d98376afb2f80, type: 3}
       propertyPath: playerInput
       value: 
-      objectReference: {fileID: 503735901}
+      objectReference: {fileID: 0}
     - target: {fileID: 6905493415294200399, guid: dd20e7a5bd966574d89d98376afb2f80, type: 3}
       propertyPath: movingTurnSpeed
       value: 20

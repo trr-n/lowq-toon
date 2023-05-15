@@ -10,26 +10,17 @@ namespace Toon.Extend
             float? x = null, float? y = null, float? z = null)
         {
             // 全部空で なんもはいってへんわエクセプション 発動
-            // ==は重いらしい?
-            // if (x == null & y == null & z == null)
-            if (x is null & y is null & z is null)
+            // nullチェックに==は重い?らしい
+            if (x is null && y is null && z is null)
             {
                 throw new NanmoHaittehenwaException();
             }
 
             transform.position = new(
-                    x != null ? x.single() : transform.position.x,
-                    y != null ? y.single() : transform.position.y,
-                    z != null ? z.single() : transform.position.z
+                    x is not null ? x.single() : transform.position.x,
+                    y is not null ? y.single() : transform.position.y,
+                    z is not null ? z.single() : transform.position.z
             );
-        }
-
-        public static void set(this Transform transform, System.Type type)
-        {
-            if (type != typeof(int))
-            {
-                "int desu".show();
-            }
         }
 
         public static void set(this Transform transform, Vector3 position)
@@ -39,15 +30,15 @@ namespace Toon.Extend
             float? eulerX = null, float? eulerY = null, float? eulerZ = null)
         {
             // 全部空で なんもはいってへんわエクセプション 発動
-            if (eulerX is null & eulerY is null & eulerZ is null)
+            if (eulerX is null && eulerY is null && eulerZ is null)
             {
                 throw new NanmoHaittehenwaException();
             }
 
             transform.rotation = Quaternion.Euler(new(
-                    eulerX != null ? eulerX.single() : transform.rotation.x,
-                    eulerY != null ? eulerY.single() : transform.rotation.y,
-                    eulerZ != null ? eulerZ.single() : transform.rotation.z
+                    eulerX is not null ? eulerX.single() : transform.rotation.x,
+                    eulerY is not null ? eulerY.single() : transform.rotation.y,
+                    eulerZ is not null ? eulerZ.single() : transform.rotation.z
             ));
         }
 

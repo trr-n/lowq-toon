@@ -13,7 +13,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         [Tooltip("mine")]
         GameObject cam;
 
-        ThirdPersonCharacter m_Character;
+        ThirdPersonCharacter tpc;
+        PlayerInput pi;
 
         Transform m_Cam;
         Vector3 m_CamForward;
@@ -30,8 +31,9 @@ namespace UnityStandardAssets.Characters.ThirdPerson
                 m_Cam = cam.transform;
             }
 
-            m_Character = GetComponent<ThirdPersonCharacter>();
+            tpc = GetComponent<ThirdPersonCharacter>();
             cam = GameObject.FindGameObjectWithTag(constant.Camera);
+            pi = GameObject.FindGameObjectWithTag(constant.Manager).GetComponent<PlayerInput>();
         }
 
         void Update()
@@ -46,25 +48,18 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         {
             float h = CrossPlatformInputManager.GetAxis(constant.Horizontal),
                 v = CrossPlatformInputManager.GetAxis(constant.Vertical);
-            bool crouchKey = Input.GetKey(constant.Crouch);
+            bool crouchKey = input.pressed(constant.Crouch);
 
-            if (m_Cam != null)
-            {
-                m_CamForward = Vector3.Scale(m_Cam.forward, new Vector3(1, 0, 1)).normalized;
-                m_Move = h * m_Cam.right + v * m_CamForward;
-            }
-            else
-            {
-                m_Move = h * Vector3.right + v * Vector3.forward;
-            }
+            m_CamForward = Vector3.Scale(m_Cam.forward, new Vector3(1, 0, 1)).normalized;
+            m_Move = h * m_Cam.right + v * m_CamForward;
 
-            if (Input.GetKey(KeyCode.LeftShift) || m_Character.WalkWhileShooting)
+            if (Input.GetKey(KeyCode.LeftShift) || tpc.WalkWhileShooting)
             {
                 m_Move *= 0.5f;
             }
 
-            m_Move.show();
-            m_Character.Move(m_Move, crouchKey, m_Jump);
+            // m_Move.show();
+            tpc.Move(m_Move, crouchKey, m_Jump);
             m_Jump = false;
         }
     }

@@ -33,10 +33,12 @@ namespace Toon
 
         bool isShooting;
         public bool IsShooting => isShooting;
+        bool rapid;
+        bool firstShot;
 
         void Start()
         {
-            pi = GameObject.FindGameObjectWithTag(constant.Player).GetComponent<PlayerInput>();
+            pi = GameObject.FindGameObjectWithTag(constant.Manager).GetComponent<PlayerInput>();
             gun = GameObject.FindGameObjectWithTag(constant.Gun);
         }
 
@@ -48,15 +50,33 @@ namespace Toon
         void Trigger()
         {
             timer += Time.deltaTime;
-            shootable = pi.shootable && !pi.isRotating && timer > fireRate;
+            shootable = pi.shootable && !pi.isRotating;
+
+            firstShot = input.down(pi.Click4Shoot);
+            rapid = input.pressed(pi.Click4Shoot) && timer > fireRate;
+
+            // $"shootable: {shootable}, down: {input.down(pi.Click4Shoot)}, pressed: {input.pressed(pi.Click4Shoot)}".show();
             if (shootable)
             {
-                isShooting = true;
-                Fire2(power);
-                pi.shootable = false;
-                timer = 0;
-                return;
+                "shootable".show();
+                if (firstShot)
+                {
+                    "first shot".show();
+                    isShooting = true;
+                    Fire2(power * 1.5f);
+                    pi.shootable = false;
+                }
+
+                if (rapid)
+                {
+                    "rapid fire".show();
+                    isShooting = true;
+                    Fire2(power);
+                    pi.shootable = false;
+                    timer = 0;
+                }
             }
+
             isShooting = false;
         }
 
@@ -87,6 +107,7 @@ namespace Toon
             );
             Rigidbody rb = bullet.GetComponent<Rigidbody>();
             rb.velocity = moving * gameObject.transform.forward;
+            "fire".warn();
         }
     }
 }

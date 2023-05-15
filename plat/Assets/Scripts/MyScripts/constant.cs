@@ -35,7 +35,8 @@ namespace Toon
         MainCam = "MainCamera",
         Camera = "Cam",
         Gun = "Gun",
-        BulletLayer = "Bullet"
+        BulletLayer = "Bullet",
+        Manager = "Manager"
         ;
 
         public static readonly Vector3 MainGravity = new(0, -9.81f, 0);

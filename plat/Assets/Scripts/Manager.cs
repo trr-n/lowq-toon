@@ -45,13 +45,11 @@ namespace Toon
         {
             if (scene.active() == constant.Title)
             {
-                "del".show();
                 Physics.gravity = new(0, 0, 0);
             }
 
             else if (scene.active() == constant.Main)
             {
-                "set".show();
                 Physics.gravity = constant.MainGravity;
             }
         }
