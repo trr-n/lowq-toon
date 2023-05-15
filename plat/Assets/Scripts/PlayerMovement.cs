@@ -73,7 +73,7 @@ namespace Toon
         {
             rb = this.gameObject.GetComponent<Rigidbody>();
             playerInput = gameObject.GetComponent<PlayerInput>();
-            camera = GameObject.FindGameObjectWithTag(constant.Cam);
+            camera = GameObject.FindGameObjectWithTag(constant.Camera);
             cameraMovement = camera.GetComponent<CameraMovement>();
         }
 

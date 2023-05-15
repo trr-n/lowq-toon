@@ -32,7 +32,7 @@ namespace Toon
         void Start()
         {
             audio = this.gameObject.GetComponent<AudioSource>();
-            audio.clip = musics[rand.om(max: musics.Length)];
+            audio.clip = musics[random.max(max: musics.Length)];
             audio.volume = initVolume;
             audio.Play();
         }

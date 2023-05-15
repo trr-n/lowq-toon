@@ -18,11 +18,11 @@ namespace Toon
         // KEY NAME?
         //------------------------------------------------------------------------------
         public static readonly string
-        Hor = "Horizontal",
-        Ver = "Vertical",
+        Horizontal = "Horizontal",
+        Vertical = "Vertical",
         Jump = "Jump",
-        MX = "Mouse X",
-        MY = "Mouse Y",
+        MouseX = "Mouse X",
+        MouseY = "Mouse Y",
         Volume = "Volume"
         ;
 
@@ -33,7 +33,7 @@ namespace Toon
         Player = "Player",
         Ground = "Ground",
         MainCam = "MainCamera",
-        Cam = "Cam",
+        Camera = "Cam",
         Gun = "Gun",
         BulletLayer = "Bullet"
         ;

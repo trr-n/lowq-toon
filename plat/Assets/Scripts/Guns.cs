@@ -13,6 +13,8 @@ namespace Toon
         [SerializeField]
         GameObject player;
 
+        public bool shootable { get; set; }
+
         /// <summary>
         /// 弾速
         /// </summary>
@@ -29,6 +31,9 @@ namespace Toon
         float fireRate = 0.5f;
         float timer;
 
+        bool isShooting;
+        public bool IsShooting => isShooting;
+
         void Start()
         {
             pi = GameObject.FindGameObjectWithTag(constant.Player).GetComponent<PlayerInput>();
@@ -42,15 +47,17 @@ namespace Toon
 
         void Trigger()
         {
-            timer.show();
             timer += Time.deltaTime;
-            bool shootable = pi.shootable && !pi.isRotating && timer > fireRate;
+            shootable = pi.shootable && !pi.isRotating && timer > fireRate;
             if (shootable)
             {
+                isShooting = true;
                 Fire2(power);
                 pi.shootable = false;
                 timer = 0;
+                return;
             }
+            isShooting = false;
         }
 
         // void Fire(float moving)
@@ -73,17 +80,13 @@ namespace Toon
 
         void Fire2(float moving)
         {
-            var bullet = Instantiate(
-                // bulletPrefabs[bulletPrefabs.Length.random()],
-                bulletPrefabs[rand.om(max: bulletPrefabs.Length)],
+            GameObject bullet = Instantiate(
+                bulletPrefabs[random.choice(bulletPrefabs.Length)],
                 this.transform.position + generatePosition,
                 Quaternion.identity
             );
-            var rb = bullet.GetComponent<Rigidbody>();
-            rb.velocity = moving * this.gameObject.transform.forward;
-
-            // 10秒後に仮破壊
-            // Destroy(bullet, 10);
+            Rigidbody rb = bullet.GetComponent<Rigidbody>();
+            rb.velocity = moving * gameObject.transform.forward;
         }
     }
 }

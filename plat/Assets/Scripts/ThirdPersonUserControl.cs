@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 using Toon;
+using Toon.Extend;
 
 namespace UnityStandardAssets.Characters.ThirdPerson
 {
@@ -9,13 +10,16 @@ namespace UnityStandardAssets.Characters.ThirdPerson
     public class ThirdPersonUserControl : MonoBehaviour
     {
         [SerializeField]
-        [Tooltip("my camera")]
+        [Tooltip("mine")]
         GameObject cam;
 
         ThirdPersonCharacter m_Character;
+
         Transform m_Cam;
         Vector3 m_CamForward;
         Vector3 m_Move;
+        public Vector3 M_Move => m_Move;
+
         bool m_Jump;
 
         void Start()
@@ -27,6 +31,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             }
 
             m_Character = GetComponent<ThirdPersonCharacter>();
+            cam = GameObject.FindGameObjectWithTag(constant.Camera);
         }
 
         void Update()
@@ -39,8 +44,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
         void FixedUpdate()
         {
-            float h = CrossPlatformInputManager.GetAxis(constant.Hor),
-                v = CrossPlatformInputManager.GetAxis(constant.Ver);
+            float h = CrossPlatformInputManager.GetAxis(constant.Horizontal),
+                v = CrossPlatformInputManager.GetAxis(constant.Vertical);
             bool crouchKey = Input.GetKey(constant.Crouch);
 
             if (m_Cam != null)
@@ -53,11 +58,12 @@ namespace UnityStandardAssets.Characters.ThirdPerson
                 m_Move = h * Vector3.right + v * Vector3.forward;
             }
 
-            if (Input.GetKey(KeyCode.LeftShift))
+            if (Input.GetKey(KeyCode.LeftShift) || m_Character.WalkWhileShooting)
             {
                 m_Move *= 0.5f;
             }
 
+            m_Move.show();
             m_Character.Move(m_Move, crouchKey, m_Jump);
             m_Jump = false;
         }

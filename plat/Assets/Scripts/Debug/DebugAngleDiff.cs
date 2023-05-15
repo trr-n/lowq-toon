@@ -14,7 +14,7 @@ namespace Toon.Debug
         void Start()
         {
             player = GameObject.FindGameObjectWithTag(constant.Player);
-            cam = GameObject.FindGameObjectWithTag(constant.Cam);
+            cam = GameObject.FindGameObjectWithTag(constant.Camera);
             t = GetComponent<Text>();
         }
 

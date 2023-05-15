@@ -15,12 +15,11 @@ namespace Toon
         public int Click4Shoot => click4shoot;
 
         bool clicks;
-        public bool Clicks { get => this; set => clicks = value; }
+        public bool Clicks => clicks;
 
         void Update()
         {
             clicks = input.pressed(click4shoot);
-
             if (clicks)
             {
                 isRotating = true;

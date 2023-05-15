@@ -21,10 +21,9 @@ namespace Toon.Debug
 
         void Update()
         {
-            float x = MathF.Round(tpc.Rigidbody.velocity.x, 1), z = MathF.Round(tpc.Rigidbody.velocity.z, 1);
-            t.text = @$"x: {x}
-y: {z}";
-            t.color = new Color(1, 1, 1);
+            // t.text = "x: " + MathF.Round(tpc.Rigidbody.velocity.x, 1) + "\r\ny: " + MathF.Round(tpc.Rigidbody.velocity.z, 1);
+            t.text = "x: " + MathF.Round(tpc.Rigidbody.velocity.x, 1).indent() + "y: " + MathF.Round(tpc.Rigidbody.velocity.z, 1);
+            t.color = Color.white;
         }
     }
 }

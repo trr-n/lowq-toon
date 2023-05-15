@@ -65,8 +65,8 @@ namespace Toon
         /// <param name="_deadZone">入力感度の調整</param>
         void ViewRotation(float _sensiX, float _sensiY, float _deadZone)
         {
-            float mx = Input.GetAxis(constant.MX),
-                my = Input.GetAxis(constant.MY);
+            float mx = Input.GetAxis(constant.MouseX),
+                my = Input.GetAxis(constant.MouseY);
 
             // プレイヤーを中心に回転させる
             if (Mathf.Abs(mx) >= _deadZone)

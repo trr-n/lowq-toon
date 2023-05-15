@@ -9,42 +9,49 @@ namespace UnityStandardAssets.Characters.ThirdPerson
     [RequireComponent(typeof(Animator))]
     public class ThirdPersonCharacter : MonoBehaviour
     {
-        [SerializeField] float movingTurnSpeed = 360;
+        [SerializeField] float movingTurnSpeed = 20;
         [SerializeField] float stationaryTurnSpeed = 180;
         [SerializeField] float jumpPower = 8f;
         [SerializeField] float runCycleLegOffset = 0.2f;
         [SerializeField] float moveSpeedMultiplier = 1f;
         [SerializeField] float animSpeedMultiplier = 1f;
         [SerializeField] float groundCheckDistance = 1f;
-        [SerializeField] float tolerance = 0.5f;
         [SerializeField] new GameObject camera;
         [SerializeField] Guns gun;
 
+        ThirdPersonUserControl tpuc;
         PlayerInput pi;
 
         new Rigidbody rigidbody;
         public Rigidbody Rigidbody => rigidbody;
-        Vector3 groundNormal;
-        Vector3 capsuleCenter;
         Animator animator;
         CapsuleCollider capsuleCol;
+
+        Vector3 groundNormal;
+        Vector3 capsuleCenter;
+        Vector3 moveInfo;
 
         float origGroundCheckDistance;
         float turnAmount;
         float forwardAmount;
         float capsuleHeight;
+        float tolerance = 0.5f;
+        float tolerance2 = 0.1f;
         const float k_Half = 0.5f;
-
-        bool isCrouching;
-        bool isGrounded;
-        public static bool isMoving { get; set; }
 
         int bulletLayer;
         int hitLayer;
 
+        bool isCrouching;
+        bool isGrounded;
+        public static bool isMoving { get; set; }
+        bool walkWhileShooting;
+        public bool WalkWhileShooting => walkWhileShooting;
+
         void Start()
         {
             pi = GetComponent<Toon.PlayerInput>();
+            tpuc = GetComponent<ThirdPersonUserControl>();
             animator = GetComponent<Animator>();
             rigidbody = GetComponent<Rigidbody>();
             capsuleCol = GetComponent<CapsuleCollider>();
@@ -91,10 +98,11 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
             UpdateAnimator(move);
             Rotate(movingTurnSpeed, tolerance);
+            ImitateCrab();
         }
 
         // self made
-        void Rotate(float rotSpeed, float tolerance)
+        void Rotate(float rotationSpeed, float tolerance)
         {
             if (!pi.isRotating)
             {
@@ -106,28 +114,32 @@ namespace UnityStandardAssets.Characters.ThirdPerson
                 cameraAngleY = camera.transform.eulerAngles.y;
             float angleYDiff = Mathf.DeltaAngle(playerAngleY, cameraAngleY);
 
-            // camera y is syncing player y
-            transform.localEulerAngles = new(
-                transform.localEulerAngles.x,
-                Mathf.Lerp(playerAngleY, playerAngleY + angleYDiff, rotSpeed * Time.deltaTime),
-                transform.localEulerAngles.z
-            );
+            // player y sync camera y
+            Vector3 tempLocalEulerAngles = transform.localEulerAngles;
+            tempLocalEulerAngles.y = Mathf.Lerp(
+                playerAngleY, playerAngleY + angleYDiff, rotationSpeed * Time.deltaTime);
+            transform.localEulerAngles = tempLocalEulerAngles;
 
-            // 差がtolerance(許容値)以下で!IsRotating
+            // 差がtolerance(許容値)以下でIsRotatingがFalse
             if (Mathf.Abs(angleYDiff) <= tolerance)
             {
                 pi.isRotating = false;
             }
         }
 
-        float tolerance2 = 0.1f;
-        void LikeCrab()
+        /// <summary>
+        /// 移動しながら撃ってるときかにあるき
+        /// </summary>
+        void ImitateCrab()
         {
-            // 移動しながら撃ってるときかにあるき
-            bool do_crab = pi.Clicks && isMoving;
-            if (do_crab)
+            moveInfo = tpuc.M_Move;
+            walkWhileShooting = pi.Clicks && isMoving;
+            GameObject _camera = camera.gameObject;
+            if (walkWhileShooting)
             {
-                ;
+                // TODO -----
+                // 体は正面向いたまま移動
+                this.transform.setr(eulerY: _camera.transform.rotation.y);
             }
         }
 
@@ -174,7 +186,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         void UpdateAnimator(Vector3 move)
         {
             animator.SetFloat("Forward", forwardAmount, 0.1f, Time.deltaTime);
-            animator.SetFloat("Turn", turnAmount, 0.1f, Time.deltaTime);
+            // animator.SetFloat("Turn", turnAmount, 0.1f, Time.deltaTime);
             animator.SetBool("Crouch", isCrouching);
             animator.SetBool("OnGround", isGrounded);
             if (!isGrounded)
@@ -237,8 +249,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         void CheckGroundStatus()
         {
             RaycastHit hitInfo;
-#if UNITY_EDITOR
 
+#if UNITY_EDITOR
             Debug.DrawLine(transform.position + (Vector3.up * 0.1f), transform.position + (Vector3.up * 0.1f) + (Vector3.down * groundCheckDistance));
 #endif
 

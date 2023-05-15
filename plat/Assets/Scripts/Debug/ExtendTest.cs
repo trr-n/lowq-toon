@@ -18,6 +18,6 @@ public class ExtendTest : MonoBehaviour
 
     void Update()
     {
-        i[i.Capacity.om()].show();
+        i[i.Capacity.max()].show();
     }
 }
