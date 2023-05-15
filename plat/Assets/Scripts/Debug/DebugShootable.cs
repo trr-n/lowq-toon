@@ -3,25 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityStandardAssets.Characters.ThirdPerson;
+using Toon.Extend;
 
 namespace Toon.Debug
 {
     public class DebugShootable : MonoBehaviour
     {
         [SerializeField]
-        GameObject player;
-        ThirdPersonCharacter tpc;
+        GameObject muzzle;
+        Guns gun;
         [SerializeField]
         Text tt;
 
         void Start()
         {
-            tpc = player.GetComponent<ThirdPersonCharacter>();
+            gun = muzzle.GetComponent<Guns>();
         }
 
         void Update()
         {
-            tt.text = $"crab?: {tpc.WalkWhileShooting}";
+            tt.text =
+                "shootable: " + gun.shootable.indent() +
+                "first shot: " + gun.FirstShot.indent() +
+                "rapid: " + gun.Rapid.indent();
             tt.color = Color.white;
         }
     }

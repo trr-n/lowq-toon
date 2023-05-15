@@ -34,7 +34,9 @@ namespace Toon
         bool isShooting;
         public bool IsShooting => isShooting;
         bool rapid;
+        public bool Rapid => rapid;
         bool firstShot;
+        public bool FirstShot => firstShot;
 
         void Start()
         {
@@ -55,26 +57,25 @@ namespace Toon
             firstShot = input.down(pi.Click4Shoot);
             rapid = input.pressed(pi.Click4Shoot) && timer > fireRate;
 
-            // $"shootable: {shootable}, down: {input.down(pi.Click4Shoot)}, pressed: {input.pressed(pi.Click4Shoot)}".show();
-            if (shootable)
+            if (!shootable)
             {
-                "shootable".show();
-                if (firstShot)
-                {
-                    "first shot".show();
-                    isShooting = true;
-                    Fire2(power * 1.5f);
-                    pi.shootable = false;
-                }
+                return;
+            }
 
-                if (rapid)
-                {
-                    "rapid fire".show();
-                    isShooting = true;
-                    Fire2(power);
-                    pi.shootable = false;
-                    timer = 0;
-                }
+            // 初弾(クリックしたとき)は単発強め、二発目(長押し)から勢い弱めで連射
+            if (firstShot)
+            {
+                isShooting = true;
+                Fire2(power * 1.5f);
+                pi.shootable = false;
+            }
+
+            else if (rapid && !firstShot)
+            {
+                isShooting = true;
+                Fire2(power);
+                pi.shootable = false;
+                timer = 0;
             }
 
             isShooting = false;

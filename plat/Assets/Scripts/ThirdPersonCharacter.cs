@@ -79,7 +79,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             forwardAmount = move.z;
             isMoving = Mathf.Abs(rigidbody.velocity.magnitude) > tolerance2;
 
-            // if (!pi.isRotating)
+            if (!pi.isRotating)
             {
                 ApplyExtraTurnRotation();
             }
@@ -236,7 +236,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
         void ApplyExtraTurnRotation()
         {
-            float turnSpeed = Mathf.Lerp(stationaryTurnSpeed, movingTurnSpeed, forwardAmount);
+            // float turnSpeed = Mathf.Lerp(stationaryTurnSpeed, movingTurnSpeed, forwardAmount);
+            float turnSpeed = 720f;
             transform.Rotate(0, turnAmount * turnSpeed * Time.deltaTime, 0);
         }
 

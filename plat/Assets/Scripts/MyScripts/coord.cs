@@ -7,7 +7,7 @@ namespace Toon.Extend
     public static class coord
     {
         public static void set(this Transform transform,
-            float? x = null, float? y = null, float? z = null)
+            double? x = null, double? y = null, double? z = null)
         {
             // 全部空で なんもはいってへんわエクセプション 発動
             // nullチェックに==は重い?らしい
@@ -27,7 +27,7 @@ namespace Toon.Extend
         => transform.position = position;
 
         public static void setr(this Transform transform,
-            float? eulerX = null, float? eulerY = null, float? eulerZ = null)
+            double? eulerX = null, double? eulerY = null, double? eulerZ = null)
         {
             // 全部空で なんもはいってへんわエクセプション 発動
             if (eulerX is null && eulerY is null && eulerZ is null)
