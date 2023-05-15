@@ -2,17 +2,17 @@ using UnityEngine;
 
 namespace Toon.Extend
 {
-    public static class gameobject
+    public static class gobject
     {
         public static GameObject ins(
-            GameObject[] objects, Vector3 position, Quaternion rotation)
+            this GameObject[] gameObjects, Vector3 position, Quaternion rotation)
         => UnityEngine.MonoBehaviour.Instantiate(
-            objects[random.choice(objects.Length)], position, rotation);
+            gameObjects[random.choice(gameObjects.Length)], position, rotation);
 
-        public static GameObject instance(
-            this GameObject[] gameObject, Vector3 position, Quaternion rotation)
+        public static GameObject ins(
+            this GameObject gameObject, Vector3 position, Quaternion rotation)
         => UnityEngine.MonoBehaviour.Instantiate(
-            gameObject[random.choice(gameObject.Length)], position, rotation);
+            gameObject, position, rotation);
 
     }
 }

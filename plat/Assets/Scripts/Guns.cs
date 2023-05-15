@@ -108,7 +108,6 @@ namespace Toon
             );
             Rigidbody rb = bullet.GetComponent<Rigidbody>();
             rb.velocity = moving * gameObject.transform.forward;
-            "fire".warn();
         }
     }
 }

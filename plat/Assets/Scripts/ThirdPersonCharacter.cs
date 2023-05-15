@@ -10,7 +10,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
     public class ThirdPersonCharacter : MonoBehaviour
     {
         [SerializeField] float movingTurnSpeed = 20;
-        [SerializeField] float stationaryTurnSpeed = 180;
+        // [SerializeField] float stationaryTurnSpeed = 180;
         [SerializeField] float jumpPower = 8f;
         [SerializeField] float runCycleLegOffset = 0.2f;
         [SerializeField] float moveSpeedMultiplier = 1f;
@@ -66,7 +66,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             hitLayer = ~(1 << bulletLayer);
         }
 
-        public void Move(Vector3 move, bool crouch, bool jump, float rot = 5)
+        public void Move(Vector3 move, bool crouch, bool jump)
         {
             if (move.magnitude > 1f)
             {
@@ -109,8 +109,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             }
             pi.isRotating = true;
 
-            float playerAngleY = this.transform.eulerAngles.y,
-                cameraAngleY = camera.transform.eulerAngles.y;
+            float playerAngleY = this.transform.eulerAngles.y;
+            float cameraAngleY = camera.transform.eulerAngles.y;
             float angleYDiff = Mathf.DeltaAngle(playerAngleY, cameraAngleY);
 
             // player y sync camera y
@@ -128,17 +128,14 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
         void SyncCoordPlayerYWithCameraY()
         {
-            moveInfo = tpuc.M_Move;
             walkWhileShooting = pi.Clicks && isMoving;
             if (walkWhileShooting)
             {
-                transform.setr(eulerY: camera.transform.rotation.y);
+                // transform.setr(eulerY: camera.transform.rotation.y);
+                Quaternion rotation = transform.rotation;
+                rotation.y = camera.transform.rotation.y;
+                transform.rotation = rotation;
             }
-        }
-
-        void movei(Vector3 _move)
-        {
-
         }
 
         void ScaleCapsuleForCrouching(bool crouch)
@@ -220,6 +217,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
             else {; }
         }
+
         void HandleAirborneMovement() {; }
 
         void HandleGroundedMovement(bool crouch, bool jump)
@@ -241,7 +239,6 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             transform.Rotate(0, turnAmount * turnSpeed * Time.deltaTime, 0);
         }
 
-
         public void OnAnimatorMove()
         {
             if (isGrounded && Time.deltaTime > 0)
@@ -252,13 +249,14 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             }
         }
 
-
         void CheckGroundStatus()
         {
             RaycastHit hitInfo;
 
 #if UNITY_EDITOR
-            Debug.DrawLine(transform.position + (Vector3.up * 0.1f), transform.position + (Vector3.up * 0.1f) + (Vector3.down * groundCheckDistance));
+            Debug.DrawLine(transform.position + (Vector3.up * 0.1f),
+                transform.position + (Vector3.up * 0.1f) +
+                (Vector3.down * groundCheckDistance));
 #endif
 
             if (Physics.Raycast(transform.position + (Vector3.up * 0.1f), Vector3.down, out hitInfo, groundCheckDistance))

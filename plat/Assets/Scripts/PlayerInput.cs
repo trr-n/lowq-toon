@@ -22,7 +22,6 @@ namespace Toon
         {
             isSneaking = input.pressed(KeyCode.LeftShift);
             clicks = input.pressed(click4shoot);
-            clicks.show();
             if (clicks)
             {
                 isRotating = true;

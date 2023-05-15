@@ -6,16 +6,17 @@ using UnityEditor;
 [CustomEditor(typeof(Transform))]
 public class AbsolutePos : Editor
 {
-    Transform _t = null;
+    Transform transform = null;
 
     private void OnEnable()
     {
-        _t = target as Transform;
+        transform = target as Transform;
     }
 
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
-        EditorGUILayout.Vector3Field("World Position", _t.position);
+        EditorGUILayout.Vector3Field("World Position", transform.position);
+        EditorGUILayout.Vector3Field("World Rotation", transform.eulerAngles);
     }
 }
