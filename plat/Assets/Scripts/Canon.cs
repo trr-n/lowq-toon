@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,46 +8,50 @@ namespace Toon
 {
     public class Canon : MonoBehaviour
     {
-        [SerializeField] Vector3 towerPosition = new(8.731677f, 3.177724f, -7.152449f);
-        [SerializeField] float diffy = 2.65f;
+        [SerializeField] float power = 20;
         [SerializeField] GameObject[] canons;
-        GameObject tmp;
+        [SerializeField] GameObject towerDeco;
+        [SerializeField] GameObject player;
 
-        GameObject player;
         Vector3 direction;
-        Quaternion lookAt;
-        Quaternion offset;
-        Quaternion diff;
+        Transform towerT;
 
         bool isHaving;
+        float rapid = 1;
+        float distance;
 
         void Start()
         {
-            player = GameObject.FindGameObjectWithTag(constant.Player);
-            transform.set(towerPosition);
+            StartCoroutine(Trigger());
         }
 
         void Update()
         {
-            LookingAtPlayer();
-            FireForPlayer();
+            towerT = towerDeco.transform;
+            // fix position
+            direction = towerT.position - player.transform.position;
         }
 
-        void LookingAtPlayer()
+        // todo
+        // 1, XX以上XX以下ならXXみたいに細かく手動で決める
+        float ChangeFirePower()
         {
-            //* init diff x: 17.98, y: 2.65, z: -1.63
-            diff = Quaternion.Euler(0, diffy, 0);
-            direction = transform.position - player.transform.position;
-            lookAt = Quaternion.LookRotation(direction, Vector3.up);
-            offset = Quaternion.FromToRotation(Vector3.forward, Vector3.forward);
-            transform.rotation = lookAt * offset;
+            Vector3 self = transform.position, play = player.transform.position;
+            distance = Vector3.Distance(self, play);
+            (distance * 10).show();
+            return distance; // 仮
         }
 
-        void FireForPlayer()
+        IEnumerator Trigger()
         {
-            GameObject canon = canons.ins(transform.position, Quaternion.identity);
-            canon.TryGetComponent<Rigidbody>(out Rigidbody canonRb);
-            canonRb.AddForce(transform.position - player.transform.position, ForceMode.Impulse);
+            while (true)
+            {
+                GameObject canon = canons.ins(transform.position, Quaternion.identity);
+                Rigidbody canonRb = canon.GetComponent<Rigidbody>();
+                // canonRb.AddForce(transform.forward * power, ForceMode.Impulse);
+                canonRb.AddForce(transform.forward * ChangeFirePower(), ForceMode.Impulse);
+                yield return new WaitForSeconds(rapid);
+            }
         }
     }
 }

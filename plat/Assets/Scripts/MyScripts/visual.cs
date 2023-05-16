@@ -10,5 +10,7 @@ namespace Toon.Extend
         public static string timer(int digits) => Time.time.ToString("F" + digits);
 
         public static void cursor(c status) => Cursor.visible = status != c.hide;
+
+        public static bool timer(this float timer, float limit) => timer < limit;
     }
 }

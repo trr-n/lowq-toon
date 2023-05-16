@@ -10,7 +10,7 @@ namespace Toon.Debug
         void Start()
         {
             // transform.set(move2);
-            transform.set(1, 2, 3);
+            transform.setp(1, 2, 3);
         }
 
         void Update()

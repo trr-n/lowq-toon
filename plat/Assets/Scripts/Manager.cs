@@ -23,10 +23,12 @@ namespace Toon
         void Update()
         {
             // current scene reloading when ur pressed 'keyCode' 
+#if UNITY_EDITOR
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 scene.load(scene.active());
             }
+#endif
 
             // hide cursor
             c status;

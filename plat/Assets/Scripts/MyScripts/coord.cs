@@ -6,7 +6,7 @@ namespace Toon.Extend
 {
     public static class coord
     {
-        public static void set(this Transform transform,
+        public static void setp(this Transform transform,
             double? x = null, double? y = null, double? z = null)
         {
             // 全部空で なんもはいってへんわエクセプション 発動
@@ -22,7 +22,7 @@ namespace Toon.Extend
             );
         }
 
-        public static void set(this Transform transform, Vector3 position)
+        public static void setp(this Transform transform, Vector3 position)
         => transform.position = position;
 
         // public static void setr(this Transform transform,
