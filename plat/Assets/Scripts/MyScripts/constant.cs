@@ -11,7 +11,9 @@ namespace Toon
         // SCENE NAME
         //------------------------------------------------------------------------------
         Main = "Main",
-        Title = "Title"
+        Title = "Title",
+        Clear = "Clear",
+        Over = "Over"
         ;
 
         //------------------------------------------------------------------------------
@@ -35,6 +37,7 @@ namespace Toon
         MainCam = "MainCamera",
         Camera = "Cam",
         Gun = "Gun",
+        Missile = "Missile",
         BulletLayer = "Bullet",
         Manager = "Manager",
         Tower = "Towre"

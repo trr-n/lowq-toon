@@ -15,6 +15,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
         ThirdPersonCharacter tpc;
         PlayerInput pi;
+        Player player;
 
         Transform m_Cam;
         Vector3 m_CamForward;
@@ -34,6 +35,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             tpc = GetComponent<ThirdPersonCharacter>();
             cam = GameObject.FindGameObjectWithTag(constant.Camera);
             pi = GameObject.FindGameObjectWithTag(constant.Manager).GetComponent<PlayerInput>();
+            player = GameObject.FindGameObjectWithTag(constant.Player).GetComponent<Player>();
         }
 
         void Update()
@@ -46,6 +48,12 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
         void FixedUpdate()
         {
+            // 生きてる間のみ入力受付
+            if (player.IsDead)
+            {
+                return;
+            }
+
             float h = CrossPlatformInputManager.GetAxis(constant.Horizontal),
                 v = CrossPlatformInputManager.GetAxis(constant.Vertical);
             bool crouchKey = input.pressed(constant.Crouch);
@@ -58,9 +66,16 @@ namespace UnityStandardAssets.Characters.ThirdPerson
                 m_Move *= 0.5f;
             }
 
-            // m_Move.show();
             tpc.Move(m_Move, crouchKey, m_Jump);
             m_Jump = false;
+        }
+
+        void OnCollisionEnter(Collision info)
+        {
+            if (info.gameObject.CompareTag(constant.Missile))
+            {
+                "hitting".show();
+            }
         }
     }
 }

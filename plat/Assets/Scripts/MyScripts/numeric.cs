@@ -10,6 +10,9 @@ namespace Toon.Extend
         public static float clamp(float target, float min, float max)
         => UnityEngine.Mathf.Clamp(target, min, max);
 
+        public static int clamp(int target, int min, int max)
+        => UnityEngine.Mathf.Clamp(target, min, max);
+
         // public static void clamp1(out float clamped, float min, float max)
         // {
         //     clamped = 0;

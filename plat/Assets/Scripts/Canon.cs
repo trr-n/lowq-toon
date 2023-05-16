@@ -24,6 +24,10 @@ namespace Toon
         public float Power => power;
         float min = 2, max = 20;
 
+        enum Range { Close = 0, Medium, Long }
+        Range range = Range.Close;
+        float[] ratio = new float[3] { 10, 10, 27 };
+
         void Start()
         {
             StartCoroutine(Trigger());
@@ -32,17 +36,22 @@ namespace Toon
         void Update()
         {
             direction = transform.position - player.transform.position;
-            ChangeFirePower().show();
+            // ChangeFirePower().show();
         }
 
         // todo 距離によって力を変動させる
         // closest point: 10.54776f, 10.59995f
-        float[] x = new float[3] { 10, 10, 27 };
         public float ChangeFirePower()
         {
             power = numeric.clamp(power, 0.5f, 100);
             Vector3 self = transform.position, play = player.transform.position;
             distance = Vector3.Distance(self, play);
+            float judgeDistance = distance - 10;
+            if (judgeDistance < 10)
+            {
+                // scale = ratio[Range.Close.inte()];
+            }
+
             return (distance - 10) * scale;
         }
 

@@ -10,6 +10,12 @@ namespace Toon
     {
         [SerializeField] Material skybox;
 
+        float init = 90;
+        float remaining;
+        public float Remaining => remaining;
+        bool isClear = false;
+        bool isDestroyed = false;
+
         void Start()
         {
             // set skybox
@@ -18,6 +24,7 @@ namespace Toon
 
             // float f = 1.23f;
             // (f.cast<double>()).show();
+            remaining = init;
         }
 
         void Update()
@@ -26,7 +33,7 @@ namespace Toon
 #if UNITY_EDITOR
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                scene.load(scene.active());
+                // scene.load(scene.active());
             }
 #endif
 
@@ -53,6 +60,17 @@ namespace Toon
             else if (scene.active() == constant.Main)
             {
                 Physics.gravity = constant.MainGravity;
+            }
+        }
+
+        void RemainTime() => remaining -= Time.deltaTime;
+
+        void Clear()
+        {
+            // todo 制限時間内にステージ内のオブジェクトをすべて破壊したら isClear = true
+            if (remaining >= 0.1f && isDestroyed)
+            {
+                isClear = true;
             }
         }
     }
