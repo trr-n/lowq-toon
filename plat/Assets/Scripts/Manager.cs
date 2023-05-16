@@ -13,8 +13,8 @@ namespace Toon
         void Start()
         {
             // set skybox
-            // RenderSettings.skybox = null;
-            RenderSettings.skybox = skybox;
+            RenderSettings.skybox = null;
+            // RenderSettings.skybox = skybox;
 
             // float f = 1.23f;
             // (f.cast<double>()).show();

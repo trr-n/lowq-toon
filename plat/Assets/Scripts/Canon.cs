@@ -8,10 +8,10 @@ namespace Toon
 {
     public class Canon : MonoBehaviour
     {
-        [SerializeField] float power = 20;
         [SerializeField] GameObject[] canons;
         [SerializeField] GameObject towerDeco;
         [SerializeField] GameObject player;
+        [SerializeField] float scale;
 
         Vector3 direction;
         Transform towerT;
@@ -19,6 +19,10 @@ namespace Toon
         bool isHaving;
         float rapid = 1;
         float distance;
+        public float Distance => distance;
+        float power = 0;
+        public float Power => power;
+        float min = 2, max = 20;
 
         void Start()
         {
@@ -27,31 +31,54 @@ namespace Toon
 
         void Update()
         {
-            towerT = towerDeco.transform;
-            // fix position
-            direction = towerT.position - player.transform.position;
+            direction = transform.position - player.transform.position;
+            ChangeFirePower().show();
         }
 
-        // todo
-        // 1, XX以上XX以下ならXXみたいに細かく手動で決める
-        float ChangeFirePower()
+        // todo 距離によって力を変動させる
+        // closest point: 10.54776f, 10.59995f
+        float[] x = new float[3] { 10, 10, 27 };
+        public float ChangeFirePower()
         {
+            power = numeric.clamp(power, 0.5f, 100);
             Vector3 self = transform.position, play = player.transform.position;
             distance = Vector3.Distance(self, play);
-            (distance * 10).show();
-            return distance; // 仮
+            return (distance - 10) * scale;
         }
 
-        IEnumerator Trigger()
+        IEnumerator Trigger(bool canonFire = true)
         {
-            while (true)
+            while (canonFire)
             {
                 GameObject canon = canons.ins(transform.position, Quaternion.identity);
                 Rigidbody canonRb = canon.GetComponent<Rigidbody>();
-                // canonRb.AddForce(transform.forward * power, ForceMode.Impulse);
                 canonRb.AddForce(transform.forward * ChangeFirePower(), ForceMode.Impulse);
                 yield return new WaitForSeconds(rapid);
             }
         }
+
+        // void test_ray()
+        // {
+        //     UnityEngine.Debug.DrawRay(transform.position, -direction, Color.white, 0.02f);
+        //     if (Physics.Raycast(transform.position, direction, out RaycastHit hit, distance))
+        //     {
+        //         hits.Add(hit.collider.gameObject);
+        //     }
+        // }
+
+        // IEnumerator Trigger2(bool canonFire = true)
+        // {
+        //     while (canonFire)
+        //     {
+        //         // Ray ray = new(transform.position, player.transform.position);
+        //         UnityEngine.Debug.DrawRay(transform.position, player.transform.position, Color.white, 1000);
+
+        //         GameObject canon = canons.ins(transform.position, Quaternion.identity);
+        //         Rigidbody canonRb = canon.GetComponent<Rigidbody>();
+        //         canonRb.AddForce(transform.forward * ChangeFirePower(), ForceMode.Impulse);
+        //         yield return new WaitForSeconds(rapid);
+        //     }
+        // }
+
     }
 }
