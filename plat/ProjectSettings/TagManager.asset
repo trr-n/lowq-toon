@@ -12,6 +12,7 @@ TagManager:
   - Missile
   - Manager
   - Towre
+  - Test
   layers:
   - Default
   - TransparentFX

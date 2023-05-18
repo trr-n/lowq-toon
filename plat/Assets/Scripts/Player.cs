@@ -14,7 +14,7 @@ namespace Toon
         const float MaxHP = 1;
         float currentHP = 1;
         public float CurrentHP => currentHP;
-        float alpha = 0;
+        // float alpha = 0;
 
         bool isDead = false;
         public bool IsDead => isDead;

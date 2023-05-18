@@ -22,11 +22,10 @@ namespace Toon
         public float Distance => distance;
         float power = 0;
         public float Power => power;
-        float min = 2, max = 20;
+        readonly float min = 2, max = 20;
 
-        enum Range { Close = 0, Medium, Long }
-        Range range = Range.Close;
-        float[] ratio = new float[3] { 10, 10, 27 };
+        enum Range { close = 0, medium, @long }
+        float[] ratio = new float[3] { 10, 15, 27 };
 
         void Start()
         {
@@ -49,8 +48,13 @@ namespace Toon
             float judgeDistance = distance - 10;
             if (judgeDistance < 10)
             {
-                // scale = ratio[Range.Close.inte()];
+                scale = ratio[0];
             }
+            scale =
+                judgeDistance < 10 ? ratio[0] :
+                judgeDistance < 11 ? ratio[1] :
+                judgeDistance < 12 ? ratio[2] :
+                throw new Exception();
 
             return (distance - 10) * scale;
         }

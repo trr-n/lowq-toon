@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Toon;
 
-namespace Toon.Debug
+namespace Toon.Test
 {
     public class DebugPlayerFrags : MonoBehaviour
     {

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Toon.Extend;
 
-namespace Toon.Debug
+namespace Toon.Test
 {
     public class DebugTowerDistance : MonoBehaviour
     {

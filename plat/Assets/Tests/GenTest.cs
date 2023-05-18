@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Toon.Extend;
 
-namespace Toon
+namespace Toon.Test
 {
     public class GenTest : MonoBehaviour
     {
-        [SerializeField] GameObject[] gameObjects;
+        [SerializeField] GameObject tests;
 
         void Start()
         {
@@ -18,7 +18,9 @@ namespace Toon
         {
             while (true)
             {
-                gameObjects.ins(transform.position, Quaternion.identity);
+                GameObject test = tests.ins(transform.position, Quaternion.identity);
+                test.GetComponent<Rigidbody>()
+                    .AddForce(Vector3.forward * 10, ForceMode.Impulse);
                 yield return new WaitForSeconds(1f);
             }
         }

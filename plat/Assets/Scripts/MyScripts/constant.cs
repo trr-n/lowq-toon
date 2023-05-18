@@ -13,7 +13,8 @@ namespace Toon
         Main = "Main",
         Title = "Title",
         Clear = "Clear",
-        Over = "Over"
+        Over = "Over",
+        TestS = "TestScene"
         ;
 
         //------------------------------------------------------------------------------
@@ -40,7 +41,9 @@ namespace Toon
         Missile = "Missile",
         BulletLayer = "Bullet",
         Manager = "Manager",
-        Tower = "Towre"
+        Tower = "Towre",
+        Test = "Test",
+        ScriptableFile = "Scriptable"
         ;
 
         public static readonly Vector3 MainGravity = new(0, -9.81f, 0);

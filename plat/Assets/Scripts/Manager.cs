@@ -9,21 +9,25 @@ namespace Toon
     public class Manager : MonoBehaviour
     {
         [SerializeField] Material skybox;
+        [SerializeField][Tooltip("制限時間")] float init = 90;
 
-        float init = 90;
         float remaining;
         public float Remaining => remaining;
-        bool isClear = false;
+        bool isCompleted = false;
+        /// <summary>flag: game clear</summary>
+        public bool IsCompleted => isCompleted;
         bool isDestroyed = false;
 
         void Start()
         {
             // set skybox
+#if UNITY_EDITOR
             RenderSettings.skybox = null;
-            // RenderSettings.skybox = skybox;
+#else
+            RenderSettings.skybox = skybox;
+#endif
 
-            // float f = 1.23f;
-            // (f.cast<double>()).show();
+            // set init time for remaining
             remaining = init;
         }
 
@@ -70,7 +74,7 @@ namespace Toon
             // todo 制限時間内にステージ内のオブジェクトをすべて破壊したら isClear = true
             if (remaining >= 0.1f && isDestroyed)
             {
-                isClear = true;
+                isCompleted = true;
             }
         }
     }

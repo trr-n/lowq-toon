@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Toon.Debug
+namespace Toon.Test
 {
     public class DebugIsFloating : MonoBehaviour
     {

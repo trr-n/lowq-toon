@@ -2,7 +2,7 @@
 using Toon.Extend;
 using System.Collections;
 
-namespace Toon.Debug
+namespace Toon.Test
 {
     public class Testing : MonoBehaviour
     {
@@ -10,7 +10,7 @@ namespace Toon.Debug
         void Start()
         {
             // transform.set(move2);
-            transform.setp(1, 2, 3);
+            // transform.setp(1, 2, 3);
         }
 
         void Update()

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using UnityStandardAssets.Characters.ThirdPerson;
 using Toon.Extend;
 
-namespace Toon.Debug
+namespace Toon.Test
 {
     public class DebugVelocity : MonoBehaviour
     {
