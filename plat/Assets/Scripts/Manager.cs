@@ -18,6 +18,8 @@ namespace Toon
         public bool IsCompleted => isCompleted;
         bool isDestroyed = false;
 
+        float n = 0.1f;
+
         void Start()
         {
             // set skybox
@@ -52,6 +54,10 @@ namespace Toon
 
             // set gravity
             SetGravity();
+
+            n = n.clamping(0, 1);
+            // ("n3: " + inc3(0.1f)).show();
+            (n += Time.deltaTime / 10).show(); // OK
         }
 
         void SetGravity()
@@ -77,5 +83,35 @@ namespace Toon
                 isCompleted = true;
             }
         }
+
+        float n1 = 0, n2 = 0, n3 = 0;
+        public float inc1(float inc)
+        {
+            while (n1 <= 10)
+            {
+                n1 += inc * Time.deltaTime;
+            }
+            return n1;
+        }
+        public float inc2(float inc) => n2 += inc;
+        public float inc3(float inc) => Mathf.Lerp(0, 1f, inc += Time.deltaTime);
+
+        // todo fix: アルファ値が増えない
+        public void Fading(Image image, float speed)
+        {
+            float alpha = 0;
+            while (alpha <= 1)
+            {
+                alpha += speed;
+            }
+            alpha.show();
+            // image.color = new(0, 0, 0, Mathf.Lerp(0f, 1f, speed));
+            image.color = new(0, 0, 0, alpha);
+            if (image.color.a >= 1)
+            {
+                scene.load(constant.Over);
+            }
+        }
+
     }
 }

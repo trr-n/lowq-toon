@@ -4,7 +4,7 @@ namespace Toon.Extend
 {
     public static class numeric
     {
-        public static float clamping(this float target, double min, double max)
+        public static float clamping(this float target, float min, float max)
         => UnityEngine.Mathf.Clamp(target, min.single(), max.single());
 
         public static float clamp(float target, float min, float max)
@@ -21,6 +21,6 @@ namespace Toon.Extend
 
         public static float round(float n, int digit) => System.MathF.Round(n, digit);
 
-        public static void sample(out int n) => n = 5;
+        // public static void sample(out int n) => n = 5;
     }
 }

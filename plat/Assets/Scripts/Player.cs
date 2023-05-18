@@ -9,8 +9,8 @@ namespace Toon
     public class Player : MonoBehaviour
     {
         [SerializeField] GameObject panel;
-        [SerializeField] float fadingSpeed = 50;
 
+        float fadingSpeed = 0.0001f;
         const float MaxHP = 1;
         float currentHP = 1;
         public float CurrentHP => currentHP;
@@ -20,11 +20,13 @@ namespace Toon
         public bool IsDead => isDead;
 
         Image image;
+        Manager manager;
 
         void Start()
         {
             HpSet();
             image = panel.GetComponent<Image>();
+            manager = GameObject.FindGameObjectWithTag(constant.Manager).GetComponent<Manager>();
         }
 
         void Update()
@@ -44,13 +46,13 @@ namespace Toon
 
         void Die()
         {
-            image.color.a.show();
+            // image.color.a.show();
             /*死んだらシーン移動*/
             if (!isDead)
             {
                 return;
             }
-            Fading();
+            manager.Fading(image, fadingSpeed);
             Radish();
         }
 
@@ -63,15 +65,6 @@ namespace Toon
             r.useGravity = false;
         }
 
-        // todo fix: アルファ値が増えない
-        void Fading()
-        {
-            image.color = new(0, 0, 0, Mathf.Lerp(0f, 1f, fadingSpeed * Time.deltaTime));
-            if (image.color.a >= 1)
-            {
-                scene.load(constant.Over);
-            }
-        }
 
         // IEnumerator FadeIn(GameObject panel, float duration)
         // {

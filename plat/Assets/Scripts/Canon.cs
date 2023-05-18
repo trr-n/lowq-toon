@@ -22,7 +22,7 @@ namespace Toon
         public float Distance => distance;
         float power = 0;
         public float Power => power;
-        readonly float min = 2, max = 20;
+        // float min = 2, max = 20;
 
         enum Range { close = 0, medium, @long }
         float[] ratio = new float[3] { 10, 15, 27 };
