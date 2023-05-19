@@ -2,47 +2,52 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 using Toon.Extend;
 
 namespace Toon
 {
     public class Manager : MonoBehaviour
     {
-        [SerializeField] Material skybox;
-        [SerializeField][Tooltip("制限時間")] float init = 90;
+        [SerializeField]
+        Material skybox;
+        [SerializeField]
+        Image fadingPanel;
 
+        [SerializeField, Tooltip("制限時間")]
+        float init = 90;
+        [SerializeField, Tooltip("フェードアウトの速度")]
+        float fading = 10;
+        [SerializeField]
+        float limit;
+
+        [SerializeField]
+        UnityEvent onClear;
+
+        [SerializeField]
+        UnityEvent onFail;
+
+        float alpha;
         float remaining;
         public float Remaining => remaining;
-        bool isCompleted = false;
-        /// <summary>flag: game clear</summary>
-        public bool IsCompleted => isCompleted;
-        bool isDestroyed = false;
-
-        float n = 0.1f;
+        bool terminated = false;
 
         void Start()
         {
             // set skybox
-#if UNITY_EDITOR
-            RenderSettings.skybox = null;
-#else
             RenderSettings.skybox = skybox;
-#endif
 
             // set init time for remaining
             remaining = init;
+
+            // set gravity
+            SetGravity();
+
+            StartCoroutine(RemainTime());
         }
 
         void Update()
         {
-            // current scene reloading when ur pressed 'keyCode' 
-#if UNITY_EDITOR
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                // scene.load(scene.active());
-            }
-#endif
-
             // hide cursor
             c status;
 #if UNITY_EDITOR
@@ -52,12 +57,7 @@ namespace Toon
 #endif
             visual.cursor(status);
 
-            // set gravity
-            SetGravity();
-
-            n = n.clamping(0, 1);
-            // ("n3: " + inc3(0.1f)).show();
-            (n += Time.deltaTime / 10).show(); // OK
+            GameManage();
         }
 
         void SetGravity()
@@ -73,45 +73,40 @@ namespace Toon
             }
         }
 
-        void RemainTime() => remaining -= Time.deltaTime;
 
-        void Clear()
+        IEnumerator RemainTime()
         {
-            // todo 制限時間内にステージ内のオブジェクトをすべて破壊したら isClear = true
-            if (remaining >= 0.1f && isDestroyed)
+            while (true)
             {
-                isCompleted = true;
+                remaining.show();
+                remaining -= 1;
+                yield return new WaitForSeconds(1f);
             }
         }
 
-        float n1 = 0, n2 = 0, n3 = 0;
-        public float inc1(float inc)
+        void GameManage()
         {
-            while (n1 <= 10)
+            // 制限時間内にミッションを終わらせたらクリア判定
+            if (terminated && remaining >= 0)
             {
-                n1 += inc * Time.deltaTime;
+                onClear.Invoke();
             }
-            return n1;
+            else if (remaining >= limit)
+            {
+                onFail.Invoke();
+            }
         }
-        public float inc2(float inc) => n2 += inc;
-        public float inc3(float inc) => Mathf.Lerp(0, 1f, inc += Time.deltaTime);
 
-        // todo fix: アルファ値が増えない
-        public void Fading(Image image, float speed)
+        public void Fading()
         {
-            float alpha = 0;
-            while (alpha <= 1)
-            {
-                alpha += speed;
-            }
+            alpha = alpha.clamping(0, 1f);
+            alpha += Time.deltaTime / fading;
             alpha.show();
-            // image.color = new(0, 0, 0, Mathf.Lerp(0f, 1f, speed));
-            image.color = new(0, 0, 0, alpha);
-            if (image.color.a >= 1)
+            fadingPanel.color = new(0, 0, 0, alpha);
+            if (fadingPanel.color.a >= 1)
             {
-                scene.load(constant.Over);
+                scene.load(constant.GameOver);
             }
         }
-
     }
 }

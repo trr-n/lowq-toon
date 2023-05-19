@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using Toon.Extend;
 
@@ -8,7 +9,11 @@ namespace Toon
 {
     public class Player : MonoBehaviour
     {
-        [SerializeField] GameObject panel;
+        [SerializeField]
+        GameObject panel;
+
+        [SerializeField]
+        HP playerHP;
 
         float fadingSpeed = 0.0001f;
         const float MaxHP = 1;
@@ -22,11 +27,15 @@ namespace Toon
         Image image;
         Manager manager;
 
+        [SerializeField]
+        UnityEvent onDead;
+
         void Start()
         {
-            HpSet();
             image = panel.GetComponent<Image>();
             manager = GameObject.FindGameObjectWithTag(constant.Manager).GetComponent<Manager>();
+
+            playerHP.SetMax();
         }
 
         void Update()
@@ -46,38 +55,22 @@ namespace Toon
 
         void Die()
         {
-            // image.color.a.show();
-            /*死んだらシーン移動*/
             if (!isDead)
             {
                 return;
             }
-            manager.Fading(image, fadingSpeed);
-            Radish();
+            onDead.Invoke();
         }
 
-        void Radish()
+        // インスペクタで設定
+        public void Radish()
         {
-            var c = GetComponent<CapsuleCollider>();
-            c.isTrigger = true;
-            var r = GetComponent<Rigidbody>();
-            r.isKinematic = true;
-            r.useGravity = false;
+            var collider = GetComponent<CapsuleCollider>();
+            collider.isTrigger = true;
+            var rigidbody = GetComponent<Rigidbody>();
+            rigidbody.isKinematic = true;
+            rigidbody.useGravity = false;
         }
-
-
-        // IEnumerator FadeIn(GameObject panel, float duration)
-        // {
-        //     float timer = 0;
-        //     Image image = panel.GetComponent<Image>();
-        //     while (timer < duration)
-        //     {
-        //         timer += Time.deltaTime;
-        //         alpha = Mathf.Lerp(0, 255, timer / duration);
-        //         image.color = new Color(0, 0, 0, alpha);
-        //         yield return null;
-        //     }
-        // }
 
         void OnCollisionEnter(Collision info)
         {

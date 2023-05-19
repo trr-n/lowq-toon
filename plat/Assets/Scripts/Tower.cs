@@ -35,8 +35,7 @@ namespace Toon
                 new Vector3(transform.position.x, 0, transform.position.z) -
                 new Vector3(player.transform.position.x, 0, player.transform.position.z);
             Quaternion lookAt = Quaternion.LookRotation(-direction, Vector3.up);
-            Quaternion offset = Quaternion.FromToRotation(Vector3.forward + ofs1, Vector3.forward);
-            transform.rotation = lookAt * offset;
+            transform.rotation = lookAt;
         }
     }
 }

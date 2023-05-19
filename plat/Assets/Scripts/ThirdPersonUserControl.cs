@@ -72,7 +72,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
         void OnCollisionEnter(Collision info)
         {
-            if (info.gameObject.CompareTag(constant.Missile))
+            if (info.gameObject.CompareTag(constant.BulletLayer))
             {
                 "hitting".show();
             }

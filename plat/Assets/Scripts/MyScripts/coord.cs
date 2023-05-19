@@ -10,7 +10,6 @@ namespace Toon.Extend
             double? x = null, double? y = null, double? z = null)
         {
             // 全部空で なんもはいってへんわエクセプション 発動
-            // nullチェックに==は重い?らしい
             if (x is null && y is null && z is null)
             {
                 throw new NanmoHaittehenwaException();
@@ -49,9 +48,9 @@ namespace Toon.Extend
                 throw new NanmoHaittehenwaException();
             }
             transform.rotation = Quaternion.Euler(
-                x is null ? transform.rotation.x : x.single(),
-                y is null ? transform.rotation.y : y.single(),
-                z is null ? transform.rotation.z : z.single()
+                x is null ? transform.localScale.x : x.single(),
+                y is null ? transform.localScale.y : y.single(),
+                z is null ? transform.localScale.z : z.single()
             );
         }
 

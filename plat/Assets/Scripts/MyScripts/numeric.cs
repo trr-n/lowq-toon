@@ -5,7 +5,10 @@ namespace Toon.Extend
     public static class numeric
     {
         public static float clamping(this float target, float min, float max)
-        => UnityEngine.Mathf.Clamp(target, min.single(), max.single());
+        => UnityEngine.Mathf.Clamp(target, min, max);
+
+        public static int clamping(this int target, int min, int max)
+        => UnityEngine.Mathf.Clamp(target, min, max);
 
         public static float clamp(float target, float min, float max)
         => UnityEngine.Mathf.Clamp(target, min, max);

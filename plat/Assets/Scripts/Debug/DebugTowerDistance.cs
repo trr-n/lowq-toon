@@ -20,7 +20,7 @@ namespace Toon.Test
 
         void Update()
         {
-            tt.text = canon.ChangeFirePower().ToString();
+            tt.text = canon.Speed.ToString();
             tt.color = Color.white;
         }
     }
