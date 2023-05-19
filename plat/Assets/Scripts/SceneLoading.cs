@@ -10,8 +10,10 @@ namespace Toon
     {
         [SerializeField]
         GameObject panel;
+
         [SerializeField]
         Slider slider;
+
         [SerializeField]
         Button button;
 

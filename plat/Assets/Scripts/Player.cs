@@ -13,61 +13,54 @@ namespace Toon
         GameObject panel;
 
         [SerializeField]
-        HP playerHP;
+        HP hp;
 
-        float fadingSpeed = 0.0001f;
-        const float MaxHP = 1;
-        float currentHP = 1;
-        public float CurrentHP => currentHP;
-        // float alpha = 0;
-
-        bool isDead = false;
-        public bool IsDead => isDead;
-
-        Image image;
+        [SerializeField]
         Manager manager;
 
         [SerializeField]
         UnityEvent onDead;
 
+        [SerializeField]
+        new Rigidbody rigidbody;
+
+        [SerializeField]
+        new CapsuleCollider collider;
+
+        bool dead = false;
+
         void Start()
         {
-            image = panel.GetComponent<Image>();
-            manager = GameObject.FindGameObjectWithTag(constant.Manager).GetComponent<Manager>();
+            nullcheck();
+            hp.SetMax();
 
-            playerHP.SetMax();
+            onDead?.AddListener(Radish);
+            onDead?.AddListener(manager.Fading);
         }
 
         void Update()
         {
-            currentHP = numeric.clamp(currentHP, 0, MaxHP);
-            isDead = currentHP <= 0;
             Die();
-#if UNITY_EDITOR
-
-#endif
         }
-
-        void HpSet() => currentHP = MaxHP;
-        float HpRatio() => MaxHP / currentHP;
-        float HpRemaining() => MaxHP - currentHP;
-        void Damage(float damage) => currentHP -= damage;
 
         void Die()
         {
-            if (!isDead)
+            if (hp.IsDead)
+            {
+                dead = true;
+            }
+            if (dead) //! 死亡フラグ
             {
                 return;
             }
+            manager.Controllable = false;
             onDead.Invoke();
         }
 
-        // インスペクタで設定
+        // set on inspecter
         public void Radish()
         {
-            var collider = GetComponent<CapsuleCollider>();
             collider.isTrigger = true;
-            var rigidbody = GetComponent<Rigidbody>();
             rigidbody.isKinematic = true;
             rigidbody.useGravity = false;
         }
@@ -76,8 +69,16 @@ namespace Toon
         {
             if (info.gameObject.CompareTag(constant.Missile))
             {
-                Damage(0.25f);
+                hp.Damage(25);
             }
+        }
+
+        void nullcheck()
+        {
+            hp ??= GetComponent<HP>();
+            manager ??= GameObject.FindGameObjectWithTag(constant.Manager).GetComponent<Manager>();
+            collider ??= GetComponent<CapsuleCollider>();
+            rigidbody ??= GetComponent<Rigidbody>();
         }
     }
 }

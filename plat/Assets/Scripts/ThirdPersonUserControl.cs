@@ -13,6 +13,9 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         [Tooltip("mine")]
         GameObject cam;
 
+        [SerializeField]
+        Manager manager;
+
         ThirdPersonCharacter tpc;
         PlayerInput pi;
         Player player;
@@ -48,8 +51,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
         void FixedUpdate()
         {
-            // 生きてる間のみ入力受付
-            if (player.IsDead)
+            // 生きてる間のみ制御可能
+            if (!manager.Controllable)
             {
                 return;
             }

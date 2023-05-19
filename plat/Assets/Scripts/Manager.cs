@@ -11,15 +11,9 @@ namespace Toon
     {
         [SerializeField]
         Material skybox;
+
         [SerializeField]
         Image fadingPanel;
-
-        [SerializeField, Tooltip("制限時間")]
-        float init = 90;
-        [SerializeField, Tooltip("フェードアウトの速度")]
-        float fading = 10;
-        [SerializeField]
-        float limit;
 
         [SerializeField]
         UnityEvent onClear;
@@ -27,28 +21,40 @@ namespace Toon
         [SerializeField]
         UnityEvent onFail;
 
+        [SerializeField, Tooltip("制限時間")]
+        float limit = 90;
+
+        [SerializeField, Tooltip("フェードアウトの速度")]
+        float fading = 10;
+
         float alpha;
         float remaining;
         public float Remaining => remaining;
-        bool terminated = false;
+
+        /// <summary>対象がすべて壊されたらtrue</summary>
+        bool isTerminated = false;
+
+        bool controllable;
+        public bool Controllable { get => controllable; set => controllable = value; }
 
         void Start()
         {
-            // set skybox
             RenderSettings.skybox = skybox;
 
-            // set init time for remaining
-            remaining = init;
+            remaining = limit;
 
-            // set gravity
             SetGravity();
-
             StartCoroutine(RemainTime());
+        }
+
+        void AddEvent()
+        {
+            onFail?.AddListener(Fading);
+            onClear?.AddListener(Fading);
         }
 
         void Update()
         {
-            // hide cursor
             c status;
 #if UNITY_EDITOR
             status = c.show;
@@ -57,7 +63,7 @@ namespace Toon
 #endif
             visual.cursor(status);
 
-            GameManage();
+            LDJudge();
         }
 
         void SetGravity()
@@ -73,25 +79,27 @@ namespace Toon
             }
         }
 
+        void ChangeClearScene() => scene.load(constant.Clear);
+        void ChangeFailScene() => scene.load(constant.Fail);
 
         IEnumerator RemainTime()
         {
             while (true)
             {
-                remaining.show();
                 remaining -= 1;
                 yield return new WaitForSeconds(1f);
             }
         }
 
-        void GameManage()
+        // life/death judgement
+        void LDJudge()
         {
             // 制限時間内にミッションを終わらせたらクリア判定
-            if (terminated && remaining >= 0)
+            // if (isTerminated && remaining >= 0)
             {
                 onClear.Invoke();
             }
-            else if (remaining >= limit)
+            if (remaining <= limit)
             {
                 onFail.Invoke();
             }
@@ -101,11 +109,10 @@ namespace Toon
         {
             alpha = alpha.clamping(0, 1f);
             alpha += Time.deltaTime / fading;
-            alpha.show();
             fadingPanel.color = new(0, 0, 0, alpha);
             if (fadingPanel.color.a >= 1)
             {
-                scene.load(constant.GameOver);
+                scene.load(constant.Fail);
             }
         }
     }

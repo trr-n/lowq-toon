@@ -33,8 +33,10 @@ namespace Toon
 
         bool isShooting;
         public bool IsShooting => isShooting;
+
         bool rapid;
         public bool Rapid => rapid;
+
         bool firstShot;
         public bool FirstShot => firstShot;
 

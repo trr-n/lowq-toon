@@ -13,8 +13,6 @@ namespace Toon
 
         Speaker spk;
 
-        float volume;
-        float max_vol;
         const int mute = 0;
         const int quiet = 1;
         const int boring = 2;
@@ -28,7 +26,6 @@ namespace Toon
         void Start()
         {
             spk = speaker.GetComponent<Speaker>();
-            image.sprite = icons[mute];
         }
 
         void Update()
@@ -38,12 +35,9 @@ namespace Toon
 
         void volumie()
         {
-            volume = spk.Volume;
-            max_vol = spk.MaxVolume;
-
-            isMute = volume <= 0;
-            isQuiet = volume <= max_vol / 4;
-            isBoring = volume <= max_vol / 2;
+            isMute = spk.Volume <= 0;
+            isQuiet = spk.Volume <= spk.MaxVolume / 3;
+            isBoring = spk.Volume <= spk.MaxVolume / 2.5f;
             isLoud = !(isMute && isQuiet && isBoring);
 
             if (isMute)

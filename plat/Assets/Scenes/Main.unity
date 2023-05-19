@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 2039a0ad0a9d05549928b70362f54902, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.18827617, g: 0.19113809, b: 0.19109794, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -411,7 +411,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   panel: {fileID: 1988625295}
-  playerHP: {fileID: 0}
+  hp: {fileID: 503735913}
+  manager: {fileID: 1928162261}
   onDead:
     m_PersistentCalls:
       m_Calls:
@@ -439,6 +440,32 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  rigidbody: {fileID: 503735910}
+  collider: {fileID: 503735909}
+--- !u!136 &503735909 stripped
+CapsuleCollider:
+  m_CorrespondingSourceObject: {fileID: 6905493415287859469, guid: dd20e7a5bd966574d89d98376afb2f80, type: 3}
+  m_PrefabInstance: {fileID: 6905493416075959777}
+  m_PrefabAsset: {fileID: 0}
+--- !u!54 &503735910 stripped
+Rigidbody:
+  m_CorrespondingSourceObject: {fileID: 6905493415297099101, guid: dd20e7a5bd966574d89d98376afb2f80, type: 3}
+  m_PrefabInstance: {fileID: 6905493416075959777}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &503735913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 503735899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 245b085d5f92c1346814c5f888416d9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  max: 100
+  current: 0
 --- !u!1 &622244045
 GameObject:
   m_ObjectHideFlags: 0
@@ -11595,15 +11622,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skybox: {fileID: 2100000, guid: 2039a0ad0a9d05549928b70362f54902, type: 2}
   fadingPanel: {fileID: 1988625296}
-  init: 90
-  fading: 10
-  limit: 0
   onClear:
     m_PersistentCalls:
       m_Calls: []
   onFail:
     m_PersistentCalls:
       m_Calls: []
+  limit: 90
+  fading: 10
 --- !u!4 &1928162262
 Transform:
   m_ObjectHideFlags: 0
@@ -12151,6 +12177,10 @@ PrefabInstance:
       propertyPath: cam
       value: 
       objectReference: {fileID: 746624285}
+    - target: {fileID: 6905493415294225003, guid: dd20e7a5bd966574d89d98376afb2f80, type: 3}
+      propertyPath: manager
+      value: 
+      objectReference: {fileID: 1928162261}
     - target: {fileID: 6905493416877572736, guid: dd20e7a5bd966574d89d98376afb2f80, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -12177,7 +12207,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7291366098249475907, guid: dd20e7a5bd966574d89d98376afb2f80, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.93
+      value: -5.34
       objectReference: {fileID: 0}
     - target: {fileID: 7291366098249475907, guid: dd20e7a5bd966574d89d98376afb2f80, type: 3}
       propertyPath: m_LocalPosition.z

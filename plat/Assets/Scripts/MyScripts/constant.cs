@@ -13,7 +13,7 @@ namespace Toon
         Main = "Main",
         Title = "Title",
         Clear = "Clear",
-        GameOver = "Over",
+        Fail = "Over",
         TestS = "TestScene"
         ;
 
