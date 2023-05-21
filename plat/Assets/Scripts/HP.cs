@@ -7,20 +7,21 @@ namespace Toon
 {
     public class HP : MonoBehaviour
     {
-        [SerializeField]
-        int max = 100;
+        const int max = 100;
 
         [SerializeField]
+        [Range(0, max)]
         int current;
 
         public int Max => max;
+
         public int Current => current;
 
-        public float Ratio => current / max;
+        public float Ratio => (float)current / max;
+
+        public bool IsZero() => current <= 0;
 
         public void SetMax() => current = max;
-
-        public bool IsDead => current <= 0;
 
         public void Heal(int healingAmount)
         {

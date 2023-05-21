@@ -40,6 +40,8 @@ namespace Toon
         bool firstShot;
         public bool FirstShot => firstShot;
 
+        Quaternion selfRotation;
+
         void Start()
         {
             pi = GameObject.FindGameObjectWithTag(constant.Manager).GetComponent<PlayerInput>();
@@ -48,6 +50,7 @@ namespace Toon
 
         void Update()
         {
+            Rotate();
             Trigger();
         }
 
@@ -83,24 +86,6 @@ namespace Toon
             isShooting = false;
         }
 
-        // void Fire(float moving)
-        // {
-        //     var bullet = Instantiate(
-        //         bulletPrefabs[rand.i(max: bulletPrefabs.Length)],
-        //         this.transform.position + generatePosition,
-        //         Quaternion.Euler(
-        //             rand.f(max: 360),
-        //             rand.f(max: 360),
-        //             rand.f(max: 360)
-        //         )
-        //     );
-        //     var bulletRb = bullet.GetComponent<Rigidbody>();
-        //     bulletRb.velocity = moving * this.gameObject.transform.forward;
-
-        //     // 10秒後に仮破壊
-        //     Destroy(bullet, 10);
-        // }
-
         void Fire2(float moving)
         {
             GameObject bullet = Instantiate(
@@ -109,7 +94,12 @@ namespace Toon
                 Quaternion.identity
             );
             Rigidbody rb = bullet.GetComponent<Rigidbody>();
-            rb.velocity = moving * gameObject.transform.forward;
+            rb.velocity = transform.forward * moving;
+        }
+
+        void Rotate()
+        {
+            Debug.DrawRay(transform.position, transform.forward);
         }
     }
 }

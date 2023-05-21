@@ -21,21 +21,32 @@ namespace Toon
         [SerializeField]
         UnityEvent onFail;
 
-        [SerializeField, Tooltip("制限時間")]
+        [SerializeField]
+        [Tooltip("制限時間")]
         float limit = 90;
 
-        [SerializeField, Tooltip("フェードアウトの速度")]
-        float fading = 10;
+        [SerializeField]
+        [Tooltip("フェードアウトの速度")]
+        float fading = 3;
+
+        [SerializeField]
+        HP towerHp;
+
+        [SerializeField]
+        HP playerHp;
+
+        [SerializeField]
+        c state = c.show;
 
         float alpha;
         float remaining;
         public float Remaining => remaining;
 
         /// <summary>対象がすべて壊されたらtrue</summary>
-        bool isTerminated = false;
+        bool doneTheEnd = false;
+        bool notDownTheEnd = false;
 
-        bool controllable;
-        public bool Controllable { get => controllable; set => controllable = value; }
+        public bool Controllable { get; set; }
 
         void Start()
         {
@@ -45,25 +56,27 @@ namespace Toon
 
             SetGravity();
             StartCoroutine(RemainTime());
+            AddEvent();
         }
 
         void AddEvent()
         {
-            onFail?.AddListener(Fading);
             onClear?.AddListener(Fading);
+            onFail?.AddListener(Failing);
         }
 
         void Update()
         {
-            c status;
-#if UNITY_EDITOR
-            status = c.show;
-#else
-            status = c.hide;
-#endif
-            visual.cursor(status);
+            visual.cursor(state);
 
             LDJudge();
+
+            // タワーのHPが0以下で残り時間が0じゃなかったらクリア判定
+            doneTheEnd = towerHp.IsZero() && remaining >= 0;
+            notDownTheEnd = !towerHp.IsZero() && remaining <= 0;
+
+            ("Player isZero: " + playerHp.IsZero()).show();
+            ("Tower isZero: " + towerHp.IsZero()).show();
         }
 
         void SetGravity()
@@ -79,8 +92,7 @@ namespace Toon
             }
         }
 
-        void ChangeClearScene() => scene.load(constant.Clear);
-        void ChangeFailScene() => scene.load(constant.Fail);
+        public void ChangeScene(string name) => scene.load(name);
 
         IEnumerator RemainTime()
         {
@@ -91,28 +103,33 @@ namespace Toon
             }
         }
 
-        // life/death judgement
         void LDJudge()
         {
-            // 制限時間内にミッションを終わらせたらクリア判定
-            // if (isTerminated && remaining >= 0)
+            // 制限時間内に終わらせたらクリア
+            if (doneTheEnd)
             {
                 onClear.Invoke();
             }
-            if (remaining <= limit)
+
+            // 時間内にやれなかったらアウト
+            else if (notDownTheEnd)
             {
                 onFail.Invoke();
             }
         }
 
-        public void Fading()
+        public void Fading() => AddAlpha(constant.Title);
+
+        public void Failing() => AddAlpha(constant.Failure);
+
+        void AddAlpha(string name)
         {
             alpha = alpha.clamping(0, 1f);
             alpha += Time.deltaTime / fading;
             fadingPanel.color = new(0, 0, 0, alpha);
             if (fadingPanel.color.a >= 1)
             {
-                scene.load(constant.Fail);
+                scene.load(name);
             }
         }
     }

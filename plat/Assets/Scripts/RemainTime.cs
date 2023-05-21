@@ -21,7 +21,7 @@ namespace Toon
 
         void Update()
         {
-            tt.text = "Remaining".indent() + m.Remaining;
+            tt.text = "REMAINING TIME".indent() + m.Remaining;
         }
     }
 }

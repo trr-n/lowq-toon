@@ -13,7 +13,7 @@ namespace Toon
         GameObject panel;
 
         [SerializeField]
-        HP hp;
+        HP playerHp;
 
         [SerializeField]
         Manager manager;
@@ -31,35 +31,31 @@ namespace Toon
 
         void Start()
         {
-            nullcheck();
-            hp.SetMax();
+            init();
+            playerHp.SetMax();
 
             onDead?.AddListener(Radish);
-            onDead?.AddListener(manager.Fading);
         }
 
         void Update()
         {
+            manager.Controllable.show();
             Die();
         }
 
         void Die()
         {
-            if (hp.IsDead)
-            {
-                dead = true;
-            }
-            if (dead) //! 死亡フラグ
+            if (!playerHp.IsZero())
             {
                 return;
             }
-            manager.Controllable = false;
+            "onDead".show();
             onDead.Invoke();
         }
 
-        // set on inspecter
         public void Radish()
         {
+            manager.Controllable = false;
             collider.isTrigger = true;
             rigidbody.isKinematic = true;
             rigidbody.useGravity = false;
@@ -69,16 +65,21 @@ namespace Toon
         {
             if (info.gameObject.CompareTag(constant.Missile))
             {
-                hp.Damage(25);
+                playerHp.Damage(25);
             }
         }
 
-        void nullcheck()
+        void init()
         {
-            hp ??= GetComponent<HP>();
+            playerHp ??= GetComponent<HP>();
             manager ??= GameObject.FindGameObjectWithTag(constant.Manager).GetComponent<Manager>();
             collider ??= GetComponent<CapsuleCollider>();
             rigidbody ??= GetComponent<Rigidbody>();
+
+            manager.Controllable = true;
+            collider.isTrigger = false;
+            rigidbody.isKinematic = false;
+            rigidbody.useGravity = true;
         }
     }
 }

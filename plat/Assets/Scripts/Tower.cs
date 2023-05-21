@@ -7,11 +7,17 @@ namespace Toon
 {
     public class Tower : MonoBehaviour
     {
-        [SerializeField] GameObject player;
-        // [SerializeField]
-        public static Vector3 ofs1 = new(1.7f, 0f, 0f);
+        [SerializeField]
+        GameObject player;
 
-        readonly Vector3 TowerPosition = new(8.731677f, 3.177724f, -7.152449f);
+        [SerializeField]
+        HP hp;
+
+        [SerializeField]
+        int damage;
+
+        readonly Vector3 TowerPosition =
+            new(8.731677f, 3.177724f, -7.152449f);
 
         void Update()
         {
@@ -29,13 +35,18 @@ namespace Toon
 
         void LookingAtPlayer()
         {
-            // init diff x: 17.98, y: 2.65, z: -1.63
-            // 上下は発砲時の力で調節するからY座標は無視
             Vector3 direction =
                 new Vector3(transform.position.x, 0, transform.position.z) -
                 new Vector3(player.transform.position.x, 0, player.transform.position.z);
-            Quaternion lookAt = Quaternion.LookRotation(-direction, Vector3.up);
-            transform.rotation = lookAt;
+            transform.rotation = Quaternion.LookRotation(-direction, Vector3.up);
+        }
+
+        void OnCollisionEnter(Collision info)
+        {
+            if (info.gameObject.CompareTag(constant.Missile))
+            {
+                hp.Damage(damage);
+            }
         }
     }
 }
