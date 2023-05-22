@@ -22,7 +22,7 @@ namespace Toon.Test
         void Update()
         {
             // t.text = "x: " + MathF.Round(tpc.Rigidbody.velocity.x, 1) + "\r\ny: " + MathF.Round(tpc.Rigidbody.velocity.z, 1);
-            t.text = "x: " + MathF.Round(tpc.Rigidbody.velocity.x, 1).indent() + "y: " + MathF.Round(tpc.Rigidbody.velocity.z, 1);
+            t.text = "x: " + MathF.Round(tpc.Rigidbody.velocity.x, 1).newline() + "y: " + MathF.Round(tpc.Rigidbody.velocity.z, 1);
             t.color = Color.white;
         }
     }

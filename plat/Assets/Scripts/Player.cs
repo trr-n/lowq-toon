@@ -41,11 +41,6 @@ namespace Toon
 
         void Update()
         {
-            Die();
-        }
-
-        void Die()
-        {
             if (!playerHp.IsZero())
             {
                 return;

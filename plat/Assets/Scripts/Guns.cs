@@ -16,11 +16,11 @@ namespace Toon
         [SerializeField]
         new GameObject camera;
 
-        [SerializeField]
+        // [SerializeField]
         [Tooltip("初弾の加速の倍率")]
-        float firstBulletScale = 1.5f;
+        float firstBulletScale = 100f;
 
-        public bool shootable { get; set; }
+        public bool Shootable { get; set; }
 
         /// <summary>
         /// 弾速
@@ -67,12 +67,12 @@ namespace Toon
         void Trigger()
         {
             timer += Time.deltaTime;
-            shootable = pi.shootable && !pi.isRotating;
+            Shootable = pi.shootable && !pi.isRotating;
 
             firstShot = input.down(pi.Click4Shoot);
             rapid = input.pressed(pi.Click4Shoot) && timer > fireRate;
 
-            if (!shootable)
+            if (!Shootable)
             {
                 return;
             }
@@ -100,7 +100,7 @@ namespace Toon
         {
             while (true)
             {
-                Fire2(power);
+                Fire2(power * firstBulletScale);
                 yield return new WaitForSeconds(0.5f);
             }
         }
@@ -113,7 +113,6 @@ namespace Toon
                 Quaternion.identity
             );
             bullet.GetComponent<Rigidbody>().velocity = transform.forward * moving;
-            transform.forward.show();
         }
 
         void Rotate()

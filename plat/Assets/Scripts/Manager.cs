@@ -42,6 +42,8 @@ namespace Toon
         float remaining;
         public float Remaining => remaining;
 
+        public float RemainRatio => remaining / limit;
+
         /// <summary>対象がすべて壊されたらtrue</summary>
         bool doneTheEnd = false;
         bool notDownTheEnd = false;
@@ -50,9 +52,10 @@ namespace Toon
 
         void Start()
         {
-            RenderSettings.skybox = skybox;
+            RenderSettings.skybox = null; // skybox;
 
             remaining = limit;
+            
 
             SetGravity();
             StartCoroutine(RemainTime());
@@ -72,11 +75,10 @@ namespace Toon
             LDJudge();
 
             // タワーのHPが0以下で残り時間が0じゃなかったらクリア判定
-            doneTheEnd = towerHp.IsZero() && remaining >= 0;
             notDownTheEnd = !towerHp.IsZero() && remaining <= 0;
 
-            ("Player isZero: " + playerHp.IsZero()).show();
-            ("Tower isZero: " + towerHp.IsZero()).show();
+            // ("Player isZero: " + playerHp.IsZero()).show();
+            // ("Tower isZero: " + towerHp.IsZero()).show();
         }
 
         void SetGravity()
@@ -106,7 +108,7 @@ namespace Toon
         void LDJudge()
         {
             // 制限時間内に終わらせたらクリア
-            if (doneTheEnd)
+            if (towerHp.IsZero() && remaining >= 0)
             {
                 onClear.Invoke();
             }

@@ -72,13 +72,5 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             tpc.Move(m_Move, crouchKey, m_Jump);
             m_Jump = false;
         }
-
-        void OnCollisionEnter(Collision info)
-        {
-            if (info.gameObject.CompareTag(constant.Bullet))
-            {
-                "hitting".show();
-            }
-        }
     }
 }

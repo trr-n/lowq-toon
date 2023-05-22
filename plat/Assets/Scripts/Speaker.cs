@@ -9,7 +9,8 @@ namespace Toon
     public class Speaker : MonoBehaviour
     {
         [SerializeField]
-        AudioClip[] musics;
+        AudioClip music;
+
         new AudioSource audio;
 
         /// <summary>
@@ -29,16 +30,46 @@ namespace Toon
         };
         const int Up = 0, Down = 1, RShift = 2;
 
+        int playing;
+        public int Playing => playing;
+
+        string nowPlaying;
+        public string NowPlaying => nowPlaying;
+
         void Start()
         {
-            audio = this.gameObject.GetComponent<AudioSource>();
-            audio.clip = musics[random.max(max: musics.Length)];
+            audio = GetComponent<AudioSource>();
+            audio.clip = music;
             audio.volume = initVolume;
+            audio.loop = true;
             audio.Play();
         }
 
         void Update()
         {
+            VolumeChousei();
+            // if (input.down(KeyCode.LeftArrow))
+            // {
+            //     int next = random.choice(music.Length);
+            //     if (next == playing)
+            //     {
+            //         next = random.choice(music.Length);
+            //     }
+            //     audio.clip = music[next];
+            //     playing = next;
+            //     audio.Play();
+            //     "changea & play".show();
+            // }
+
+            // if (input.down(KeyCode.RightArrow))
+            // {
+            //     audio.clip = music[random.choice(music.Length)];
+            // }
+        }
+
+        void VolumeChousei()
+        {
+            nowPlaying = audio.clip.name;
             inputV = Input.GetAxisRaw(constant.Volume) / 100;
             float preMuteVolume = 0;
             float vol = Mathf.Clamp(audio.volume, 0, MaxVolume);

@@ -82,6 +82,7 @@ MonoBehaviour:
   - {fileID: 128572, guid: d3d42c25113bf3b4c94e325a3ee0a4e9, type: 3}
   - {fileID: 128572, guid: 89fa81ed061e48748baac7915f31e486, type: 3}
   player: {fileID: 6062594755509319231}
+  camera: {fileID: 0}
 --- !u!1 &6905493416877572799
 GameObject:
   m_ObjectHideFlags: 0
@@ -223,8 +224,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7be9cddc5d0b83c40a0066f5bce53bd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  musics:
-  - {fileID: 8300000, guid: c54b1a7d864bf2740993771280fa98d5, type: 3}
+  music: {fileID: 0}
   Volume: 0
 --- !u!1001 &6905493415300425747
 PrefabInstance:

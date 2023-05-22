@@ -33,7 +33,7 @@ namespace Toon
         // TAG NAME
         //------------------------------------------------------------------------------
         public static readonly string
-        Player = "Player",
+        Player = "Player2",
         Ground = "Ground",
         MainCam = "MainCamera",
         Camera = "Cam",

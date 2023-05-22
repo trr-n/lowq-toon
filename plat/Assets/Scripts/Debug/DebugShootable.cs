@@ -23,9 +23,9 @@ namespace Toon.Test
         void Update()
         {
             tt.text =
-                "shootable: " + gun.shootable.indent() +
-                "first shot: " + gun.FirstShot.indent() +
-                "rapid: " + gun.Rapid.indent();
+                "shootable: " + gun.Shootable.newline() +
+                "first shot: " + gun.FirstShot.newline() +
+                "rapid: " + gun.Rapid.newline();
             tt.color = Color.white;
         }
     }

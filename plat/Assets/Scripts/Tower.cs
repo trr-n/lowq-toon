@@ -22,6 +22,7 @@ namespace Toon
         void Update()
         {
             LookingAtPlayer();
+            ($"towerhp: {hp.Current}").show();
         }
 
         void ClampingMe()
@@ -45,6 +46,7 @@ namespace Toon
         {
             if (info.gameObject.CompareTag(constant.Missile))
             {
+                "tower hit".show();
                 hp.Damage(damage);
             }
         }

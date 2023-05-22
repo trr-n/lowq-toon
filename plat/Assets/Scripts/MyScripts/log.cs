@@ -18,6 +18,6 @@ namespace Toon.Extend
         public static void warn(this object msg) => UnityEngine.Debug.LogWarning($"<color=yellow>{msg}</color>");
         public static void error(this object msg) => UnityEngine.Debug.LogError($"<color=red>{msg}</color>");
 
-        public static string indent(this object msg) => msg + "\r\n";
+        public static string newline(this object msg) => msg + "\r\n";
     }
 }
