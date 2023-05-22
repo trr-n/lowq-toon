@@ -101,7 +101,7 @@ namespace Toon
             while (true)
             {
                 Fire2(power * firstBulletScale);
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(1f);
             }
         }
 

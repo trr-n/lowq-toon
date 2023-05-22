@@ -36,13 +36,6 @@ namespace Toon
 
         void Update()
         {
-            target.name.show();
-            // distance = Vector3.Distance(transform.position, target.transform.position);
-            // distance.show();
-            // if (distance >= chase)
-            // {
-            //     return;
-            // }
             agent.SetDestination(target.transform.position);
 
             if (hp.IsZero())

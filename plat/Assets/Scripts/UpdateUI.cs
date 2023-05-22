@@ -26,6 +26,18 @@ namespace Toon
         [SerializeField]
         Image tower;
 
+        [SerializeField]
+        Sprite[] volIcons;
+
+        [SerializeField]
+        Image volume;
+
+        [SerializeField]
+        Speaker spk;
+
+        [SerializeField]
+        Image fading;
+
         const float alpha = 0.5f;
         const float talpha = 1f;
         float remainR = 0;
@@ -36,10 +48,26 @@ namespace Toon
         Color remainColor = new(0, 1, b, alpha);
         Color towerColor = new(0, 1, b, talpha);
 
+        bool isMute, isQuiet, isBoring, isLoud;
+        int mute = 0, quiet = 1, boring = 2, loud = 3;
+
+        void Start()
+        {
+            spk ??= GameObject.FindGameObjectWithTag(constant.Speaker)
+                .GetComponent<Speaker>();
+        }
+
         void Update()
         {
             pText.text = pHp.Current.ToString();
             GaugeGradation();
+            VolumeIcon();
+            Towel();
+        }
+
+        void Towel()
+        {
+            tower.fillAmount = thp.Ratio;
         }
 
         void GaugeGradation()
@@ -59,7 +87,7 @@ namespace Toon
             }
 
             tower.fillAmount = thp.Ratio;
-            towerColor = new(towerR, towerG, b, alpha);
+            towerColor = new(towerR, towerG, b, talpha);
             tower.color = towerColor;
 
             if (thp.Ratio >= 0.5f)
@@ -70,6 +98,31 @@ namespace Toon
             {
                 var _r = 1 - thp.Ratio;
                 towerR = _r;
+            }
+        }
+
+        void VolumeIcon()
+        {
+            isMute = spk.Volume <= 0;
+            isQuiet = spk.Volume <= spk.MaxVolume / 3;
+            isBoring = spk.Volume <= spk.MaxVolume / 2.5f;
+            isLoud = !(isMute && isQuiet && isBoring);
+
+            if (isMute)
+            {
+                volume.sprite = volIcons[mute];
+            }
+            else if (isQuiet)
+            {
+                volume.sprite = volIcons[quiet];
+            }
+            else if (isBoring)
+            {
+                volume.sprite = volIcons[boring];
+            }
+            else if (isLoud)
+            {
+                volume.sprite = volIcons[loud];
             }
         }
     }

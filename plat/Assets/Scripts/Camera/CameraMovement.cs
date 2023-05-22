@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Toon.Extend;
 
 namespace Toon
 {
@@ -21,7 +22,8 @@ namespace Toon
         /// <summary>
         /// プレイヤーとカメラの距離
         /// </summary>
-        Vector3 posDistance = new(0, 2, -4);
+        // Vector3 posDistance = new(0, 2, -4);
+        Vector3 posDistance = new(0, 2, 0);
 
         /// <summary>
         /// カメラが見る座標
@@ -36,25 +38,44 @@ namespace Toon
         public Vector3 CameraLookingAt => lookingAt;
 
         float angleX = 0.0f, angleY = 0.0f;
+        float lerping = 15;
+        float rayLength = 0.1f;
 
         GameObject player;
-        PlayerMovement playerMovement;
-        Quaternion rotation;
 
         void Start()
         {
             player = GameObject.FindGameObjectWithTag(constant.Player);
-            playerMovement = player.GetComponent<PlayerMovement>();
         }
 
         void Update()
         {
-            rotation = this.transform.rotation;
             ViewRotation(sensiX, sensiY, deadZone);
             FollowPlayer(
                 _posDis: Quaternion.Euler(angleX, angleY, 0) * posDistance,
                 _lookAt: lookAt
             );
+            Raying();
+        }
+
+        /// <summary>
+        /// カメラめり込み対策
+        /// todo 地面にはめりこんでまう
+        /// </summary>
+        void Raying()
+        {
+            Ray r2 = new(transform.position, transform.forward);
+            Debug.DrawRay(transform.position, transform.forward);
+            Vector3 chousei = Vector3.zero;
+            if (Physics.Raycast(r2, out RaycastHit hit2, Vector3.Distance(transform.position, player.transform.position) + 2))
+            {
+                if (hit2.collider.compare(constant.Player))
+                {
+                    return;
+                }
+                chousei = hit2.point;
+            }
+            transform.position = chousei;
         }
 
         /// <summary>

@@ -50,7 +50,7 @@ namespace Toon
             self.LookAt(player.transform.position + muzzleLookAtPosition);
 
             // test ray
-            Debug.DrawRay(transform.position, -direction);
+            // Debug.DrawRay(transform.position, -direction);
         }
 
         IEnumerator Trigger(bool canonFire = true)

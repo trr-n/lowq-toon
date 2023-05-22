@@ -44,7 +44,8 @@ namespace Toon
         Tower = "Towre",
         Test = "Test",
         ScriptableFile = "Scriptable",
-        Portal = "Portal"
+        Portal = "Portal",
+        Speaker = "Speaker"
         ;
 
         public static readonly Vector3 MainGravity = new(0, -9.81f, 0);

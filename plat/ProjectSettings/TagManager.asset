@@ -15,6 +15,7 @@ TagManager:
   - Test
   - Portal
   - Player2
+  - Speaker
   layers:
   - Default
   - TransparentFX
