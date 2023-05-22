@@ -39,11 +39,12 @@ namespace Toon
         Camera = "Cam",
         Gun = "Gun",
         Missile = "Missile",
-        BulletLayer = "Bullet",
+        Bullet = "Bullet",
         Manager = "Manager",
         Tower = "Towre",
         Test = "Test",
-        ScriptableFile = "Scriptable"
+        ScriptableFile = "Scriptable",
+        Portal = "Portal"
         ;
 
         public static readonly Vector3 MainGravity = new(0, -9.81f, 0);

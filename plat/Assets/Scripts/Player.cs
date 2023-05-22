@@ -27,19 +27,20 @@ namespace Toon
         [SerializeField]
         new CapsuleCollider collider;
 
-        bool dead = false;
+        [SerializeField]
+        Vector3 spawnPosOnRoof;
+
+        [SerializeField]
+        int bulletDamage = 25;
 
         void Start()
         {
             init();
             playerHp.SetMax();
-
-            onDead?.AddListener(Radish);
         }
 
         void Update()
         {
-            manager.Controllable.show();
             Die();
         }
 
@@ -63,9 +64,17 @@ namespace Toon
 
         void OnCollisionEnter(Collision info)
         {
-            if (info.gameObject.CompareTag(constant.Missile))
+            if (info.gameObject.CompareTag(constant.Bullet))
             {
-                playerHp.Damage(25);
+                playerHp.Damage(bulletDamage);
+            }
+        }
+
+        void OnTriggerEnter(Collider info)
+        {
+            if (info.compare(constant.Portal))
+            {
+                transform.position = spawnPosOnRoof;
             }
         }
 
@@ -80,6 +89,9 @@ namespace Toon
             collider.isTrigger = false;
             rigidbody.isKinematic = false;
             rigidbody.useGravity = true;
+
+            onDead?.AddListener(Radish);
+            onDead?.AddListener(manager.Failing);
         }
     }
 }

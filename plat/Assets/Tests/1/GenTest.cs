@@ -7,11 +7,22 @@ namespace Toon.Test
 {
     public class GenTest : MonoBehaviour
     {
-        [SerializeField] GameObject tests;
+        [SerializeField]
+        GameObject tests;
+
+        new Rigidbody rigidbody;
 
         void Start()
         {
-            StartCoroutine(generate());
+            // StartCoroutine(generate());
+            rigidbody = GetComponent<Rigidbody>();
+        }
+
+        void FixedUpdate()
+        {
+            float h = Input.GetAxis(constant.Horizontal), v = Input.GetAxis(constant.Vertical);
+            var hv = h * Vector3.right + v * Vector3.forward;
+            rigidbody.velocity = hv * 10;
         }
 
         IEnumerator generate()

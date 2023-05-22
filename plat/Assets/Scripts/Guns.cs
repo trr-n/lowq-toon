@@ -13,6 +13,13 @@ namespace Toon
         [SerializeField]
         GameObject player;
 
+        [SerializeField]
+        new GameObject camera;
+
+        [SerializeField]
+        [Tooltip("初弾の加速の倍率")]
+        float firstBulletScale = 1.5f;
+
         public bool shootable { get; set; }
 
         /// <summary>
@@ -23,7 +30,7 @@ namespace Toon
         /// <summary>
         /// 弾の生成座標
         /// </summary>
-        Vector3 generatePosition = new(0, 0, 0.2f);
+        Vector3 ofs = new(0, 0, 0.2f);
 
         PlayerInput pi;
         GameObject gun;
@@ -44,8 +51,11 @@ namespace Toon
 
         void Start()
         {
-            pi = GameObject.FindGameObjectWithTag(constant.Manager).GetComponent<PlayerInput>();
+            pi = GameObject.FindGameObjectWithTag(constant.Manager)
+                .GetComponent<PlayerInput>();
             gun = GameObject.FindGameObjectWithTag(constant.Gun);
+            camera ??= GameObject.FindGameObjectWithTag(constant.Camera);
+            // StartCoroutine(TestFire());
         }
 
         void Update()
@@ -71,7 +81,7 @@ namespace Toon
             if (firstShot)
             {
                 isShooting = true;
-                Fire2(power * 1.5f);
+                Fire2(power * firstBulletScale);
                 pi.shootable = false;
             }
 
@@ -86,20 +96,30 @@ namespace Toon
             isShooting = false;
         }
 
+        IEnumerator TestFire()
+        {
+            while (true)
+            {
+                Fire2(power);
+                yield return new WaitForSeconds(0.5f);
+            }
+        }
+
         void Fire2(float moving)
         {
             GameObject bullet = Instantiate(
                 bulletPrefabs[random.choice(bulletPrefabs.Length)],
-                this.transform.position + generatePosition,
+                this.transform.position + ofs,
                 Quaternion.identity
             );
-            Rigidbody rb = bullet.GetComponent<Rigidbody>();
-            rb.velocity = transform.forward * moving;
+            bullet.GetComponent<Rigidbody>().velocity = transform.forward * moving;
+            transform.forward.show();
         }
 
         void Rotate()
         {
-            Debug.DrawRay(transform.position, transform.forward);
+            Debug.DrawRay(transform.position, transform.forward * 100, Color.white, 0.02f, true);
+            transform.rotation = camera.transform.rotation;
         }
     }
 }

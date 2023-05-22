@@ -62,7 +62,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
             origGroundCheckDistance = groundCheckDistance;
 
-            bulletLayer = LayerMask.NameToLayer(constant.BulletLayer);
+            bulletLayer = LayerMask.NameToLayer(constant.Bullet);
             hitLayer = ~(1 << bulletLayer);
         }
 
