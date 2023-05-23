@@ -11,21 +11,16 @@ namespace Toon
         [Tooltip("屋上の生成座標")]
         Vector3 spawnPosOnRoof;
 
-        void Start()
-        {
-
-        }
-
-        void Update()
-        {
-
-        }
+        [SerializeField]
+        Manager manager;
 
         void OnCollisionEnter(Collision info)
         {
             if (info.compare(constant.Player))
             {
+                "on tp".show();
                 info.gameObject.transform.position = spawnPosOnRoof;
+                manager.TimerStart = true;
             }
         }
     }

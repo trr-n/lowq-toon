@@ -20,5 +20,11 @@ namespace Toon.Extend
 
         public static bool compare(this Collider info, string tag)
         => info.CompareTag(tag);
+
+        public static GameObject find(string tag)
+        => GameObject.FindGameObjectWithTag(tag);
+
+        public static GameObject[] finds(string tag)
+        => GameObject.FindGameObjectsWithTag(tag);
     }
 }

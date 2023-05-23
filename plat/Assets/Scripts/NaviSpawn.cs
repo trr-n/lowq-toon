@@ -11,7 +11,7 @@ namespace Toon
 
         void Start()
         {
-            navi ??= GameObject.FindGameObjectWithTag("Enemy");
+            navi ??= gobject.find(constant.Enemy);
             StartCoroutine(Spawn());
         }
 

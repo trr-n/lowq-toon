@@ -69,14 +69,16 @@ namespace Toon
         {
             if (info.compare(constant.Portal))
             {
+                "into portal".show();
                 transform.position = spawnPosOnRoof;
+                manager.TimerStart = true;
             }
         }
 
         void init()
         {
             playerHp ??= GetComponent<HP>();
-            manager ??= GameObject.FindGameObjectWithTag(constant.Manager).GetComponent<Manager>();
+            manager ??= gobject.find(constant.Manager).GetComponent<Manager>();
             collider ??= GetComponent<CapsuleCollider>();
             rigidbody ??= GetComponent<Rigidbody>();
 

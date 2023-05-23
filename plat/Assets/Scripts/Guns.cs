@@ -16,51 +16,36 @@ namespace Toon
         [SerializeField]
         new GameObject camera;
 
-        // [SerializeField]
-        [Tooltip("初弾の加速の倍率")]
+        float lookingUpALittle = 11f;
         float firstBulletScale = 100f;
-
-        public bool Shootable { get; set; }
-
-        /// <summary>
-        /// 弾速
-        /// </summary>
         float power = 10;
-
-        /// <summary>
-        /// 弾の生成座標
-        /// </summary>
-        Vector3 ofs = new(0, 0, 0.2f);
-
-        PlayerInput pi;
-        GameObject gun;
-
         float fireRate = 0.5f;
         float timer;
 
-        bool isShooting;
-        public bool IsShooting => isShooting;
-
-        bool rapid;
-        public bool Rapid => rapid;
-
-        bool firstShot;
-        public bool FirstShot => firstShot;
-
+        Vector3 bulletGenPosOffset = new(0, 0, 0.2f);
+        PlayerInput pi;
+        GameObject gun;
         Quaternion selfRotation;
+
+        bool isShooting;
+        bool rapid;
+        bool firstShot;
+
+        public bool IsShooting => isShooting;
+        public bool Rapid => rapid;
+        public bool FirstShot => firstShot;
+        public bool Shootable { get; set; }
 
         void Start()
         {
-            pi = GameObject.FindGameObjectWithTag(constant.Manager)
-                .GetComponent<PlayerInput>();
-            gun = GameObject.FindGameObjectWithTag(constant.Gun);
-            camera ??= GameObject.FindGameObjectWithTag(constant.Camera);
-            // StartCoroutine(TestFire());
+            pi = gobject.find(constant.Manager).GetComponent<PlayerInput>();
+            gun = gobject.find(constant.Gun);
+            camera = gobject.find(constant.Camera);
         }
 
         void Update()
         {
-            Rotate();
+            Rotate(lookUp: lookingUpALittle);
             Trigger();
         }
 
@@ -78,6 +63,7 @@ namespace Toon
             }
 
             // 初弾(クリックしたとき)は単発強め、二発目(長押し)から勢い弱めで連射
+            // スプラトゥーンの "ボトルガイザー" みたいなかんじ
             if (firstShot)
             {
                 isShooting = true;
@@ -92,7 +78,6 @@ namespace Toon
                 pi.shootable = false;
                 timer = 0;
             }
-
             isShooting = false;
         }
 
@@ -109,16 +94,20 @@ namespace Toon
         {
             GameObject bullet = Instantiate(
                 bulletPrefabs[random.choice(bulletPrefabs.Length)],
-                this.transform.position + ofs,
+                this.transform.position + bulletGenPosOffset,
                 Quaternion.identity
             );
             bullet.GetComponent<Rigidbody>().velocity = transform.forward * moving;
         }
 
-        void Rotate()
+        void Rotate(float lookUp)
         {
-            Debug.DrawRay(transform.position, transform.forward * 100, Color.white, 0.02f, true);
-            transform.rotation = camera.transform.rotation;
+            // transform.rotation = camera.transform.rotation;
+            transform.rotation = Quaternion.Euler(
+                x: camera.transform.eulerAngles.x - lookUp,
+                y: camera.transform.eulerAngles.y,
+                z: camera.transform.eulerAngles.z
+            );
         }
     }
 }

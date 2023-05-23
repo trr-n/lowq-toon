@@ -7,60 +7,48 @@ namespace Toon
 {
     public class CameraMovement : MonoBehaviour
     {
-        /// <summary>
-        /// デッドゾーン
-        /// </summary>
         [SerializeField]
         float deadZone = .001f;
 
-        /// <summary>
-        /// 視点移動の感度
-        /// </summary>
         [SerializeField]
-        float sensiX = 1.2f, sensiY = 1.2f;
+        [Tooltip("X軸の感度")]
+        float sensiX = 1.2f;
 
-        /// <summary>
-        /// プレイヤーとカメラの距離
-        /// </summary>
-        // Vector3 posDistance = new(0, 2, -4);
-        Vector3 posDistance = new(0, 2, 0);
+        [SerializeField]
+        [Tooltip("Y軸の感度")]
+        float sensiY = 1.2f;
 
-        /// <summary>
-        /// カメラが見る座標
-        /// </summary>
         [SerializeField]
         Vector3 lookAt = new(0, 1, 0);
 
         /// <summary>
-        /// カメラが見ている座標    
+        /// プレイヤーとカメラの距離
         /// </summary>
-        Vector3 lookingAt;
-        public Vector3 CameraLookingAt => lookingAt;
+        Vector3 posDistance = new(0, 2, -4);
+        // Vector3 posDistance = new(0, 2, 0);
 
         float angleX = 0.0f, angleY = 0.0f;
         float lerping = 15;
         float rayLength = 0.1f;
 
+        Vector3 looooook;
+
         GameObject player;
 
         void Start()
         {
-            player = GameObject.FindGameObjectWithTag(constant.Player);
+            player = gobject.find(constant.Player);
         }
 
         void Update()
         {
             ViewRotation(sensiX, sensiY, deadZone);
-            FollowPlayer(
-                _posDis: Quaternion.Euler(angleX, angleY, 0) * posDistance,
-                _lookAt: lookAt
-            );
+            FollowPlayer(Quaternion.Euler(angleX, angleY, 0) * posDistance, lookAt);
             Raying();
         }
 
         /// <summary>
-        /// カメラめり込み対策
-        /// todo 地面にはめりこんでまう
+        /// めり込み対策
         /// </summary>
         void Raying()
         {
@@ -73,9 +61,8 @@ namespace Toon
                 {
                     return;
                 }
-                chousei = hit2.point;
+                transform.position = hit2.point;
             }
-            transform.position = chousei;
         }
 
         /// <summary>
@@ -109,7 +96,8 @@ namespace Toon
         void FollowPlayer(Vector3 _posDis, Vector3 _lookAt)
         {
             this.transform.position = player.transform.position + _posDis;
-            this.transform.LookAt(player.transform.position + _lookAt);
+            looooook = player.transform.position + _lookAt;
+            this.transform.LookAt(looooook);
         }
     }
 }
