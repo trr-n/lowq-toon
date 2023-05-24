@@ -6,6 +6,14 @@ namespace Toon
 {
     public static class constant
     {
+        public enum SceneIndex
+        {
+            Title = 0,
+            Main,
+            Fail,
+            Clear
+        }
+
         public static readonly string
         //------------------------------------------------------------------------------
         // SCENE NAME

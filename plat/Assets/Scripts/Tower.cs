@@ -16,13 +16,11 @@ namespace Toon
         [SerializeField]
         int damage;
 
-        readonly Vector3 TowerPosition =
-            new(8.731677f, 3.177724f, -7.152449f);
+        readonly Vector3 TowerPosition = new(8.731677f, 3.177724f, -7.152449f);
 
         void Update()
         {
             LookingAtPlayer();
-            ($"towerhp: {hp.Current}").show();
         }
 
         void ClampingMe()

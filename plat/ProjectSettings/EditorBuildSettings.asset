@@ -15,6 +15,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Over.unity
     guid: dcc9ddce434efa94ab516baf9302f8c5
   - enabled: 1
-    path: Assets/Tests/TestScene.unity
-    guid: 3cdafa589fa9f914fb602ecffd626a1d
+    path: Assets/Scenes/Clear.unity
+    guid: d68da0520c86b66458ba90d70a21acc8
   m_configObjects: {}

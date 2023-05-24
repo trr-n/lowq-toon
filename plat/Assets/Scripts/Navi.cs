@@ -21,10 +21,6 @@ namespace Toon
         [SerializeField]
         float speed;
 
-        [SerializeField]
-        [Tooltip("NPCとの距離がescapeで追尾")]
-        float chase = 13;
-
         float distance;
 
         void Start()
@@ -48,7 +44,6 @@ namespace Toon
         {
             if (info.compare(constant.Missile))
             {
-                "missile hit".show();
                 hp.Damage(50);
             }
         }

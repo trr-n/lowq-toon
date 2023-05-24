@@ -61,7 +61,7 @@ namespace Toon
         void Trigger2(bool timerStart)
         {
             timer += Time.deltaTime;
-            ("canon timer: " + timer).show();
+            // ("canon timer: " + timer).show();
             while (timerStart && timer >= rapid)
             {
                 Fire();

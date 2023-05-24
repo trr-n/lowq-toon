@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,19 +22,12 @@ namespace Toon
         [SerializeField]
         Vector3 lookAt = new(0, 1, 0);
 
-        /// <summary>
-        /// プレイヤーとカメラの距離
-        /// </summary>
-        Vector3 posDistance = new(0, 2, -4);
-        // Vector3 posDistance = new(0, 2, 0);
-
-        float angleX = 0.0f, angleY = 0.0f;
-        float lerping = 15;
-        float rayLength = 0.1f;
-
-        Vector3 looooook;
-
+        Vector3 cameraPlayerDistance = new(0, 2, -4);
+        Vector3 cameraLookingAt;
         GameObject player;
+
+        float angleX = 0.0f;
+        float angleY = 0.0f;
 
         void Start()
         {
@@ -43,7 +37,7 @@ namespace Toon
         void Update()
         {
             ViewRotation(sensiX, sensiY, deadZone);
-            FollowPlayer(Quaternion.Euler(angleX, angleY, 0) * posDistance, lookAt);
+            FollowPlayer(Quaternion.Euler(angleX, angleY, 0) * cameraPlayerDistance, lookAt);
             Raying();
         }
 
@@ -96,8 +90,17 @@ namespace Toon
         void FollowPlayer(Vector3 _posDis, Vector3 _lookAt)
         {
             this.transform.position = player.transform.position + _posDis;
-            looooook = player.transform.position + _lookAt;
-            this.transform.LookAt(looooook);
+            cameraLookingAt = player.transform.position + _lookAt;
+            this.transform.LookAt(cameraLookingAt);
+        }
+
+        async Task tasktest()
+        {
+            while (true)
+            {
+                await Task.Delay(1 * 1000);
+                "call".show();
+            }
         }
     }
 }

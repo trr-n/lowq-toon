@@ -26,7 +26,7 @@ namespace Toon
         float limit = 90;
 
         [SerializeField]
-        [Tooltip("フェードアウトの速度")]
+        [Tooltip("パネルのフェードアウトの速度")]
         float fading = 3;
 
         [SerializeField]
@@ -36,12 +36,15 @@ namespace Toon
         HP playerHp;
 
         [SerializeField]
-        c state = c.show;
+        c state;
 
         float timer;
 
         float alpha;
         float finishedRemainingTime = 0;
+        /// <summary>クリア時の残り時間</summary>
+        public float FinishedRemainingTime => finishedRemainingTime;
+
         float remaining;
         public float Remaining => remaining;
         public float RemainRatio => remaining / limit;
@@ -71,22 +74,12 @@ namespace Toon
         {
             visual.cursor(state);
             LDJudge();
-            TimerStart.show();
             RemainTime2(TimerStart);
-            // RemainTime2(true);
         }
 
         void SetGravity()
         {
-            if (scene.active() == constant.Title)
-            {
-                Physics.gravity = new(0, 0, 0);
-            }
-
-            else if (scene.active() == constant.Main)
-            {
-                Physics.gravity = constant.MainGravity;
-            }
+            Physics.gravity = constant.MainGravity;
         }
 
         public void ChangeScene(string name) => scene.load(name);
@@ -115,11 +108,6 @@ namespace Toon
             doneTheEnd = towerHp.IsZero() && remaining >= 0;
             notDownTheEnd = !towerHp.IsZero() && remaining <= 0;
 
-            if (!doneTheEnd || !notDownTheEnd)
-            {
-                return;
-            }
-
             // 制限時間内に終わらせたらクリア
             if (doneTheEnd)
             {
@@ -131,23 +119,27 @@ namespace Toon
             {
                 onFail.Invoke();
             }
-            "time stopping".show();
-            TimerStart = false;
-            finishedRemainingTime = remaining;
-            $"finished: {finishedRemainingTime}, remain: {remaining}".show();
+
+            // タイマー止めて記録をメモ
+            if (doneTheEnd || notDownTheEnd)
+            {
+                TimerStart = false;
+                finishedRemainingTime = remaining;
+            }
         }
 
-        public void Fading() => AddAlpha(constant.Title);
+        public void Fading() => AddAlpha(constant.Clear);
 
         public void Failing() => AddAlpha(constant.Failure);
 
         void AddAlpha(string name)
         {
-            alpha = alpha.clamping(0, 1f);
+            alpha = numeric.clamp(alpha, 0, 1f);
             alpha += Time.deltaTime / fading;
             fadingPanel.color = new(0, 0, 0, alpha);
             if (fadingPanel.color.a >= 1)
             {
+                "scene loading".show();
                 scene.load(name);
             }
         }

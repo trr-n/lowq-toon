@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Toon.Extend;
 
 namespace Toon
 {
@@ -17,6 +18,9 @@ namespace Toon
         [SerializeField]
         Button button;
 
+        [SerializeField]
+        constant.SceneIndex index;
+
         public void LoadingNext()
         {
             panel.SetActive(true);
@@ -25,7 +29,7 @@ namespace Toon
 
         IEnumerator LoadingScene()
         {
-            var async = SceneManager.LoadSceneAsync(constant.Main);
+            var async = SceneManager.LoadSceneAsync(index.inte());
             while (!async.isDone)
             {
                 slider.value = async.progress;
