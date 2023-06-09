@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Toon.Extend;
-using DG.Tweening;
+//using DG.Tweening;
 
 namespace Toon
 {

@@ -5,6 +5,7 @@ using Toon.Extend;
 
 namespace Toon
 {
+    [ExecuteAlways]
     public class HP : MonoBehaviour
     {
         const int max = 100;

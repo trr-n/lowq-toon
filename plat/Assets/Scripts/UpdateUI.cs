@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,10 +10,19 @@ namespace Toon
     public class UpdateUI : MonoBehaviour
     {
         [SerializeField]
+        GameObject view;
+
+        [SerializeField]
+        Text setumeiT;
+
+        [SerializeField]
         HP pHp;
 
         [SerializeField]
         Text pText;
+
+        [SerializeField]
+        Image pImage;
 
         [SerializeField]
         Manager manager;
@@ -21,7 +31,7 @@ namespace Toon
         Image remain;
 
         [SerializeField]
-        HP thp;
+        HP tHp;
 
         [SerializeField]
         Image tower;
@@ -38,68 +48,96 @@ namespace Toon
         [SerializeField]
         Image fading;
 
-        const float alpha = 0.5f;
-        const float talpha = 1f;
-        float remainR = 0;
-        float towerR = 0;
-        float remainG = 0;
-        float towerG = 0;
-        const float b = 0;
-        Color remainColor = new(0, 1, b, alpha);
-        Color towerColor = new(0, 1, b, talpha);
+        const float alpha = 1f;
 
         bool isMute, isQuiet, isBoring, isLoud;
-        int mute = 0, quiet = 1, boring = 2, loud = 3;
+        const int mute = 0, quiet = 1, boring = 2, loud = 3;
 
         void Start()
         {
             spk ??= GameObject.FindGameObjectWithTag(constant.Speaker)
                 .GetComponent<Speaker>();
+
+            view.SetActive(false);
         }
 
         void Update()
         {
             pText.text = pHp.Current.ToString();
-            GaugeGradation();
+
+            GaugeGradation2(remain, manager.RemainRatio);
+            GaugeGradation2(pImage, pHp.Ratio);
+            GaugeGradation2(tower, tHp.Ratio);
+
             VolumeIcon();
-            Towel();
-        }
+            //TowerTowel();
 
-        void Towel()
-        {
-            tower.fillAmount = thp.Ratio;
-        }
-
-        void GaugeGradation()
-        {
-            remain.fillAmount = manager.RemainRatio;
-            remainColor = new(remainR, remainG, b, alpha);
-            remain.color = remainColor;
-
-            if (manager.RemainRatio >= 0.5f)
+            if (manager.TimerStart)
             {
-                remainG = manager.RemainRatio;
+                view.SetActive(true);
+
+                setumeiT.text = null;
             }
-            else if (manager.RemainRatio < 0.5f)
+        }
+
+        void TowerTowel()
+        {
+            tower.fillAmount = tHp.Ratio;
+        }
+
+        const int b = 0;
+        float remainR = 0;
+        float remainG = 0;
+
+        void GaugeGradation2(Image image, float ratio)
+        {
+            image.fillAmount = ratio;
+            image.color = new(remainR, remainG, b, alpha);
+
+            if (ratio >= 0.5f)
             {
-                var _r = 1 - manager.RemainRatio;
+                remainG = ratio;
+            }
+
+            else if (ratio < 0.5f)
+            {
+                var _r = 1 - ratio;
                 remainR = _r;
             }
-
-            tower.fillAmount = thp.Ratio;
-            towerColor = new(towerR, towerG, b, talpha);
-            tower.color = towerColor;
-
-            if (thp.Ratio >= 0.5f)
-            {
-                towerG = thp.Ratio;
-            }
-            else if (thp.Ratio < 0.5f)
-            {
-                var _r = 1 - thp.Ratio;
-                towerR = _r;
-            }
         }
+
+        //void GaugeGradation(Image image, float ratio)
+        //{
+        //    remain.fillAmount = manager.RemainRatio;
+        //    remainColor = new(remainR, remainG, b, alpha);
+        //    remain.color = remainColor;
+
+        //    if (manager.RemainRatio >= 0.5f)
+        //    {
+        //        remainG = manager.RemainRatio;
+        //    }
+
+        //    else if (manager.RemainRatio < 0.5f)
+        //    {
+        //        var _r = 1 - manager.RemainRatio;
+        //        remainR = _r;
+        //    }
+
+        //    tower.fillAmount = thp.Ratio;
+        //    towerColor = new(towerR, towerG, b, talpha);
+        //    tower.color = towerColor;
+
+        //    if (thp.Ratio >= 0.5f)
+        //    {
+        //        towerG = thp.Ratio;
+        //    }
+
+        //    else if (thp.Ratio < 0.5f)
+        //    {
+        //        var _r = 1 - thp.Ratio;
+        //        towerR = _r;
+        //    }
+        //}
 
         void VolumeIcon()
         {
@@ -112,14 +150,17 @@ namespace Toon
             {
                 volume.sprite = volIcons[mute];
             }
+
             else if (isQuiet)
             {
                 volume.sprite = volIcons[quiet];
             }
+
             else if (isBoring)
             {
                 volume.sprite = volIcons[boring];
             }
+
             else if (isLoud)
             {
                 volume.sprite = volIcons[loud];

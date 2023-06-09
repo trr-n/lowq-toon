@@ -35,9 +35,6 @@ namespace Toon
         [SerializeField]
         HP playerHp;
 
-        [SerializeField]
-        c state;
-
         float timer;
 
         float alpha;
@@ -72,7 +69,6 @@ namespace Toon
 
         void Update()
         {
-            visual.cursor(state);
             LDJudge();
             RemainTime2(TimerStart);
         }
