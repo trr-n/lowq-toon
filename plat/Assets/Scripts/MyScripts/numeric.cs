@@ -25,5 +25,7 @@ namespace Toon.Extend
         public static float round(float n, int digit) => System.MathF.Round(n, digit);
 
         // public static void sample(out int n) => n = 5;
+
+        public static bool almostsame(this float n1, float n2) => Mathf.Approximately(n1, n2);
     }
 }
