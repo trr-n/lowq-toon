@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Toon.Extend;
 using DG.Tweening;
 
@@ -75,9 +76,11 @@ namespace Toon
             }
         }
 
-        public void BossCameraMove(float duration)
+        public void BossCameraMove(float duration, Text text)
         {
             isMoving = true;
+
+            text.text = null;
 
             main.depth = -1;
             boss.depth = 0;

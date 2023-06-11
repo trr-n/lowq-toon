@@ -1969,6 +1969,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43e958afa50e7e74393c5a408f87b6d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  setumeiT: {fileID: 1991242696}
   panel: {fileID: 1988625295}
   playerHp: {fileID: 503735913}
   manager: {fileID: 1928162261}
@@ -7813,7 +7814,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 746624292}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -7860,7 +7861,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   view: {fileID: 1418994825}
-  setumeiT: {fileID: 1991242696}
   pHp: {fileID: 503735913}
   pText: {fileID: 2020258225}
   pImage: {fileID: 511219980}

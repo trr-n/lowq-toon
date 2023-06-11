@@ -13,9 +13,6 @@ namespace Toon
         GameObject view;
 
         [SerializeField]
-        Text setumeiT;
-
-        [SerializeField]
         HP pHp;
 
         [SerializeField]
@@ -64,8 +61,8 @@ namespace Toon
         void Update()
         {
             pText.text = pHp.Current.ToString();
+            remain.fillAmount = manager.RemainRatio;
 
-            GaugeGradation2(remain, manager.RemainRatio);
             GaugeGradation2(pImage, pHp.Ratio);
             GaugeGradation2(tower, tHp.Ratio);
 
@@ -75,8 +72,6 @@ namespace Toon
             if (manager.TimerStart)
             {
                 view.SetActive(true);
-
-                setumeiT.text = null;
             }
         }
 

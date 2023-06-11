@@ -10,6 +10,9 @@ namespace Toon
     public class Player : MonoBehaviour
     {
         [SerializeField]
+        Text setumeiT;
+
+        [SerializeField]
         GameObject panel;
 
         [SerializeField]
@@ -79,7 +82,7 @@ namespace Toon
                 transform.position = spawnPosOnRoof;
 
                 // StartCoroutine(bossCam.BossCameraMove(bosCamMoveDuration));
-                bossCam.BossCameraMove(bosCamMoveDuration);
+                bossCam.BossCameraMove(bosCamMoveDuration, setumeiT);
 
                 // manager.TimerStart = true;
             }
