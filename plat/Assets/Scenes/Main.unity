@@ -2056,6 +2056,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   current: 100
+--- !u!4 &503735917 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6905493415300027529, guid: dd20e7a5bd966574d89d98376afb2f80, type: 3}
+  m_PrefabInstance: {fileID: 6905493416075959777}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &511219978
 GameObject:
   m_ObjectHideFlags: 0
@@ -2228,8 +2233,9 @@ GameObject:
   - component: {fileID: 754374948}
   - component: {fileID: 754374947}
   - component: {fileID: 754374946}
+  - component: {fileID: 754374949}
   m_Layer: 0
-  m_Name: portal_collider
+  m_Name: a
   m_TagString: Portal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2313,6 +2319,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 754374944}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &754374949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 754374944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 704ac71236b5dfb428733c82f85c7176, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetT: {fileID: 503735917}
 --- !u!1 &801693534 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6905493416877572799, guid: dd20e7a5bd966574d89d98376afb2f80, type: 3}
@@ -13181,7 +13200,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 1
-  m_FillAmount: 1
+  m_FillAmount: 0.422
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -13331,7 +13350,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.20754719, g: 0.20754719, b: 0.20754719, a: 1}
+  m_Color: {r: 0.9245283, g: 0.9245283, b: 0.9245283, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -13824,6 +13843,7 @@ GameObject:
   - component: {fileID: 1991242695}
   - component: {fileID: 1991242697}
   - component: {fileID: 1991242696}
+  - component: {fileID: 1991242698}
   m_Layer: 5
   m_Name: setumei
   m_TagString: Untagged
@@ -13893,6 +13913,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1991242694}
   m_CullTransparentMesh: 1
+--- !u!114 &1991242698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1991242694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed38fa105a1ddbe4189ddf40cd2c7fe9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetTran: {fileID: 754374945}
+  camera: {fileID: 746624292}
 --- !u!1 &2008707556
 GameObject:
   m_ObjectHideFlags: 0
@@ -13944,7 +13978,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.09433961, g: 0.057693996, b: 0.045834813, a: 1}
+  m_Color: {r: 0.16981131, g: 0.08270291, b: 0.053666778, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
