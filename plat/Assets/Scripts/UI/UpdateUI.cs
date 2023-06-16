@@ -64,7 +64,6 @@ namespace Toon
             remain.fillAmount = manager.RemainRatio;
 
             GaugeGradation2(pImage, pHp.Ratio);
-            GaugeGradation2(tower, tHp.Ratio);
 
             VolumeIcon();
             //TowerTowel();

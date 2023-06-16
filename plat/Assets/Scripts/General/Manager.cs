@@ -69,6 +69,7 @@ namespace Toon
 
             onClear?.AddListener(Fading);
             onFail?.AddListener(Failing);
+
         }
 
         void Update()

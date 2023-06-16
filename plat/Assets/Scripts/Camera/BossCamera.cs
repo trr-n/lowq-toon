@@ -47,7 +47,7 @@ namespace Toon
             if (Mathf.Approximately(transform.eulerAngles.z, lookAtTower.z) && once)
             {
                 StartCoroutine(Timer());
-                true.show();
+                print(true);
 
                 once = false;
             }

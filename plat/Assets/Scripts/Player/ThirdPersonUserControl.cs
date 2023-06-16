@@ -42,17 +42,22 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
         void Update()
         {
-            if (!m_Jump)
-            {
-                // m_Jump = CrossPlatformInputManager.GetButtonDown(Keys.Jump);
-            }
+            // if (!m_Jump)
+            // {
+            //     m_Jump = CrossPlatformInputManager.GetButtonDown(Keys.Jump);
+            // }
 
             if (bossCam.IsMoving)
             {
-                m_Move = Vector3.zero;
+                bool once = true;
+                Vector3 nowpos = new();
+                if (once)
+                {
+                    nowpos = transform.position;
+                    once = false;
+                }
+                transform.position = nowpos;
             }
-
-            m_Move.show();
         }
 
         void FixedUpdate()

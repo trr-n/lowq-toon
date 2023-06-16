@@ -42,6 +42,9 @@ namespace Toon
         [SerializeField]
         float bosCamMoveDuration = 2;
 
+        Vector3 spawnedPos;
+        public Vector3 SpawnedPos => spawnedPos;
+
         void Start()
         {
             init();
@@ -80,7 +83,6 @@ namespace Toon
             if (info.compare(constant.Portal))
             {
                 transform.position = spawnPosOnRoof;
-
                 // StartCoroutine(bossCam.BossCameraMove(bosCamMoveDuration));
                 bossCam.BossCameraMove(bosCamMoveDuration, setumeiT);
 
