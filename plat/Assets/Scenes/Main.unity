@@ -2362,7 +2362,7 @@ GameObject:
   - component: {fileID: 837686444}
   m_Layer: 0
   m_Name: Terrain
-  m_TagString: Untagged
+  m_TagString: Terrain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -13905,7 +13905,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\u5EFA\u7269\u306B\u5165\u308C"
+  m_Text: "\u5EFA\u7269\u306B\u5165\u308D\u3046"
 --- !u!222 &1991242697
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -14531,5 +14531,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8591146928878404667, guid: 6457079e1395b5043bd6b308c35c898c, type: 3}
+      propertyPath: terrainCol
+      value: 
+      objectReference: {fileID: 837686444}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6457079e1395b5043bd6b308c35c898c, type: 3}

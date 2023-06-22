@@ -6,11 +6,8 @@ namespace Toon
 {
     public class Above : MonoBehaviour
     {
-        [SerializeField]
-        Transform targetTran;
-
-        [SerializeField]
-        new Camera camera;
+        [SerializeField] Transform targetTran;
+        [SerializeField] new Camera camera;
 
         void Update()
         {

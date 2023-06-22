@@ -16,6 +16,7 @@ TagManager:
   - Portal
   - Player2
   - Speaker
+  - Terrain
   layers:
   - Default
   - TransparentFX
