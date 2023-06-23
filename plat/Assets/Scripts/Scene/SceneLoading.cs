@@ -29,7 +29,7 @@ namespace Toon
 
         IEnumerator LoadingScene()
         {
-            var async = SceneManager.LoadSceneAsync(index.inte());
+            var async = SceneManager.LoadSceneAsync(((int)index));
             while (!async.isDone)
             {
                 slider.value = async.progress;

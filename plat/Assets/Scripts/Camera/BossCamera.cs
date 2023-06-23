@@ -19,23 +19,16 @@ namespace Toon
         Camera main;
 
         bool isMoving = false;
-
         public bool IsMoving => isMoving;
-
         Vector3 firstPos = new(-1.95f, 2.66f, 0.85f);
-
         Quaternion firstRot = Quaternion.Euler(18.5f, 90, 0);
-
         Vector3 lookAtTower = new(339.53f, 133.42f, 358f);
-
         float showTimer = 0;
 
         void Start()
         {
             isMoving = false;
-
             transform.SetPositionAndRotation(firstPos, firstRot);
-
             main.depth = 0;
             boss.depth = -1;
         }
@@ -48,20 +41,16 @@ namespace Toon
             {
                 StartCoroutine(Timer());
                 print(true);
-
                 once = false;
             }
 
             if (showTimer >= 2 && once1)
             {
                 isMoving = false;
-
                 main.depth = 0;
                 boss.depth = -1;
-
                 manager.Controllable = true;
                 manager.TimerStart = true;
-
                 once1 = false;
             }
         }
@@ -71,7 +60,6 @@ namespace Toon
             while (true)
             {
                 yield return new WaitForSeconds(1);
-
                 showTimer++;
             }
         }
@@ -79,14 +67,10 @@ namespace Toon
         public void BossCameraMove(float duration, Text text)
         {
             isMoving = true;
-
             text.text = null;
-
             main.depth = -1;
             boss.depth = 0;
-
             manager.Controllable = false;
-
             transform.DORotate(lookAtTower, duration);
         }
     }

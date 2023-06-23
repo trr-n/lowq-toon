@@ -3,21 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using Toon.Extend;
 
-public class ExtendTest : MonoBehaviour
+namespace Toon.Test
 {
-    public List<int> i;
-
-    void Start()
+    public class ExtendTest : MonoBehaviour
     {
-        i ??= null;
-        for (int j = 1; j <= 100; j++)
+        public List<int> i;
+
+        void Start()
         {
-            i.Add(j);
+            i ??= null;
+            for (int j = 1; j <= 100; j++)
+                i.Add(j);
+            i[i.Capacity.max()].show();
         }
-    }
-
-    void Update()
-    {
-        i[i.Capacity.max()].show();
     }
 }

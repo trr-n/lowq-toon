@@ -36,7 +36,7 @@ namespace Toon
 
         public void Texts()
         {
-            player.text.text = "remain hp: " + player.hp.Current.str();
+            player.text.text = "remain hp: " + player.hp.Current.ToString();
         }
     }
 }

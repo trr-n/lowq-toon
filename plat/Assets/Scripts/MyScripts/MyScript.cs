@@ -15,7 +15,7 @@ namespace Toon.Extend
             var tp = transform.position;
             Vector3 coordinate = new(
                 x: Mathf.Clamp(tp.x, -x, x), y: Mathf.Clamp(tp.y, -y, y),
-                z: Mathf.Clamp(tp.z, -z.single(), z.single())
+                z: Mathf.Clamp(tp.z, ((float)-z), ((float)z))
             );
             transform.position = coordinate;
         }

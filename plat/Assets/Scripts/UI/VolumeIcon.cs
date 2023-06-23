@@ -41,21 +41,13 @@ namespace Toon
             isLoud = !(isMute && isQuiet && isBoring);
 
             if (isMute)
-            {
                 image.sprite = icons[mute];
-            }
             else if (isQuiet)
-            {
                 image.sprite = icons[quiet];
-            }
             else if (isBoring)
-            {
                 image.sprite = icons[boring];
-            }
             else if (isLoud)
-            {
                 image.sprite = icons[loud];
-            }
         }
     }
 }

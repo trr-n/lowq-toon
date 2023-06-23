@@ -2033,6 +2033,7 @@ MonoBehaviour:
   bulletDamage: 10
   bossCam: {fileID: 1424531784}
   bosCamMoveDuration: 2
+  pcamera: {fileID: 746624285}
 --- !u!136 &503735909 stripped
 CapsuleCollider:
   m_CorrespondingSourceObject: {fileID: 6905493415287859469, guid: dd20e7a5bd966574d89d98376afb2f80, type: 3}

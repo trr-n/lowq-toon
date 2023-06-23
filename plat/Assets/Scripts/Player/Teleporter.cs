@@ -18,7 +18,6 @@ namespace Toon
         {
             if (info.compare(constant.Player))
             {
-                "on tp".show();
                 info.gameObject.transform.position = spawnPosOnRoof;
                 manager.TimerStart = true;
             }

@@ -48,23 +48,6 @@ namespace Toon
         void Update()
         {
             VolumeChousei();
-            // if (input.down(KeyCode.LeftArrow))
-            // {
-            //     int next = random.choice(music.Length);
-            //     if (next == playing)
-            //     {
-            //         next = random.choice(music.Length);
-            //     }
-            //     audio.clip = music[next];
-            //     playing = next;
-            //     audio.Play();
-            //     "changea & play".show();
-            // }
-
-            // if (input.down(KeyCode.RightArrow))
-            // {
-            //     audio.clip = music[random.choice(music.Length)];
-            // }
         }
 
         void VolumeChousei()
@@ -75,27 +58,19 @@ namespace Toon
             float vol = Mathf.Clamp(audio.volume, 0, MaxVolume);
             Volume = audio.volume;
 
-            if (func(codes[Up]) || func(codes[Down]))
-            {
+            if (methods(codes[Up]) || methods(codes[Down]))
                 vol += inputV;
-            }
 
-            if (func(codes[RShift]) && func(codes[Down]))
+            if (methods(codes[RShift]) && methods(codes[Down]))
             {
                 preMuteVolume = audio.volume;
                 vol = 0;
             }
-
-            else if (func(codes[RShift]) && func(codes[Up]))
-            {
+            else if (methods(codes[RShift]) && methods(codes[Up]))
                 vol = preMuteVolume;
-            }
             audio.volume = vol;
         }
 
-        bool func(KeyCode keyCode)
-        {
-            return Input.GetKeyDown(keyCode);
-        }
+        bool methods(KeyCode keyCode) => Input.GetKeyDown(keyCode);
     }
 }

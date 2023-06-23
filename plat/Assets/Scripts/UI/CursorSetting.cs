@@ -15,14 +15,9 @@ namespace Toon
         void Update()
         {
             if (scene.active() == constant.Main)
-            {
                 visual.cursor(c.hide, v.inscene);
-            }
-
             else
-            {
                 visual.cursor(c.show, v.unlocked);
-            }
         }
     }
 }

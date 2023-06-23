@@ -22,14 +22,9 @@ namespace Toon.Extend
         public static string str(int? count)
         {
             string characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-            // var charasArr = new char[(int)count];
-            char[] charaArr = count != null ?
-                new char[count.inte()] : new char[i(2, 16)];
-            System.Random random = new();
+            char[] charaArr = count is null ? new char[i(2, 16)] : new char[((int)count)];
             for (int i = 0; i < charaArr.Length; i++)
-            {
-                charaArr[i] = characters[random.Next(characters.Length)];
-            }
+                charaArr[i] = characters[new System.Random().Next(characters.Length)];
             return charaArr.ToString();
         }
     }

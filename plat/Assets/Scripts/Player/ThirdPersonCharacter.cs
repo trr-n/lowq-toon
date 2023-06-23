@@ -20,17 +20,14 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         [SerializeField] Guns gun;
 
         ThirdPersonUserControl tpuc;
-        PlayerInput pi;
-
+        PlayerInput pinput;
         new Rigidbody rigidbody;
         public Rigidbody Rigidbody => rigidbody;
         Animator animator;
         CapsuleCollider capsuleCol;
-
         Vector3 groundNormal;
         Vector3 capsuleCenter;
         Vector3 moveInfo;
-
         float origGroundCheckDistance;
         float turnAmount;
         float forwardAmount;
@@ -38,10 +35,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         float tolerance = 0.5f;
         float tolerance2 = 0.1f;
         const float k_Half = 0.5f;
-
         int bulletLayer;
         int hitLayer;
-
         bool isCrouching;
         bool isGrounded;
         public static bool isMoving { get; set; }
@@ -50,18 +45,15 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
         void Start()
         {
-            pi = GameObject.FindGameObjectWithTag(constant.Manager).GetComponent<Toon.PlayerInput>();
+            pinput = GameObject.FindGameObjectWithTag(constant.Manager).GetComponent<Toon.PlayerInput>();
             tpuc = GetComponent<ThirdPersonUserControl>();
             animator = GetComponent<Animator>();
             rigidbody = GetComponent<Rigidbody>();
             capsuleCol = GetComponent<CapsuleCollider>();
-
             capsuleHeight = capsuleCol.height;
             capsuleCenter = capsuleCol.center;
-
             rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
             origGroundCheckDistance = groundCheckDistance;
-
             bulletLayer = LayerMask.NameToLayer(constant.Bullet);
             hitLayer = ~(1 << bulletLayer);
         }
@@ -69,9 +61,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         public void Move(Vector3 move, bool crouch, bool jump)
         {
             if (move.magnitude > 1f)
-            {
                 move.Normalize();
-            }
             move = transform.InverseTransformDirection(move);
             CheckGroundStatus();
             move = Vector3.ProjectOnPlane(move, groundNormal);
@@ -79,20 +69,13 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             forwardAmount = move.z;
             isMoving = Mathf.Abs(rigidbody.velocity.magnitude) > tolerance2;
 
-            if (!pi.isRotating)
-            {
+            if (!pinput.isRotating)
                 ApplyExtraTurnRotation();
-            }
 
             if (isGrounded)
-            {
                 HandleGroundedMovement(crouch, jump);
-            }
-
             else
-            {
                 HandleAirborneMovement();
-            }
 
             ScaleCapsuleForCrouching(crouch);
             PreventStandingInLowHeadroom();
@@ -104,17 +87,15 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
         void Rotate(float rotationSpeed, float tolerance)
         {
-            if (!pi.isRotating)
-            {
+            if (!pinput.isRotating)
                 return;
-            }
-            pi.isRotating = true;
+            pinput.isRotating = true;
 
             float playerAngleY = this.transform.eulerAngles.y;
             float cameraAngleY = camera.transform.eulerAngles.y;
             float angleYDiff = Mathf.DeltaAngle(playerAngleY, cameraAngleY);
 
-            // player y sync camera y
+            // player y syncs camera y
             Vector3 tempLocalEulerAngles = transform.localEulerAngles;
             tempLocalEulerAngles.y = Mathf.Lerp(
                 playerAngleY, playerAngleY + angleYDiff, rotationSpeed * Time.deltaTime);
@@ -122,14 +103,12 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
             // 差がtolerance(許容値)以下でIsRotatingがFalse
             if (Mathf.Abs(angleYDiff) <= tolerance)
-            {
-                pi.isRotating = false;
-            }
+                pinput.isRotating = false;
         }
 
         void SyncCoordPlayerYWithCameraY()
         {
-            walkWhileShooting = pi.Clicks && isMoving;
+            walkWhileShooting = pinput.Clicks && isMoving;
             if (walkWhileShooting)
             {
                 // transform.setr(eulerY: camera.transform.rotation.y);
@@ -144,17 +123,14 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             if (isGrounded && crouch)
             {
                 if (isCrouching)
-                {
                     return;
-                }
                 capsuleCol.height = capsuleCol.height / 2f;
                 capsuleCol.center = capsuleCol.center / 2f;
                 isCrouching = true;
             }
             else
             {
-                Ray crouchRay = new(
-                    rigidbody.position + Vector3.up * capsuleCol.radius * k_Half, Vector3.up);
+                Ray crouchRay = new(rigidbody.position + Vector3.up * capsuleCol.radius * k_Half, Vector3.up);
                 float crouchRayLength = capsuleHeight - capsuleCol.radius * k_Half;
                 if (Physics.SphereCast(
                     crouchRay,
@@ -185,9 +161,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
                     hitLayer,
                     QueryTriggerInteraction.Ignore
                 ))
-                {
                     isCrouching = true;
-                }
             }
         }
 
@@ -198,24 +172,16 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             animator.SetBool("Crouch", isCrouching);
             animator.SetBool("OnGround", isGrounded);
             if (!isGrounded)
-            {
                 animator.SetFloat("Jump", rigidbody.velocity.y);
-            }
 
-            float runCycle = Mathf.Repeat(
-                    animator.GetCurrentAnimatorStateInfo(0).normalizedTime + runCycleLegOffset, 1);
+            float runCycle = Mathf.Repeat(animator.GetCurrentAnimatorStateInfo(0).normalizedTime + runCycleLegOffset, 1);
 
             float jumpLeg = (runCycle < k_Half ? 1 : -1) * forwardAmount;
             if (isGrounded)
-            {
                 animator.SetFloat("JumpLeg", jumpLeg);
-            }
 
             if (isGrounded && move.magnitude > 0)
-            {
                 animator.speed = animSpeedMultiplier;
-            }
-
             else {; }
         }
 

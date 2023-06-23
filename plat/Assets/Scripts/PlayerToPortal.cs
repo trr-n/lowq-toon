@@ -15,7 +15,8 @@ namespace Toon
         {
             var ray = new Ray(transform.position, targetT.position - transform.position);
             var distance = Vector3.Distance(targetT.position, transform.position) + 1;
-            setumei.SetActive(Physics.Raycast(ray, out var hit2, distance) && hit2.collider.CompareTag(constant.Player));
+            setumei.SetActive(Physics.Raycast(
+                ray, out var hit2, distance) && hit2.collider.CompareTag(constant.Player));
         }
     }
 }

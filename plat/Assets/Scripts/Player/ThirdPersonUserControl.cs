@@ -28,13 +28,11 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         Vector3 m_Move;
         public Vector3 M_Move => m_Move;
         float reductionRatio = 0.5f;
-
         bool m_Jump;
 
         void Start()
         {
             m_Cam = cam.transform;
-
             tpc = GetComponent<ThirdPersonCharacter>();
             cam = GameObject.FindGameObjectWithTag(constant.Camera);
             pi = GameObject.FindGameObjectWithTag(constant.Manager).GetComponent<PlayerInput>();
@@ -44,11 +42,6 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         static bool once = true;
         void Update()
         {
-            // if (!m_Jump)
-            // {
-            //     m_Jump = CrossPlatformInputManager.GetButtonDown(Keys.Jump);
-            // }
-
             if (bossCam.IsMoving)
             {
                 Vector3 nowpos = new();
@@ -58,7 +51,6 @@ namespace UnityStandardAssets.Characters.ThirdPerson
                     once = false;
                 }
                 transform.position = nowpos;
-                print($"tp: {transform.position}, nowpos: {nowpos}");
             }
         }
 
@@ -66,10 +58,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         {
             // 生きてる間のみ制御可能
             if (!manager.Controllable && bossCam.IsMoving)
-            {
                 return;
-            }
-
             float h = CrossPlatformInputManager.GetAxis(constant.Horizontal),
                 v = CrossPlatformInputManager.GetAxis(constant.Vertical);
             bool crouchKey = input.pressed(constant.Crouch);
@@ -78,9 +67,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             m_Move = h * m_Cam.right + v * m_CamForward;
 
             if (Input.GetKey(KeyCode.LeftShift) || tpc.WalkWhileShooting)
-            {
                 m_Move *= reductionRatio;
-            }
 
             tpc.Move(m_Move, crouchKey, m_Jump);
             m_Jump = false;

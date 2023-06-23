@@ -52,9 +52,7 @@ namespace Toon
 
         void Start()
         {
-            spk ??= GameObject.FindGameObjectWithTag(constant.Speaker)
-                .GetComponent<Speaker>();
-
+            spk ??= GameObject.FindGameObjectWithTag(constant.Speaker).GetComponent<Speaker>();
             view.SetActive(false);
         }
 
@@ -62,16 +60,10 @@ namespace Toon
         {
             pText.text = pHp.Current.ToString();
             remain.fillAmount = manager.RemainRatio;
-
             GaugeGradation2(pImage, pHp.Ratio);
-
             VolumeIcon();
-            //TowerTowel();
-
             if (manager.TimerStart)
-            {
                 view.SetActive(true);
-            }
         }
 
         void TowerTowel()
@@ -87,51 +79,14 @@ namespace Toon
         {
             image.fillAmount = ratio;
             image.color = new(remainR, remainG, b, alpha);
-
             if (ratio >= 0.5f)
-            {
                 remainG = ratio;
-            }
-
             else if (ratio < 0.5f)
             {
                 var _r = 1 - ratio;
                 remainR = _r;
             }
         }
-
-        //void GaugeGradation(Image image, float ratio)
-        //{
-        //    remain.fillAmount = manager.RemainRatio;
-        //    remainColor = new(remainR, remainG, b, alpha);
-        //    remain.color = remainColor;
-
-        //    if (manager.RemainRatio >= 0.5f)
-        //    {
-        //        remainG = manager.RemainRatio;
-        //    }
-
-        //    else if (manager.RemainRatio < 0.5f)
-        //    {
-        //        var _r = 1 - manager.RemainRatio;
-        //        remainR = _r;
-        //    }
-
-        //    tower.fillAmount = thp.Ratio;
-        //    towerColor = new(towerR, towerG, b, talpha);
-        //    tower.color = towerColor;
-
-        //    if (thp.Ratio >= 0.5f)
-        //    {
-        //        towerG = thp.Ratio;
-        //    }
-
-        //    else if (thp.Ratio < 0.5f)
-        //    {
-        //        var _r = 1 - thp.Ratio;
-        //        towerR = _r;
-        //    }
-        //}
 
         void VolumeIcon()
         {
@@ -141,24 +96,13 @@ namespace Toon
             isLoud = !(isMute && isQuiet && isBoring);
 
             if (isMute)
-            {
                 volume.sprite = volIcons[mute];
-            }
-
             else if (isQuiet)
-            {
                 volume.sprite = volIcons[quiet];
-            }
-
             else if (isBoring)
-            {
                 volume.sprite = volIcons[boring];
-            }
-
             else if (isLoud)
-            {
                 volume.sprite = volIcons[loud];
-            }
         }
     }
 }

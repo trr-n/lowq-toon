@@ -17,22 +17,19 @@ namespace Toon
         new GameObject camera;
 
         float lookingUpALittle = 11f;
-        float firstBulletScale = 100f;
+        float firstBulletPowerScale = 100f;
         float power = 10;
         float fireRate = 0.5f;
         float timer;
-
         Vector3 bulletGenPosOffset = new(0, 0, 0.2f);
         PlayerInput pi;
         GameObject gun;
         Quaternion selfRotation;
-
         bool isShooting;
-        bool rapid;
-        bool firstShot;
-
         public bool IsShooting => isShooting;
+        bool rapid;
         public bool Rapid => rapid;
+        bool firstShot;
         public bool FirstShot => firstShot;
         public bool Shootable { get; set; }
 
@@ -58,16 +55,12 @@ namespace Toon
             rapid = input.pressed(pi.Click4Shoot) && timer > fireRate;
 
             if (!Shootable)
-            {
                 return;
-            }
-
             // 初弾(クリックしたとき)は単発強め、二発目(長押し)から勢い弱めで連射
-            // スプラトゥーンの "ボトルガイザー" みたいなかんじ
             if (firstShot)
             {
                 isShooting = true;
-                Fire2(power * firstBulletScale);
+                Fire2(power * firstBulletPowerScale);
                 pi.shootable = false;
             }
 
@@ -85,7 +78,7 @@ namespace Toon
         {
             while (true)
             {
-                Fire2(power * firstBulletScale);
+                Fire2(power * firstBulletPowerScale);
                 yield return new WaitForSeconds(1f);
             }
         }

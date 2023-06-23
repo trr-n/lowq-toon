@@ -116,14 +116,14 @@ namespace Toon
             transform.rotation = Quaternion.Slerp(transform.rotation, q, rotSpeed * Time.deltaTime);
         }
 
-        /// <summary>
-        /// (銃用)プレイヤーとカメラのy座標を同期
-        /// </summary>
-        public void Rotate4Gun()
-        {
-            var a = transform.rotation;
-            a.y = camera.transform.rotation.y;
-        }
+        // /// <summary>
+        // /// (銃用)プレイヤーとカメラのy座標を同期
+        // /// </summary>
+        // public void Rotate4Gun()
+        // {
+        //     var a = transform.rotation;
+        //     a.y = camera.transform.rotation.y;
+        // }
 
         /// <summary>
         /// 回転処理
@@ -133,9 +133,7 @@ namespace Toon
         void Rotate(float rotSpeed, float tolerance)
         {
             if (!playerInput.isRotating)
-            {
                 return;
-            }
             playerInput.isRotating = true;
 
             float playerAngleY = this.transform.eulerAngles.y,
@@ -151,26 +149,7 @@ namespace Toon
 
             // 差がtolerance(許容値)以下で!IsRotating
             if (Mathf.Abs(angleYDiff) <= tolerance)
-            {
                 playerInput.isRotating = false;
-            }
-        }
-
-        void VMove(float _diff)
-        {
-            // playerPos = this.transform.position;
-            // cameraPos = camera.gameObject.transform.position;
-            // bool boolean = false;
-
-            // if (Mathf.DeltaAngle(playerPos.y, cameraPos.y) >= _diff)
-            // {
-            //     boolean = true;
-            // }
-
-            // if (boolean)
-            // {
-            //     ;
-            // }
         }
 
         /// <summary>
@@ -180,26 +159,19 @@ namespace Toon
         void Jumps(float power)
         {
             if (!isFloating && Input.GetButtonDown(constant.Jump))
-            {
-                //isFloating = true;
                 rb.AddForce(Vector3.up * power, ForceMode.Impulse);
-            }
         }
 
         void OnCollisionEnter(Collision collisionInfo)
         {
             if (collisionInfo.gameObject.CompareTag(constant.Ground))
-            {
                 isFloating = false;
-            }
         }
 
         void OnCollisionExit(Collision collisionInfo)
         {
             if (collisionInfo.gameObject.CompareTag(constant.Ground))
-            {
                 isFloating = true;
-            }
         }
     }
 }

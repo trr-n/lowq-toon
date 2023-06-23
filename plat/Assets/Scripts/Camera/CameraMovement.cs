@@ -18,40 +18,44 @@ namespace Toon
         Vector3 lookAt = new(0, 1, 0), cameraPlayerDistance = new(0, 2, -4);
         GameObject player;
         float angleX = 0.0f, angleY = 0.0f;
-
+        GameObject portal;
 
         void Start()
         {
             player = GameObject.FindGameObjectWithTag(constant.Player);
             terrainCol ??= GameObject.FindGameObjectWithTag("Terrain").GetComponent<TerrainCollider>();
+            portal = GameObject.FindGameObjectWithTag(constant.Portal);
         }
 
         void Update()
         {
             ViewRotation(sensiX, sensiY, deadZone);
             FollowPlayer(Quaternion.Euler(angleX, angleY, 0) * cameraPlayerDistance, lookAt);
-            Raying();
+            // Raying();
         }
 
-        bool hitTerrain = false;
+        bool hitOther = false;
         /// <summary>
         /// めり込み対策
         /// </summary>
         void Raying()
         {
             Ray r2 = new(transform.position, transform.forward);
-            Debug.DrawRay(transform.position, transform.forward);
-            var dis = Vector3.Distance(transform.position, player.transform.position) + 1;
-            if (!hitTerrain && Physics.Raycast(r2, out var hit2, dis))
+            Debug.DrawRay(r2.origin, r2.direction);
+            var dis = Vector3.Distance(transform.position, player.transform.position);
+            hitOther = false;
+            if (Physics.Raycast(r2, out var hit2, dis))
             {
-                // TODO terrainにめり込む ///////////////////////////////////////////////
                 //? https://forum.unity.com/threads/physics-raycast-not-working-for-terrain.412005/
                 if (!hit2.collider.compare(constant.Player))
+                {
+                    hitOther = true;
                     transform.position = hit2.point;
+                }
             }
-            if (terrainCol.Raycast(r2, out var hit3, dis))
+            if (!hitOther && terrainCol.Raycast(r2, out var hit3, dis))
             {
-                hitTerrain = true;
+                print("hit for terrain");
                 transform.position = hit3.point;
             }
         }

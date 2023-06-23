@@ -25,28 +25,21 @@ namespace Toon
 
         void ClampingMe()
         {
-            Quaternion rotation = transform.rotation;
-            rotation.y = numeric.clamp(rotation.y, 225, 283);
-            transform.rotation = rotation;
-
+            transform.setr(y: numeric.clamp(transform.rotation.y, 225, 283));
             transform.position = TowerPosition;
         }
 
         void LookingAtPlayer()
         {
-            Vector3 direction =
-                new Vector3(transform.position.x, 0, transform.position.z) -
-                new Vector3(player.transform.position.x, 0, player.transform.position.z);
-            transform.rotation = Quaternion.LookRotation(-direction, Vector3.up);
+            Vector3 a = new(transform.position.x, 0, transform.position.z),
+                b = new(player.transform.position.x, 0, player.transform.position.z);
+            transform.rotation = Quaternion.LookRotation(b - a, Vector3.up);
         }
 
         void OnCollisionEnter(Collision info)
         {
             if (info.gameObject.CompareTag(constant.Missile))
-            {
-                "tower hit".show();
                 hp.Damage(damage);
-            }
         }
     }
 }
