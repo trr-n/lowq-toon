@@ -81,11 +81,13 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
             UpdateAnimator(move);
             Rotate(movingTurnSpeed, tolerance);
+            // gun.Trigger();
             SyncCoordPlayerYWithCameraY();
         }
 
         void Rotate(float rotationSpeed, float tolerance)
         {
+            // print("isrotating: " + pinput.isRotating);
             if (!pinput.isRotating)
                 return;
             pinput.isRotating = true;

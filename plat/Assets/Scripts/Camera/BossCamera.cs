@@ -40,19 +40,30 @@ namespace Toon
             if (Mathf.Approximately(transform.eulerAngles.z, lookAtTower.z) && once)
             {
                 StartCoroutine(Timer());
-                print(true);
                 once = false;
             }
 
-            if (showTimer >= 2 && once1)
+            if (showTimer >= 3 && once1)
             {
-                isMoving = false;
-                main.depth = 0;
-                boss.depth = -1;
-                manager.Controllable = true;
-                manager.TimerStart = true;
-                once1 = false;
+                StartCoroutine(a());
+                // isMoving = false;
+                // main.depth = 0;
+                // boss.depth = -1;
+                // manager.Controllable = true;
+                // manager.TimerStart = true;
+                // once1 = false;
             }
+        }
+
+        IEnumerator a()
+        {
+            isMoving = false;
+            main.depth = 0;
+            boss.depth = -1;
+            manager.Controllable = true;
+            yield return new WaitForSeconds(1f);
+            manager.TimerStart = true;
+            once1 = false;
         }
 
         IEnumerator Timer()

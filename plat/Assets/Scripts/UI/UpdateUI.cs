@@ -42,9 +42,7 @@ namespace Toon
         Image fading;
 
         const float alpha = 1f;
-
-        bool isMute, isQuiet, isBoring, isLoud;
-        const int mute = 0, quiet = 1, boring = 2, loud = 3;
+        (bool boo, int index) mute, quiet, boring, loud;
 
         void Start()
         {
@@ -56,15 +54,11 @@ namespace Toon
         {
             pText.text = pHp.Current.ToString();
             remain.fillAmount = manager.RemainRatio;
+            tower.fillAmount = tHp.Ratio;
             GaugeGradation2(pImage, pHp.Ratio);
             VolumeIcon();
             if (manager.TimerStart)
                 view.SetActive(true);
-        }
-
-        void TowerTowel()
-        {
-            tower.fillAmount = tHp.Ratio;
         }
 
         const int b = 0;
@@ -86,19 +80,14 @@ namespace Toon
 
         void VolumeIcon()
         {
-            isMute = spk.Volume <= 0;
-            isQuiet = spk.Volume <= spk.MaxVolume / 3;
-            isBoring = spk.Volume <= spk.MaxVolume / 2.5f;
-            isLoud = !(isMute && isQuiet && isBoring);
-
-            if (isMute)
-                volume.sprite = volIcons[mute];
-            else if (isQuiet)
-                volume.sprite = volIcons[quiet];
-            else if (isBoring)
-                volume.sprite = volIcons[boring];
-            else if (isLoud)
-                volume.sprite = volIcons[loud];
+            mute = (spk.Volume <= 0, 0);
+            quiet = (spk.Volume <= spk.MaxVolume / 3, 1);
+            boring = (spk.Volume <= spk.MaxVolume / 2.5f, 2);
+            loud = (!(mute.boo && quiet.boo && boring.boo), 3);
+            if (mute.boo) volume.sprite = volIcons[mute.index];
+            else if (quiet.boo) volume.sprite = volIcons[quiet.index];
+            else if (boring.boo) volume.sprite = volIcons[boring.index];
+            else if (loud.boo) volume.sprite = volIcons[loud.index];
         }
     }
 }

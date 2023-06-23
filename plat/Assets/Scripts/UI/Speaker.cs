@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Toon
@@ -15,8 +16,6 @@ namespace Toon
         /// </summary>
         float initVolume = 0.05f;
 
-        float inputV;
-        public float InputV => inputV;
         public float Volume;
         public readonly float MaxVolume = 0.5f;
 
@@ -26,12 +25,7 @@ namespace Toon
             KeyCode.RightShift
         };
         const int Up = 0, Down = 1, RShift = 2;
-
-        int playing;
-        public int Playing => playing;
-
-        string nowPlaying;
-        public string NowPlaying => nowPlaying;
+        string playing;
 
         void Start()
         {
@@ -47,27 +41,37 @@ namespace Toon
             VolumeChousei();
         }
 
+        float prev = 0f;
+        int counter = 0;
         void VolumeChousei()
         {
-            nowPlaying = audio.clip.name;
-            inputV = Input.GetAxisRaw(constant.Volume) / 100;
-            float preMuteVolume = 0;
+            playing = audio.clip.name;
+            float inputV = Input.GetAxisRaw(constant.Volume) / 100;
             float vol = Mathf.Clamp(audio.volume, 0, MaxVolume);
             Volume = audio.volume;
+            print(Volume);
 
-            if (methods(codes[Up]) || methods(codes[Down]))
+            if (Input.GetKeyDown(codes[Up]) || Input.GetKeyDown(codes[Down]))
                 vol += inputV;
 
-            if (methods(codes[RShift]) && methods(codes[Down]))
+            // 右シフトでBGMミュート切り替え
+            if (Input.GetKeyDown(codes[RShift]))
             {
-                preMuteVolume = audio.volume;
-                vol = 0;
+                if (counter == 0)
+                {
+                    counter++;
+                    prev = audio.volume;
+                    vol = 0;
+                }
+                else if (counter == 1)
+                {
+                    counter = 0;
+                    vol = prev;
+                }
             }
-            else if (methods(codes[RShift]) && methods(codes[Up]))
-                vol = preMuteVolume;
-            audio.volume = vol;
+            audio.volume = MathF.Round(vol, 2);
         }
 
-        bool methods(KeyCode keyCode) => Input.GetKeyDown(keyCode);
+        public void SetVolume(float f) => audio.volume = f;
     }
 }

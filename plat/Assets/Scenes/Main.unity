@@ -13202,7 +13202,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 1
-  m_FillAmount: 0.422
+  m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -13729,7 +13729,6 @@ MonoBehaviour:
   limit: 30
   fading: 3
   towerHp: {fileID: 841592211}
-  playerHp: {fileID: 503735913}
 --- !u!4 &1928162262
 Transform:
   m_ObjectHideFlags: 0

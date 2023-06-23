@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Toon.Extend;
 
@@ -25,7 +23,7 @@ namespace Toon
         Vector3 muzzleLookAtPosition = new(0, 1, 0);
         Vector3 direction;
         Transform towerTransform;
-        Transform self;
+        Transform selfT;
 
         float rapid = 1;
         float timer = 0;
@@ -37,7 +35,7 @@ namespace Toon
 
         void Update()
         {
-            self = this.transform;
+            selfT = this.transform;
             direction = transform.position - player.transform.position;
             VerticalRotation();
             Trigger2(manager.TimerStart);
@@ -46,7 +44,7 @@ namespace Toon
         void VerticalRotation()
         {
             // プレイヤーの座標.y + 1.0f (腰のあたり)を見続ける
-            self.LookAt(player.transform.position + muzzleLookAtPosition);
+            selfT.LookAt(player.transform.position + muzzleLookAtPosition);
         }
 
         IEnumerator Trigger(bool canonFire)
