@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -68,10 +66,6 @@ namespace Toon
             var dis = Vector3.Distance(pcamera.transform.position, transform.position);
             if (Physics.Raycast(ray, out var hit, dis))// && !hit.collider.CompareTag("Terrain"))
             {
-                // pcamera.transform.position = Vector3.Distance(
-                //     origin, pcamera.transform.position) > 0.5f ?
-                //     pcamera.transform.position = hit.point + pcamera.transform.forward * merikoming :
-                //     pcamera.transform.position = Vector3.one * 100;
                 if (Vector3.Distance(origin, pcamera.transform.position) > pcdis)
                     pcamera.transform.position = hit.point + pcamera.transform.forward * merikoming;
                 else

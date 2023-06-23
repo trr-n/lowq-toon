@@ -1,9 +1,5 @@
-using System.Collections;
-using System.Threading.Tasks;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Toon.Extend;
 
 namespace Toon
 {

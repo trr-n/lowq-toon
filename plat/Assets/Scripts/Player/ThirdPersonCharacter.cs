@@ -1,6 +1,5 @@
 using UnityEngine;
 using Toon;
-using Toon.Extend;
 
 namespace UnityStandardAssets.Characters.ThirdPerson
 {

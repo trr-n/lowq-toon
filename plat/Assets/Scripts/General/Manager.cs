@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
@@ -19,10 +18,7 @@ namespace Toon
         Image fadingPanel;
 
         [SerializeField]
-        UnityEvent onClear;
-
-        [SerializeField]
-        UnityEvent onFail;
+        UnityEvent onClear, onFail;
 
         [SerializeField]
         [Tooltip("制限時間")]
@@ -34,9 +30,6 @@ namespace Toon
 
         [SerializeField]
         HP towerHp;
-
-        [SerializeField]
-        HP playerHp;
 
         float timer;
         float alpha;
