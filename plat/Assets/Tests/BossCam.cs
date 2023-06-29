@@ -25,7 +25,7 @@ namespace Toon.Test
         {
             $"{transform.eulerAngles.x}".show();
 
-            if (targetRot.x.almostsame(transform.eulerAngles.x) && !once)
+            if (targetRot.x.AlmostSame(transform.eulerAngles.x) && !once)
             {
                 "finished".show();
 

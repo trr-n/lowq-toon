@@ -5,9 +5,9 @@ namespace Toon
 {
     public class Scenes : MonoBehaviour
     {
-        public void ToTitle() => scene.load(constant.Title);
-        public void ToMain() => scene.load(constant.Main);
-        public void ToClear() => scene.load(constant.Clear);
-        public void ToFail() => scene.load(constant.Failure);
+        public void ToTitle() => Section.Load(Constant.Title);
+        public void ToMain() => Section.Load(Constant.Main);
+        public void ToClear() => Section.Load(Constant.Clear);
+        public void ToFail() => Section.Load(Constant.Failure);
     }
 }

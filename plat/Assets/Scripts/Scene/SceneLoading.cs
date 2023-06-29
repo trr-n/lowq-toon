@@ -17,7 +17,7 @@ namespace Toon
         Button button;
 
         [SerializeField]
-        constant.SceneIndex index;
+        Constant.Sindex index;
 
         public void LoadingNext()
         {

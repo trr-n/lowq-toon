@@ -23,7 +23,7 @@ namespace Toon
 
         void ClampingMe()
         {
-            transform.setr(y: numeric.clamp(transform.rotation.y, 225, 283));
+            transform.setr(y: Numeric.Clamp(transform.rotation.y, 225, 283));
             transform.position = TowerPosition;
         }
 
@@ -36,7 +36,7 @@ namespace Toon
 
         void OnCollisionEnter(Collision info)
         {
-            if (info.gameObject.CompareTag(constant.Missile))
+            if (info.gameObject.CompareTag(Constant.Missile))
                 hp.Damage(damage);
         }
     }

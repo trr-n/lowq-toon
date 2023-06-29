@@ -22,9 +22,9 @@ namespace Toon
 
         void Start()
         {
-            player = GameObject.FindGameObjectWithTag(constant.Player);
+            player = GameObject.FindGameObjectWithTag(Constant.Player);
             terrainCol ??= GameObject.FindGameObjectWithTag("Terrain").GetComponent<TerrainCollider>();
-            portal = GameObject.FindGameObjectWithTag(constant.Portal);
+            portal = GameObject.FindGameObjectWithTag(Constant.Portal);
         }
 
         void Update()
@@ -47,7 +47,7 @@ namespace Toon
             if (Physics.Raycast(r2, out var hit2, dis))
             {
                 //? https://forum.unity.com/threads/physics-raycast-not-working-for-terrain.412005/
-                if (!hit2.collider.compare(constant.Player))
+                if (!hit2.collider.Compare(Constant.Player))
                 {
                     hitOther = true;
                     transform.position = hit2.point;
@@ -68,8 +68,8 @@ namespace Toon
         /// <param name="_deadZone">入力感度の調整</param>
         void ViewRotation(float _sensiX, float _sensiY, float _deadZone)
         {
-            float mx = Input.GetAxis(constant.MouseX),
-                my = Input.GetAxis(constant.MouseY);
+            float mx = Input.GetAxis(Constant.MouseX),
+                my = Input.GetAxis(Constant.MouseY);
 
             // プレイヤーを中心に回転させる
             if (Mathf.Abs(mx) >= _deadZone)

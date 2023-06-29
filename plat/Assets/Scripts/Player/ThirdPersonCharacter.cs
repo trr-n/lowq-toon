@@ -44,7 +44,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
         void Start()
         {
-            pinput = GameObject.FindGameObjectWithTag(constant.Manager).GetComponent<Toon.PlayerInput>();
+            pinput = GameObject.FindGameObjectWithTag(Constant.Manager).GetComponent<Toon.PlayerInput>();
             tpuc = GetComponent<ThirdPersonUserControl>();
             animator = GetComponent<Animator>();
             rigidbody = GetComponent<Rigidbody>();
@@ -53,7 +53,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             capsuleCenter = capsuleCol.center;
             rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
             origGroundCheckDistance = groundCheckDistance;
-            bulletLayer = LayerMask.NameToLayer(constant.Bullet);
+            bulletLayer = LayerMask.NameToLayer(Constant.Bullet);
             hitLayer = ~(1 << bulletLayer);
         }
 
