@@ -69,7 +69,7 @@ namespace Toon
 
         void Fire()
         {
-            var canon = canons.ins(transform.position, Quaternion.identity);
+            var canon = canons.Instance(transform.position, Quaternion.identity);
             var canonRb = canon.GetComponent<Rigidbody>();
             canonRb.AddForce(transform.forward * speed, ForceMode.Impulse);
         }

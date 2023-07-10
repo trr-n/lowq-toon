@@ -15,7 +15,6 @@ namespace Toon
             public float rotation = 30;
             public float rotation4move = 10;
             public float tolerance = 0.5f;
-
             public Values(float _basis, float _floating, float _reduction, float _power, float _rotation, float _rotation4move, float _tolerance)
             {
                 basis = _basis;
@@ -69,7 +68,7 @@ namespace Toon
         {
             rb = this.gameObject.GetComponent<Rigidbody>();
             playerInput = gameObject.GetComponent<PlayerInput>();
-            camera = GameObject.FindGameObjectWithTag(constant.Camera);
+            camera = GameObject.FindGameObjectWithTag(Constant.Camera);
             cameraMovement = camera.GetComponent<CameraMovement>();
         }
 
@@ -154,19 +153,19 @@ namespace Toon
         /// <param name="power">脚力</param>
         void Jumps(float power)
         {
-            if (!isFloating && Input.GetButtonDown(constant.Jump))
+            if (!isFloating && Input.GetButtonDown(Constant.Jump))
                 rb.AddForce(Vector3.up * power, ForceMode.Impulse);
         }
 
         void OnCollisionEnter(Collision collisionInfo)
         {
-            if (collisionInfo.gameObject.CompareTag(constant.Ground))
+            if (collisionInfo.gameObject.CompareTag(Constant.Ground))
                 isFloating = false;
         }
 
         void OnCollisionExit(Collision collisionInfo)
         {
-            if (collisionInfo.gameObject.CompareTag(constant.Ground))
+            if (collisionInfo.gameObject.CompareTag(Constant.Ground))
                 isFloating = true;
         }
     }

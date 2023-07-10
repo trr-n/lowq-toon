@@ -14,7 +14,7 @@ namespace Toon
 
         void OnCollisionEnter(Collision info)
         {
-            if (info.compare(constant.Player))
+            if (info.Compare(Constant.Player))
             {
                 info.gameObject.transform.position = spawnPosOnRoof;
                 manager.TimerStart = true;

@@ -49,7 +49,7 @@ namespace Toon
             RenderSettings.skybox = skybox;
             remaining = limit;
             TimerStart = false;
-            Physics.gravity = constant.MainGravity;
+            Physics.gravity = Constant.MainGravity;
             onClear?.AddListener(Fading);
             onFail?.AddListener(Failing);
         }
@@ -60,7 +60,7 @@ namespace Toon
             RemainTime2(TimerStart);
         }
 
-        public void ChangeScene(string name) => scene.load(name);
+        public void ChangeScene(string name) => Section.Load(name);
 
         IEnumerator RemainTime(bool timerStart)
         {
@@ -101,17 +101,17 @@ namespace Toon
             }
         }
 
-        public void Fading() => AddAlpha(constant.Clear);
+        public void Fading() => AddAlpha(Constant.Clear);
 
-        public void Failing() => AddAlpha(constant.Failure);
+        public void Failing() => AddAlpha(Constant.Failure);
 
         void AddAlpha(string name)
         {
-            alpha = numeric.clamp(alpha, 0, 1f);
+            alpha = Numeric.Clamp(alpha, 0, 1f);
             alpha += Time.deltaTime / fading;
             fadingPanel.color = new(0, 0, 0, alpha);
             if (fadingPanel.color.a >= 1)
-                scene.load(name);
+                Section.Load(name);
         }
     }
 }

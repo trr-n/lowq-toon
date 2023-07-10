@@ -46,7 +46,7 @@ namespace Toon
         void VolumeChousei()
         {
             playing = audio.clip.name;
-            float inputV = Input.GetAxisRaw(constant.Volume) / 100;
+            var inputV = Input.GetAxisRaw(Constant.Volume) / 100;
             float vol = Mathf.Clamp(audio.volume, 0, MaxVolume);
             Volume = audio.volume;
             print(Volume);

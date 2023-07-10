@@ -27,9 +27,9 @@ namespace Toon
 
         void Start()
         {
-            pinput = gobject.find(constant.Manager).GetComponent<PlayerInput>();
-            gun = gobject.find(constant.Gun);
-            camera = gobject.find(constant.Camera);
+            pinput = Gobject.Find(Constant.Manager).GetComponent<PlayerInput>();
+            gun = Gobject.Find(Constant.Gun);
+            camera = Gobject.Find(Constant.Camera);
         }
 
         void Update()
@@ -44,9 +44,9 @@ namespace Toon
             stopwatch.Start();
             timer += Time.deltaTime;
             Shootable = pinput.shootable && !pinput.isRotating;
-            firstShot = input.down(pinput.Click4Shoot);
+            firstShot = SelfInput.Down(pinput.Click4Shoot);
             // rapid = input.pressed(pinput.Click4Shoot) && timer > fireRate;
-            rapid = input.pressed(pinput.Click4Shoot) &&
+            rapid = SelfInput.Pressed(pinput.Click4Shoot) &&
                 stopwatch.Elapsed.TotalSeconds > fireRate;
 
             if (!Shootable)
@@ -81,7 +81,8 @@ namespace Toon
         void Fire2(float moving)
         {
             GameObject bullet =
-                Instantiate(bulletPrefabs[random.choice(bulletPrefabs.Length)], transform.position + bulletGenPosOffset, Quaternion.identity);
+                bulletPrefabs.ice3().Instance(transform.position + bulletGenPosOffset, Quaternion.identity);
+            // Instantiate(bulletPrefabs[Random.ice(bulletPrefabs.Length)], transform.position + bulletGenPosOffset, Quaternion.identity);
             var brb = bullet.GetComponent<Rigidbody>();
             brb.velocity = transform.forward * moving;
         }

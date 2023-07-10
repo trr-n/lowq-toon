@@ -84,13 +84,13 @@ namespace Toon
 
         void OnCollisionEnter(Collision info)
         {
-            if (info.gameObject.CompareTag(constant.Bullet))
+            if (info.gameObject.CompareTag(Constant.Bullet))
                 playerHp.Damage(bulletDamage);
         }
 
         void OnTriggerEnter(Collider info)
         {
-            if (info.compare(constant.Portal))
+            if (info.Compare(Constant.Portal))
             {
                 transform.position = spawnPosOnRoof;
                 bossCam.BossCameraMove(bosCamMoveDuration, setumeiT);
@@ -100,10 +100,10 @@ namespace Toon
         void init()
         {
             playerHp ??= GetComponent<HP>();
-            manager ??= gobject.find(constant.Manager).GetComponent<Manager>();
+            manager ??= Gobject.Find(Constant.Manager).GetComponent<Manager>();
             collider ??= GetComponent<CapsuleCollider>();
             rigidbody ??= GetComponent<Rigidbody>();
-            pcamera = GameObject.FindGameObjectWithTag(constant.Camera);
+            pcamera = GameObject.FindGameObjectWithTag(Constant.Camera);
             manager.Controllable = true;
             collider.isTrigger = false;
             rigidbody.isKinematic = false;

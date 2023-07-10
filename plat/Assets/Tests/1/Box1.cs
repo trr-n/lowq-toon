@@ -34,7 +34,7 @@ namespace Toon.Test
 
         void OnCollisionEnter(Collision info)
         {
-            if (info.gameObject.CompareTag(constant.Test))
+            if (info.gameObject.CompareTag(Constant.Test))
             {
                 "hit".show();
                 current -= damage;

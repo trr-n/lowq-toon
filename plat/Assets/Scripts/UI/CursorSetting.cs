@@ -12,10 +12,10 @@ namespace Toon
 
         void Update()
         {
-            if (scene.active() == constant.Main)
-                visual.cursor(c.hide, v.inscene);
+            if (Section.Active() == Constant.Main)
+                Visual.Cursor(c.hide, v.inscene);
             else
-                visual.cursor(c.show, v.unlocked);
+                Visual.Cursor(c.show, v.unlocked);
         }
     }
 }

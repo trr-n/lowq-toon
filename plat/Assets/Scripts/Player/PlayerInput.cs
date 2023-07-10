@@ -18,8 +18,8 @@ namespace Toon
 
         void Update()
         {
-            isSneaking = input.pressed(KeyCode.LeftShift);
-            clicks = input.pressed(click4shoot);
+            isSneaking = SelfInput.Pressed(KeyCode.LeftShift);
+            clicks = SelfInput.Pressed(click4shoot);
             if (clicks)
             {
                 isRotating = true;

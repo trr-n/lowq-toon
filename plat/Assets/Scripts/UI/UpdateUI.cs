@@ -46,7 +46,7 @@ namespace Toon
 
         void Start()
         {
-            spk ??= GameObject.FindGameObjectWithTag(constant.Speaker).GetComponent<Speaker>();
+            spk ??= GameObject.FindGameObjectWithTag(Constant.Speaker).GetComponent<Speaker>();
             view.SetActive(false);
         }
 

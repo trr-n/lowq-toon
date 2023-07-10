@@ -33,9 +33,9 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         {
             m_Cam = cam.transform;
             tpc = GetComponent<ThirdPersonCharacter>();
-            cam = GameObject.FindGameObjectWithTag(constant.Camera);
-            pi = GameObject.FindGameObjectWithTag(constant.Manager).GetComponent<PlayerInput>();
-            player = GameObject.FindGameObjectWithTag(constant.Player).GetComponent<Player>();
+            cam = GameObject.FindGameObjectWithTag(Constant.Camera);
+            pi = GameObject.FindGameObjectWithTag(Constant.Manager).GetComponent<PlayerInput>();
+            player = GameObject.FindGameObjectWithTag(Constant.Player).GetComponent<Player>();
         }
 
         static bool once = true;
@@ -58,9 +58,9 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             // 生きてる間のみ制御可能
             if (!manager.Controllable && bossCam.IsMoving)
                 return;
-            float h = CrossPlatformInputManager.GetAxis(constant.Horizontal),
-                v = CrossPlatformInputManager.GetAxis(constant.Vertical);
-            bool crouchKey = input.pressed(constant.Crouch);
+            float h = CrossPlatformInputManager.GetAxis(Constant.Horizontal),
+                v = CrossPlatformInputManager.GetAxis(Constant.Vertical);
+            bool crouchKey = SelfInput.Pressed(Constant.Crouch);
 
             m_CamForward = Vector3.Scale(m_Cam.forward, new Vector3(1, 0, 1)).normalized;
             m_Move = h * m_Cam.right + v * m_CamForward;

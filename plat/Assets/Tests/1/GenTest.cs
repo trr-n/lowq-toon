@@ -20,7 +20,7 @@ namespace Toon.Test
 
         void FixedUpdate()
         {
-            float h = Input.GetAxis(constant.Horizontal), v = Input.GetAxis(constant.Vertical);
+            float h = Input.GetAxis(Constant.Horizontal), v = Input.GetAxis(Constant.Vertical);
             var hv = h * Vector3.right + v * Vector3.forward;
             rigidbody.velocity = hv * 10;
         }
@@ -29,9 +29,8 @@ namespace Toon.Test
         {
             while (true)
             {
-                GameObject test = tests.ins(transform.position, Quaternion.identity);
-                test.GetComponent<Rigidbody>()
-                    .AddForce(Vector3.forward * 10, ForceMode.Impulse);
+                var test = tests.Instance(transform.position, Quaternion.identity);
+                test.GetComponent<Rigidbody>().AddForce(Vector3.forward * 10, ForceMode.Impulse);
                 yield return new WaitForSeconds(1f);
             }
         }
